@@ -16,17 +16,36 @@
 
 package com.rewire.forcesensor.ble
 
+import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGattCharacteristic
+import android.bluetooth.BluetoothGattService
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.rewire.forcesensor.R
 import java.util.UUID
 
 class SecondActivity :AppCompatActivity() {
 
+    private lateinit var device: BluetoothDevice
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second);
+
+        device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE)
+            ?: error("Missing BluetoothDevice from MainActivity!")
+
+        /*val bundle: Bundle? = intent.extras
+        val sid = bundle!!.getString("sessionID")*/
+
+        /*while(true){
+            readWeightSensor()
+        }*/
+
+        readWeightSensor()
+
+
 
 
         fun BluetoothGattCharacteristic.isReadable(): Boolean =
@@ -43,4 +62,29 @@ class SecondActivity :AppCompatActivity() {
         }
 
         }
+
+    private fun readWeightSensor(){
+        val weightServiceUUID = UUID.fromString("0000181d-0000-1000-8000-00805f9b34fb")
+        val weightCharUUID = UUID.fromString("00002a56-0000-1000-8000-00805f9b34fb")
+
+        val weightService = BluetoothGattService(weightServiceUUID, 0)
+        val weightCharacteristic = weightService.getCharacteristic(weightCharUUID)
+
+        //val weightCharacteristic = BluetoothGattCharacteristic(weightServiceUUID)
+        //return ConnectionManager.readCharacteristic(device, weightCharacteristic)
+
+        val textView = findViewById<TextView>(R.id.txtOutput)
+        /*if(weightCharacteristic.isReadable()){
+            textView.text = "it's readable"
+        }*/
+        textView.text = weightCharacteristic.toString()
+
+        //textView.text = ConnectionManager.readCharacteristic(device, weightCharacteristic).toString()
+
     }
+
+}
+
+
+
+

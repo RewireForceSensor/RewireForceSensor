@@ -39,9 +39,8 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.rewire.forcesensor.ble.ConnectionEventListener
 import com.rewire.forcesensor.ble.ConnectionManager
 import com.rewire.forcesensor.ble.SecondActivity
-import kotlinx.android.synthetic.main.activity_ble_operations.btnToSession
-import kotlinx.android.synthetic.main.activity_ble_operations.etSessionNum
 import kotlinx.android.synthetic.main.activity_main.btnTest
+import kotlinx.android.synthetic.main.activity_main.etsid
 import kotlinx.android.synthetic.main.activity_main.scan_button
 import kotlinx.android.synthetic.main.activity_main.scan_results_recycler_view
 import org.jetbrains.anko.alert
@@ -103,10 +102,14 @@ class MainActivity : AppCompatActivity() {
         }
         scan_button.setOnClickListener { if (isScanning) stopBleScan() else startBleScan() }
         setupRecyclerView()
-        btnTest.setOnClickListener {
 
-            val intent = Intent(this, SecondActivity::class.java);
-            startActivity(intent);
+        btnTest.setOnClickListener {
+            val message: String = etsid.text.toString();
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            val intent = Intent(this, SecondActivity::class.java)
+            intent.putExtra("sessionID", message)
+            //intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device)
+            startActivity(intent)
         }
     }
 
@@ -241,6 +244,7 @@ class MainActivity : AppCompatActivity() {
                     it.putExtra(BluetoothDevice.EXTRA_DEVICE, gatt.device)
                     startActivity(it)
                 }
+
                 ConnectionManager.unregisterListener(this)
             }
             onDisconnect = {

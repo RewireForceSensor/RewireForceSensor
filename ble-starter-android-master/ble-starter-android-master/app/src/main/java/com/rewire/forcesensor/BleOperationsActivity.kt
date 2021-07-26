@@ -110,12 +110,16 @@ class BleOperationsActivity : AppCompatActivity() {
             }
             hideKeyboard()
         }
+
         btnToSession.setOnClickListener {
             //code for next button is pressed goes here
             val message: String = etSessionNum.text.toString();
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-            val intent = Intent(this, SecondActivity::class.java);
-            startActivity(intent);
+            val intent = Intent(this, SecondActivity::class.java)
+            //intent.putExtra("sessionID", message)
+            intent.putExtra(BluetoothDevice.EXTRA_DEVICE, device)
+            startActivity(intent)
+
         }
     }
 
