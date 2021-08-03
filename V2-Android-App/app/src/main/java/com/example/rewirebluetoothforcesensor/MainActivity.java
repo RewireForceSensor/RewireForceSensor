@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
+import jheatchart-0.6.jar;
 
 import static android.content.ContentValues.TAG;
 
