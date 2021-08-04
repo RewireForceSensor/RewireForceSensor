@@ -79,7 +79,13 @@ public class MainActivity extends AppCompatActivity {
 
                     case MESSAGE_READ:
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
-                        fsrValue.setText(arduinoMsg);
+                        arduinoMsg = arduinoMsg.substring(1, arduinoMsg.length - 1);
+                        String[] splitArr = arduinoMsg.split(',');
+                        int[] values = new int[6];
+                        for(int i=0; i<splitArr.length; i++){
+                            values[i] = Integer.parseInt(splitArr[i]);
+                        }
+                        //fsrValue.setText(arduinoMsg);
                         break;
                 }
             }
