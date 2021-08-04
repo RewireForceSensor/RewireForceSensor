@@ -1,7 +1,7 @@
 #include <Chrono.h>
-#include <SoftwareSerial.h>
+#include <AltSoftSerial.h>
 
-SoftwareSerial BTSerial (2,3);
+AltSoftSerial BTSerial (2,3);
 
 Chrono timer;
 
