@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
-import jheatchart-0.6.jar;
 
 import static android.content.ContentValues.TAG;
 
@@ -41,7 +40,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView fsrValue = findViewById(R.id.pad1);
+        final TextView pad0 = findViewById(R.id.pad0);
+        final TextView pad1 = findViewById(R.id.pad1);
+        final TextView pad2 = findViewById(R.id.pad2);
+        final TextView pad3 = findViewById(R.id.pad3);
+        final TextView pad4 = findViewById(R.id.pad4);
+        final TextView pad5 = findViewById(R.id.pad5);
+
+        final TextView[] pads = {pad0, pad1, pad2, pad3, pad4, pad5};
+
         final Button connect = findViewById(R.id.connect);
         final Toolbar toolbar = findViewById(R.id.toolbar);
 
@@ -75,13 +82,11 @@ public class MainActivity extends AppCompatActivity {
 
                     case MESSAGE_READ:
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
-                        arduinoMsg = arduinoMsg.substring(1, arduinoMsg.length - 1);
-                        String[] splitArr = arduinoMsg.split(',');
-                        int[] values = new int[6];
+                        String[] splitArr = arduinoMsg.split(","); // Split up message into strings
                         for(int i=0; i<splitArr.length; i++){
-                            values[i] = Integer.parseInt(splitArr[i]);
-                        }
-                        //fsrValue.setText(arduinoMsg);
+                            pads[i].setText(Integer.parseInt(splitArr[i]));
+                        } // Print messages to pads
+
                         break;
                 }
             }

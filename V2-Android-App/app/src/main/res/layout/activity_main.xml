@@ -31,13 +31,26 @@
         app:layout_constraintVertical_bias="0.679" />
 
     <TextView
-        android:id="@+id/pad5"
+        android:id="@+id/pad1"
         android:layout_width="68dp"
         android:layout_height="46dp"
         android:background="#1AC31313"
         android:textSize="64sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.667"
+        app:layout_constraintHorizontal_bias="0.084"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.367" />
+
+    <TextView
+        android:id="@+id/pad2"
+        android:layout_width="68dp"
+        android:layout_height="46dp"
+        android:background="#1AC31313"
+        android:textSize="64sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.341"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -70,30 +83,17 @@
         app:layout_constraintVertical_bias="0.366" />
 
     <TextView
-        android:id="@+id/pad2"
+        android:id="@+id/pad5"
         android:layout_width="68dp"
         android:layout_height="46dp"
         android:background="#1AC31313"
         android:textSize="64sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.341"
+        app:layout_constraintHorizontal_bias="0.667"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.366" />
-
-    <TextView
-        android:id="@+id/pad1"
-        android:layout_width="68dp"
-        android:layout_height="46dp"
-        android:background="#1AC31313"
-        android:textSize="64sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.084"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.367" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
