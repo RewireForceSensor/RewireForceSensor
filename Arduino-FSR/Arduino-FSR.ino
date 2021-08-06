@@ -5,6 +5,14 @@ SoftwareSerial BTSerial (2,3);
 
 Chrono timer;
 
+//float cf = 19.5*2.20462*5/12.5;
+int ffsdata = 0;
+float vout;
+
+int ports[6] = {A0, A1, A2, A3, A4, A5};
+float values[6];
+float coeffs[6] = {17.2, 17.2, 17.2, 17.2, 17.2*5/3.2, 17.2*5/4};
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -13,19 +21,37 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if(timer.hasPassed(500)){
+  if(timer.hasPassed(100)){
+    for(int i=0; i<6; i++){
+      ffsdata = analogRead(ports[i]);
+      vout = (ffsdata * 5.0) / 1023.0;
+      vout = vout * coeffs[i];
+      values[i] = vout;
+      
+      Serial.print(i);
+      Serial.print(": ");
+      Serial.println(values[i], 3);
+
+      BTSerial.print(values[i], 3);
+      BTSerial.print(",");
+    }
+
+    BTSerial.println();
+
+    timer.restart();
     
-    Serial.print(analogRead(A0));
+    
+    /*Serial.print(analogRead(A0));
     Serial.print(',');
     Serial.print(analogRead(A1));
     Serial.print(',');
     Serial.print(analogRead(A2));
     //Serial.print(',');
     //Serial.print(analogRead(A3));
-    /*Serial.print(',');
+    Serial.print(',');
     Serial.print(analogRead(A4));
     Serial.print(',');
-    Serial.print(analogRead(A5));*/
+    Serial.print(analogRead(A5));
     Serial.println();
     
     
@@ -36,11 +62,13 @@ void loop() {
     BTSerial.print(analogRead(A2));
     //BTSerial.print(',');
     //BTSerial.print(analogRead(A3));
-    /*BTSerial.print(',');
+    BTSerial.print(',');
     BTSerial.print(analogRead(A4));
     BTSerial.print(',');
-    BTSerial.print(analogRead(A5));*/
+    BTSerial.print(analogRead(A5));
     BTSerial.println();
-    timer.restart();
+    timer.restart();*/
+
+    
   }
 }
