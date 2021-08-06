@@ -1,7 +1,7 @@
 #include <Chrono.h>
-#include <AltSoftSerial.h>
+#include <SoftwareSerial.h>
 
-AltSoftSerial BTSerial (2,3);
+SoftwareSerial BTSerial (2,3);
 
 Chrono timer;
 
@@ -13,34 +13,34 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  if(timer.hasPassed(200)){
-    Serial.print('<');
+  if(timer.hasPassed(500)){
+    
     Serial.print(analogRead(A0));
     Serial.print(',');
     Serial.print(analogRead(A1));
     Serial.print(',');
     Serial.print(analogRead(A2));
-    Serial.print(',');
-    Serial.print(analogRead(A3));
-    Serial.print(',');
+    //Serial.print(',');
+    //Serial.print(analogRead(A3));
+    /*Serial.print(',');
     Serial.print(analogRead(A4));
     Serial.print(',');
-    Serial.print(analogRead(A5));
-    Serial.println('>');
+    Serial.print(analogRead(A5));*/
+    Serial.println();
     
-    BTSerial.print('<');
+    
     BTSerial.print(analogRead(A0));
     BTSerial.print(',');
     BTSerial.print(analogRead(A1));
     BTSerial.print(',');
     BTSerial.print(analogRead(A2));
-    BTSerial.print(',');
-    BTSerial.print(analogRead(A3));
-    BTSerial.print(',');
+    //BTSerial.print(',');
+    //BTSerial.print(analogRead(A3));
+    /*BTSerial.print(',');
     BTSerial.print(analogRead(A4));
     BTSerial.print(',');
-    BTSerial.print(analogRead(A5));
-    BTSerial.println('>');
+    BTSerial.print(analogRead(A5));*/
+    BTSerial.println();
     timer.restart();
   }
 }

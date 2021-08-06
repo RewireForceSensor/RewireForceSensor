@@ -40,22 +40,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView pad0 = findViewById(R.id.pad0);
-        final TextView pad1 = findViewById(R.id.pad1);
-        final TextView pad2 = findViewById(R.id.pad2);
-        final TextView pad3 = findViewById(R.id.pad3);
-        final TextView pad4 = findViewById(R.id.pad4);
-        final TextView pad5 = findViewById(R.id.pad5);
 
-        final TextView[] pads = {pad0, pad1, pad2, pad3, pad4, pad5};
+        final TextView[] pads = {findViewById(R.id.pad0),
+                findViewById(R.id.pad1),
+                findViewById(R.id.pad2),
+                findViewById(R.id.pad3),
+                findViewById(R.id.pad4),
+                findViewById(R.id.pad5)};
 
         final Button connect = findViewById(R.id.connect);
         final Toolbar toolbar = findViewById(R.id.toolbar);
+        final TextView connectStatus = findViewById(R.id.connectstatus);
+
+        //pad1.setText("TEST");
 
         deviceName = getIntent().getStringExtra("deviceName");
         if(deviceName != null) {
             deviceAddress = getIntent().getStringExtra("deviceAddress");
-            toolbar.setSubtitle("Connecting to " + deviceName + "...");
+            //toolbar.setSubtitle("Connecting to " + deviceName + "...");
+            connectStatus.setText("Connecting to " + deviceName + "...");
             connect.setEnabled(false);
 
             BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -70,11 +73,13 @@ public class MainActivity extends AppCompatActivity {
                     case CONNECTING_STATUS:
                         switch(msg.arg1){
                             case 1:
-                                toolbar.setSubtitle("Connected to " + deviceName);
+                                //toolbar.setSubtitle("Connected to " + deviceName);
+                                connectStatus.setText("Connected to " + deviceName);
                                 connect.setEnabled(true);
                                 break;
                             case -1:
-                                toolbar.setSubtitle("Device fails to connect");
+                                //toolbar.setSubtitle("Device fails to connect");
+                                connectStatus.setText("Device fails to connect");
                                 connect.setEnabled(true);
                                 break;
                         }
@@ -83,10 +88,12 @@ public class MainActivity extends AppCompatActivity {
                     case MESSAGE_READ:
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
                         String[] splitArr = arduinoMsg.split(","); // Split up message into strings
-                        for(int i=0; i<splitArr.length; i++){
-                            pads[i].setText(Integer.parseInt(splitArr[i]));
+                        for(int i=0; i<3; i++){
+                            pads[i].setText(splitArr[i]);
+                        //pads[0].setText(arduinoMsg);
                         } // Print messages to pads
-
+                        //pads[1].setText(arduinoMsg);
+                        //  Log.i("pad",arduinoMsg);
                         break;
                 }
             }
