@@ -6,8 +6,10 @@ import androidx.appcompat.widget.Toolbar;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -15,10 +17,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
@@ -35,11 +44,12 @@ public class MainActivity extends AppCompatActivity {
     private final static int CONNECTING_STATUS = 1; // used in bluetooth handler to identify message status
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
 
+    private static FileOutputStream csvOut;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         final TextView[] pads = {findViewById(R.id.pad0),
                 findViewById(R.id.pad1),
@@ -49,10 +59,11 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.pad5)};
 
         final Button connect = findViewById(R.id.connect);
+        final ToggleButton logging = findViewById(R.id.logging);
+
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final TextView connectStatus = findViewById(R.id.connectstatus);
 
-        //pad1.setText("TEST");
 
         deviceName = getIntent().getStringExtra("deviceName");
         if(deviceName != null) {
@@ -88,17 +99,31 @@ public class MainActivity extends AppCompatActivity {
                     case MESSAGE_READ:
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
                         String[] splitArr = arduinoMsg.split(","); // Split up message into strings
-                        //for(int i=0; i<3; i++){
+
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd.HH-mm-ss");
+
+                        Date date = new Date();
+                        Timestamp timestamp = new Timestamp(date.getTime());
+
+                        //format timestamp
+                        String timestampStr = sdf.format(timestamp);
+
                         pads[0].setText(splitArr[0]);
                         pads[1].setText(splitArr[1]);
                         pads[2].setText(splitArr[2]);
                         pads[3].setText(splitArr[3]);
                         pads[4].setText(splitArr[4]);
                         pads[5].setText(splitArr[5]);
-                        //pads[0].setText(arduinoMsg);
-                        //} // Print messages to pads
-                        //pads[1].setText(arduinoMsg);
-                        //  Log.i("pad",arduinoMsg);
+
+                        String csvText = timestampStr + ", " + arduinoMsg;
+
+                        try {
+                            csvOut.write(csvText.getBytes());
+                        }
+                        catch(IOException e){
+                            e.printStackTrace();
+                        }
+
                         break;
                 }
             }
@@ -111,6 +136,46 @@ public class MainActivity extends AppCompatActivity {
                 // Move to adapter list
                 Intent intent = new Intent(MainActivity.this, SelectDeviceActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        logging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                // Move to adapter list
+                if(logging.isChecked()){
+                    //method 2 - via Date
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd.HH-mm-ss");
+
+                    Date date = new Date();
+                    Timestamp timestamp = new Timestamp(date.getTime());
+
+                    //format timestamp
+                    String fileName = sdf.format(timestamp);
+
+                    //File log = new File(fileName);
+                    try {
+                        csvOut = openFileOutput(fileName, MODE_APPEND);
+                    }
+                    catch(FileNotFoundException e){
+                        e.printStackTrace();
+                    }
+
+                    try {
+                        csvOut.write("Timestamp, Lh, Lout, Lin, Rh, Rout, Rin".getBytes());
+                    }
+                    catch(IOException e){
+                        e.printStackTrace();
+                    }
+                }
+                else{
+                    try {
+                        csvOut.close();
+                    }
+                    catch(IOException e){
+                        e.printStackTrace();
+                    }
+                }
             }
         });
     }
