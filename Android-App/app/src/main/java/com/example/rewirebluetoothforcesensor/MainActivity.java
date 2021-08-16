@@ -14,6 +14,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -35,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
     private final static int CONNECTING_STATUS = 1; // used in bluetooth handler to identify message status
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
 
+    public int totalCycles = 0; //total num of cycles
+    public int LeftNoWeightTimeCount = 0;
+    public int LeftNoWeightValue = 0;
+    public int RightNoWeightTimeCount = 0;
+    public int RightNoWeightValue = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +58,11 @@ public class MainActivity extends AppCompatActivity {
         final Button connect = findViewById(R.id.connect);
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final TextView connectStatus = findViewById(R.id.connectstatus);
+        final TextView padLtotal = findViewById(R.id.padLtot);
+        final TextView padRtotal = findViewById(R.id.padRtot);
+        final ProgressBar progbar = findViewById(R.id.progressBar);
+
+
 
         //pad1.setText("TEST");
 
@@ -89,16 +101,38 @@ public class MainActivity extends AppCompatActivity {
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
                         String[] splitArr = arduinoMsg.split(","); // Split up message into strings
                         //for(int i=0; i<3; i++){
-                        pads[0].setText(splitArr[0]);
-                        pads[1].setText(splitArr[1]);
-                        pads[2].setText(splitArr[2]);
-                        pads[3].setText(splitArr[3]);
-                        pads[4].setText(splitArr[4]);
-                        pads[5].setText(splitArr[5]);
+                        pads[0].setText(splitArr[0]); // left heel
+                        pads[1].setText(splitArr[1]); // left outside
+                        pads[2].setText(splitArr[2]); // left inside
+                        pads[3].setText(splitArr[3]); // right heel
+                        pads[4].setText(splitArr[4]); // right outside
+                        pads[5].setText(splitArr[5]); // right inside
                         //pads[0].setText(arduinoMsg);
                         //} // Print messages to pads
                         //pads[1].setText(arduinoMsg);
                         //  Log.i("pad",arduinoMsg);
+
+                        totalCycles++;
+
+                        double lhval = Double.parseDouble(splitArr[0]);
+                        double loval = Double.parseDouble(splitArr[1]);
+                        double lival = Double.parseDouble(splitArr[2]);
+                        double rhval = Double.parseDouble(splitArr[3]);
+                        double roval = Double.parseDouble(splitArr[4]);
+                        double rival = Double.parseDouble(splitArr[5]);
+
+                        double leftval = lival+loval+lhval;
+                        double rightval = rhval+roval+rival;
+
+                        padLtotal.setText(String.valueOf(leftval));
+                        padRtotal.setText(String.valueOf(rightval));
+
+
+                        int barVal = (int) Math.round(leftval/(leftval+rightval));
+                        progbar.setProgress(barVal);
+
+
+
                         break;
                 }
             }
