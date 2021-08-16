@@ -1,0 +1,17 @@
+com/example/rewirebluetoothforcesensor/DeviceListAdapter.java
+ com.example.rewirebluetoothforcesensor.DeviceListAdapter
+ com.example.rewirebluetoothforcesensor.DeviceListAdapter$1
+ com.example.rewirebluetoothforcesensor.DeviceListAdapter$ViewHolder
+com/example/rewirebluetoothforcesensor/MainActivity.java
+ com.example.rewirebluetoothforcesensor.MainActivity
+ com.example.rewirebluetoothforcesensor.MainActivity$1
+ com.example.rewirebluetoothforcesensor.MainActivity$2
+ com.example.rewirebluetoothforcesensor.MainActivity$ConnectedThread
+ com.example.rewirebluetoothforcesensor.MainActivity$CreateConnectThread
+com/example/rewirebluetoothforcesensor/BuildConfig.java
+ com.example.rewirebluetoothforcesensor.BuildConfig
+com/example/rewirebluetoothforcesensor/SelectDeviceActivity.java
+ com.example.rewirebluetoothforcesensor.SelectDeviceActivity
+ com.example.rewirebluetoothforcesensor.SelectDeviceActivity$1
+com/example/rewirebluetoothforcesensor/DeviceInfoModel.java
+ com.example.rewirebluetoothforcesensor.DeviceInfoModel
