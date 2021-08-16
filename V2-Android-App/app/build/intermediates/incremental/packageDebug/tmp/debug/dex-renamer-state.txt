@@ -1,4 +1,0 @@
-#Fri Jul 30 16:06:46 CDT 2021
-base.0=D\:\\Folder\\ReWire\\force sensor\\RewireGithub\\RewireForceSensor\\V2-Android-App\\app\\build\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
-renamed.0=classes.dex
-path.0=classes.dex
