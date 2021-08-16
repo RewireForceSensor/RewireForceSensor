@@ -124,14 +124,16 @@ public class MainActivity extends AppCompatActivity {
                         double leftval = lival+loval+lhval;
                         double rightval = rhval+roval+rival;
 
+
+                        if (leftval == 0 && rightval == 0)
+                        {progbar.setProgress(50);}
+                        else {
+                            int barVal = (int) Math.round(100 * leftval / (leftval + rightval));
+                            progbar.setProgress(barVal);
+                        }
+
                         padLtotal.setText(String.valueOf(leftval));
                         padRtotal.setText(String.valueOf(rightval));
-
-
-                        int barVal = (int) Math.round(leftval/(leftval+rightval));
-                        progbar.setProgress(barVal);
-
-
 
                         break;
                 }
