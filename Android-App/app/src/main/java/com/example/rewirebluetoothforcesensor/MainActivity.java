@@ -153,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
                     //format timestamp
                     String fileName = sdf.format(timestamp);
 
+                    connectStatus.setText(getFileStreamPath(fileName).getAbsolutePath());
+
                     //File log = new File(fileName);
                     try {
                         csvOut = openFileOutput(fileName, MODE_APPEND);
