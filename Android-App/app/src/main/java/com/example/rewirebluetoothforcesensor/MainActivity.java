@@ -22,6 +22,7 @@ import android.widget.ToggleButton;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
 
     private static FileOutputStream csvOut;
+    private static Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final TextView connectStatus = findViewById(R.id.connectstatus);
 
+        MainActivity.context = getApplicationContext();
 
         deviceName = getIntent().getStringExtra("deviceName");
         if(deviceName != null) {
@@ -153,22 +157,27 @@ public class MainActivity extends AppCompatActivity {
                     //format timestamp
                     String fileName = sdf.format(timestamp);
 
-                    connectStatus.setText(getFileStreamPath(fileName).getAbsolutePath());
+
 
                     //File log = new File(fileName);
                     try {
-                        csvOut = openFileOutput(fileName, MODE_APPEND);
+                        String state = Environment.getExternalStorageState();
+                        if (Environment.MEDIA_MOUNTED.equals(state)) {
+                            /*File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                            File file = new File(folder, fileName);
+
+                            csvOut = new FileOutputStream(file);
+                            csvOut.write("Timestamp, Lh, Lout, Lin, Rh, Rout, Rin".getBytes());
+                            connectStatus.setText("write");*/
+                            val parcelFileDescriptor = openFileDescriptor(fileName, "r", null)
+                        }
+
                     }
-                    catch(FileNotFoundException e){
+                    catch(Exception e){
                         e.printStackTrace();
                     }
 
-                    try {
-                        csvOut.write("Timestamp, Lh, Lout, Lin, Rh, Rout, Rin".getBytes());
-                    }
-                    catch(IOException e){
-                        e.printStackTrace();
-                    }
+
                 }
                 else{
                     try {
