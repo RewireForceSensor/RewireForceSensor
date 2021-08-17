@@ -1,0 +1,333 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 4
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Device:C_Small C?
+U 1 1 611C4CD5
+P 6400 2700
+AR Path="/611C4CD5" Ref="C?"  Part="1" 
+AR Path="/611C8367/611C9C0B/611C4CD5" Ref="C?"  Part="1" 
+AR Path="/611C8367/611C96D8/611C4CD5" Ref="C?"  Part="1" 
+AR Path="/611C8367/611C9C62/611C4CD5" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611C96D8/611C4CD5" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611C9C0B/611C4CD5" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611C9C62/611C4CD5" Ref="C?"  Part="1" 
+AR Path="/611C8367/611C4CD5" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611C4CD5" Ref="C?"  Part="1" 
+F 0 "C?" H 6308 2654 50  0000 R CNN
+F 1 "C_Small" H 6308 2745 50  0000 R CNN
+F 2 "" H 6400 2700 50  0001 C CNN
+F 3 "~" H 6400 2700 50  0001 C CNN
+	1    6400 2700
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R_Small_US R?
+U 1 1 611C4CDB
+P 5750 2700
+AR Path="/611C4CDB" Ref="R?"  Part="1" 
+AR Path="/611C8367/611C9C0B/611C4CDB" Ref="R?"  Part="1" 
+AR Path="/611C8367/611C96D8/611C4CDB" Ref="R?"  Part="1" 
+AR Path="/611C8367/611C9C62/611C4CDB" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611C96D8/611C4CDB" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611C9C0B/611C4CDB" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611C9C62/611C4CDB" Ref="R?"  Part="1" 
+AR Path="/611C8367/611C4CDB" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611C4CDB" Ref="R?"  Part="1" 
+F 0 "R?" H 5818 2746 50  0000 L CNN
+F 1 "R_Small_US" H 5818 2655 50  0000 L CNN
+F 2 "" H 5750 2700 50  0001 C CNN
+F 3 "~" H 5750 2700 50  0001 C CNN
+	1    5750 2700
+	1    0    0    -1  
+$EndComp
+$Comp
+L BPSDisplay:GND #PWR?
+U 1 1 611C4CE1
+P 5750 3100
+AR Path="/611C4CE1" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611C9C0B/611C4CE1" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611C96D8/611C4CE1" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611C9C62/611C4CE1" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611C96D8/611C4CE1" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611C9C0B/611C4CE1" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611C9C62/611C4CE1" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611C4CE1" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611C4CE1" Ref="#PWR?"  Part="1" 
+F 0 "#PWR?" H 5750 2850 50  0001 C CNN
+F 1 "GND" H 5755 2927 50  0000 C CNN
+F 2 "" H 5750 3100 50  0000 C CNN
+F 3 "" H 5750 3100 50  0000 C CNN
+	1    5750 3100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5750 2800 5750 3000
+Wire Wire Line
+	6400 2600 6400 2400
+Wire Wire Line
+	6400 2400 5750 2400
+Wire Wire Line
+	5750 2400 5750 2600
+Wire Wire Line
+	6400 2800 6400 3000
+Wire Wire Line
+	6400 3000 5750 3000
+Connection ~ 5750 3000
+Wire Wire Line
+	5750 3000 5750 3100
+Connection ~ 6400 2400
+Connection ~ 5750 2400
+$Comp
+L Connector_Generic:Conn_01x03 J?
+U 1 1 611C5A34
+P 4600 2500
+AR Path="/611C8367/611C5A34" Ref="J?"  Part="1" 
+AR Path="/611CB06B/611C5A34" Ref="J?"  Part="1" 
+F 0 "J?" H 4550 2800 50  0000 L CNN
+F 1 "Conn_01x03" H 4350 2700 50  0000 L CNN
+F 2 "" H 4600 2500 50  0001 C CNN
+F 3 "~" H 4600 2500 50  0001 C CNN
+	1    4600 2500
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x03 J?
+U 1 1 611C66CC
+P 5000 2500
+AR Path="/611C8367/611C66CC" Ref="J?"  Part="1" 
+AR Path="/611CB06B/611C66CC" Ref="J?"  Part="1" 
+F 0 "J?" H 4918 2817 50  0000 C CNN
+F 1 "Conn_01x03" H 4918 2726 50  0000 C CNN
+F 2 "" H 5000 2500 50  0001 C CNN
+F 3 "~" H 5000 2500 50  0001 C CNN
+	1    5000 2500
+	-1   0    0    -1  
+$EndComp
+Text HLabel 3400 2400 0    50   Input ~ 0
+Sensor_Power
+Wire Wire Line
+	3650 2400 4400 2400
+Wire Wire Line
+	3650 2500 4400 2500
+Wire Wire Line
+	3650 2600 4400 2600
+Wire Wire Line
+	3650 2400 3650 2500
+Connection ~ 3650 2500
+Wire Wire Line
+	3650 2500 3650 2600
+Wire Wire Line
+	3650 2400 3400 2400
+Connection ~ 3650 2400
+$Comp
+L Device:C_Small C?
+U 1 1 611CFFC0
+P 6400 3700
+AR Path="/611CFFC0" Ref="C?"  Part="1" 
+AR Path="/611C8367/611C9C0B/611CFFC0" Ref="C?"  Part="1" 
+AR Path="/611C8367/611C96D8/611CFFC0" Ref="C?"  Part="1" 
+AR Path="/611C8367/611C9C62/611CFFC0" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611C96D8/611CFFC0" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611C9C0B/611CFFC0" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611C9C62/611CFFC0" Ref="C?"  Part="1" 
+AR Path="/611C8367/611CFFC0" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611CFFC0" Ref="C?"  Part="1" 
+F 0 "C?" H 6308 3654 50  0000 R CNN
+F 1 "C_Small" H 6308 3745 50  0000 R CNN
+F 2 "" H 6400 3700 50  0001 C CNN
+F 3 "~" H 6400 3700 50  0001 C CNN
+	1    6400 3700
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R_Small_US R?
+U 1 1 611CFFC6
+P 5750 3700
+AR Path="/611CFFC6" Ref="R?"  Part="1" 
+AR Path="/611C8367/611C9C0B/611CFFC6" Ref="R?"  Part="1" 
+AR Path="/611C8367/611C96D8/611CFFC6" Ref="R?"  Part="1" 
+AR Path="/611C8367/611C9C62/611CFFC6" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611C96D8/611CFFC6" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611C9C0B/611CFFC6" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611C9C62/611CFFC6" Ref="R?"  Part="1" 
+AR Path="/611C8367/611CFFC6" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611CFFC6" Ref="R?"  Part="1" 
+F 0 "R?" H 5818 3746 50  0000 L CNN
+F 1 "R_Small_US" H 5818 3655 50  0000 L CNN
+F 2 "" H 5750 3700 50  0001 C CNN
+F 3 "~" H 5750 3700 50  0001 C CNN
+	1    5750 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L BPSDisplay:GND #PWR?
+U 1 1 611CFFCC
+P 5750 4100
+AR Path="/611CFFCC" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611C9C0B/611CFFCC" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611C96D8/611CFFCC" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611C9C62/611CFFCC" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611C96D8/611CFFCC" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611C9C0B/611CFFCC" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611C9C62/611CFFCC" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611CFFCC" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611CFFCC" Ref="#PWR?"  Part="1" 
+F 0 "#PWR?" H 5750 3850 50  0001 C CNN
+F 1 "GND" H 5755 3927 50  0000 C CNN
+F 2 "" H 5750 4100 50  0000 C CNN
+F 3 "" H 5750 4100 50  0000 C CNN
+	1    5750 4100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5750 3800 5750 4000
+Wire Wire Line
+	6400 3600 6400 3400
+Wire Wire Line
+	6400 3400 5750 3400
+Wire Wire Line
+	5750 3400 5750 3600
+Wire Wire Line
+	6400 3800 6400 4000
+Wire Wire Line
+	6400 4000 5750 4000
+Connection ~ 5750 4000
+Wire Wire Line
+	5750 4000 5750 4100
+Connection ~ 6400 3400
+Wire Wire Line
+	5550 3400 5750 3400
+Connection ~ 5750 3400
+$Comp
+L Device:C_Small C?
+U 1 1 611D0D2A
+P 6400 4700
+AR Path="/611D0D2A" Ref="C?"  Part="1" 
+AR Path="/611C8367/611C9C0B/611D0D2A" Ref="C?"  Part="1" 
+AR Path="/611C8367/611C96D8/611D0D2A" Ref="C?"  Part="1" 
+AR Path="/611C8367/611C9C62/611D0D2A" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611C96D8/611D0D2A" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611C9C0B/611D0D2A" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611C9C62/611D0D2A" Ref="C?"  Part="1" 
+AR Path="/611C8367/611D0D2A" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611D0D2A" Ref="C?"  Part="1" 
+F 0 "C?" H 6308 4654 50  0000 R CNN
+F 1 "C_Small" H 6308 4745 50  0000 R CNN
+F 2 "" H 6400 4700 50  0001 C CNN
+F 3 "~" H 6400 4700 50  0001 C CNN
+	1    6400 4700
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R_Small_US R?
+U 1 1 611D0D30
+P 5750 4700
+AR Path="/611D0D30" Ref="R?"  Part="1" 
+AR Path="/611C8367/611C9C0B/611D0D30" Ref="R?"  Part="1" 
+AR Path="/611C8367/611C96D8/611D0D30" Ref="R?"  Part="1" 
+AR Path="/611C8367/611C9C62/611D0D30" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611C96D8/611D0D30" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611C9C0B/611D0D30" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611C9C62/611D0D30" Ref="R?"  Part="1" 
+AR Path="/611C8367/611D0D30" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611D0D30" Ref="R?"  Part="1" 
+F 0 "R?" H 5818 4746 50  0000 L CNN
+F 1 "R_Small_US" H 5818 4655 50  0000 L CNN
+F 2 "" H 5750 4700 50  0001 C CNN
+F 3 "~" H 5750 4700 50  0001 C CNN
+	1    5750 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L BPSDisplay:GND #PWR?
+U 1 1 611D0D36
+P 5750 5100
+AR Path="/611D0D36" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611C9C0B/611D0D36" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611C96D8/611D0D36" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611C9C62/611D0D36" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611C96D8/611D0D36" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611C9C0B/611D0D36" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611C9C62/611D0D36" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611D0D36" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611D0D36" Ref="#PWR?"  Part="1" 
+F 0 "#PWR?" H 5750 4850 50  0001 C CNN
+F 1 "GND" H 5755 4927 50  0000 C CNN
+F 2 "" H 5750 5100 50  0000 C CNN
+F 3 "" H 5750 5100 50  0000 C CNN
+	1    5750 5100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5750 4800 5750 5000
+Wire Wire Line
+	6400 4600 6400 4400
+Wire Wire Line
+	6400 4400 5750 4400
+Wire Wire Line
+	5750 4400 5750 4600
+Wire Wire Line
+	6400 4800 6400 5000
+Wire Wire Line
+	6400 5000 5750 5000
+Connection ~ 5750 5000
+Wire Wire Line
+	5750 5000 5750 5100
+Connection ~ 6400 4400
+Connection ~ 5750 4400
+Wire Wire Line
+	5200 2400 5750 2400
+Wire Wire Line
+	5200 2500 5550 2500
+Wire Wire Line
+	5550 2500 5550 3400
+Wire Wire Line
+	5200 2600 5450 2600
+Wire Wire Line
+	5450 2600 5450 4400
+Wire Wire Line
+	5450 4400 5750 4400
+Text Label 5200 2400 0    50   ~ 0
+Sensor_Out1
+Text Label 5200 2500 0    50   ~ 0
+Sensor_Out2
+Text Label 5450 2800 2    50   ~ 0
+Sensor_Out3
+Wire Bus Line
+	7300 2300 7900 2300
+Entry Wire Line
+	7300 2300 7200 2400
+Entry Wire Line
+	7300 3300 7200 3400
+Entry Wire Line
+	7300 4300 7200 4400
+Wire Wire Line
+	6400 4400 7200 4400
+Wire Wire Line
+	6400 3400 7200 3400
+Wire Wire Line
+	6400 2400 7200 2400
+Text Label 7200 4400 2    50   ~ 0
+Data_Out3
+Text Label 7200 3400 2    50   ~ 0
+Data_Out2
+Text Label 7200 2400 2    50   ~ 0
+Data_Out1
+Text HLabel 7900 2300 2    50   Output ~ 0
+Data_Out[1..3]
+Wire Bus Line
+	7300 2300 7300 4300
+$EndSCHEMATC

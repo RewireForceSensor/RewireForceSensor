@@ -1,0 +1,95 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 3 9
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Device:C_Small C?
+U 1 1 611CC204
+P 5950 3150
+AR Path="/611CC204" Ref="C?"  Part="1" 
+AR Path="/611C8367/611C9C0B/611CC204" Ref="C?"  Part="1" 
+AR Path="/611C8367/611C96D8/611CC204" Ref="C?"  Part="1" 
+AR Path="/611C8367/611C9C62/611CC204" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611C96D8/611CC204" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611C9C0B/611CC204" Ref="C?"  Part="1" 
+AR Path="/611CB06B/611C9C62/611CC204" Ref="C?"  Part="1" 
+F 0 "C?" H 5858 3104 50  0000 R CNN
+F 1 "C_Small" H 5858 3195 50  0000 R CNN
+F 2 "" H 5950 3150 50  0001 C CNN
+F 3 "~" H 5950 3150 50  0001 C CNN
+	1    5950 3150
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R_Small_US R?
+U 1 1 611CC20A
+P 5300 3150
+AR Path="/611CC20A" Ref="R?"  Part="1" 
+AR Path="/611C8367/611C9C0B/611CC20A" Ref="R?"  Part="1" 
+AR Path="/611C8367/611C96D8/611CC20A" Ref="R?"  Part="1" 
+AR Path="/611C8367/611C9C62/611CC20A" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611C96D8/611CC20A" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611C9C0B/611CC20A" Ref="R?"  Part="1" 
+AR Path="/611CB06B/611C9C62/611CC20A" Ref="R?"  Part="1" 
+F 0 "R?" H 5368 3196 50  0000 L CNN
+F 1 "R_Small_US" H 5368 3105 50  0000 L CNN
+F 2 "" H 5300 3150 50  0001 C CNN
+F 3 "~" H 5300 3150 50  0001 C CNN
+	1    5300 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L BPSDisplay:GND #PWR?
+U 1 1 611CC210
+P 5300 3550
+AR Path="/611CC210" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611C9C0B/611CC210" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611C96D8/611CC210" Ref="#PWR?"  Part="1" 
+AR Path="/611C8367/611C9C62/611CC210" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611C96D8/611CC210" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611C9C0B/611CC210" Ref="#PWR?"  Part="1" 
+AR Path="/611CB06B/611C9C62/611CC210" Ref="#PWR?"  Part="1" 
+F 0 "#PWR?" H 5300 3300 50  0001 C CNN
+F 1 "GND" H 5305 3377 50  0000 C CNN
+F 2 "" H 5300 3550 50  0000 C CNN
+F 3 "" H 5300 3550 50  0000 C CNN
+	1    5300 3550
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5300 3250 5300 3450
+Wire Wire Line
+	5950 3050 5950 2850
+Wire Wire Line
+	5950 2850 5300 2850
+Wire Wire Line
+	5300 2850 5300 3050
+Wire Wire Line
+	5950 3250 5950 3450
+Wire Wire Line
+	5950 3450 5300 3450
+Connection ~ 5300 3450
+Wire Wire Line
+	5300 3450 5300 3550
+Text HLabel 5100 2850 0    50   Input ~ 0
+Sensor_Output
+Text HLabel 6450 2850 2    50   Output ~ 0
+Data_Output
+Wire Wire Line
+	6450 2850 5950 2850
+Connection ~ 5950 2850
+Wire Wire Line
+	5100 2850 5300 2850
+Connection ~ 5300 2850
+$EndSCHEMATC

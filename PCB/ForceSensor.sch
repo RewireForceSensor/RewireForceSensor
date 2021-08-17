@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 1
+Sheet 1 4
 Title ""
 Date ""
 Rev ""
@@ -15,180 +15,73 @@ Comment4 ""
 $EndDescr
 $Comp
 L Connector_Generic:Conn_01x10 J?
-U 1 1 611AF6E7
-P 3050 3100
-F 0 "J?" H 3130 3092 50  0000 L CNN
-F 1 "Conn_01x10" H 3130 3001 50  0000 L CNN
-F 2 "" H 3050 3100 50  0001 C CNN
-F 3 "~" H 3050 3100 50  0001 C CNN
-	1    3050 3100
-	1    0    0    -1  
-$EndComp
-$Comp
-L Connector_Generic:Conn_01x10 J?
 U 1 1 611AFD66
 P 3850 3100
-F 0 "J?" H 3930 3092 50  0000 L CNN
+F 0 "J?" H 4100 3100 50  0000 L CNN
 F 1 "Conn_01x10" H 3930 3001 50  0000 L CNN
 F 2 "" H 3850 3100 50  0001 C CNN
 F 3 "~" H 3850 3100 50  0001 C CNN
 	1    3850 3100
 	1    0    0    -1  
 $EndComp
-Text Notes 3200 2650 0    71   ~ 0
-Arduino
+Text Notes 2950 2550 0    71   ~ 0
+Arduino UNO Rev 3
+$Sheet
+S 5400 2850 1000 750 
+U 611C8367
+F0 "Left Foot" 50
+F1 "Foot_Board.sch" 50
+F2 "Sensor_Power" I L 5400 3000 50 
+F3 "Data_Out[1..3]" O R 6400 3450 50 
+$EndSheet
+$Sheet
+S 6750 2850 1000 750 
+U 611CB06B
+F0 "Right Foot" 50
+F1 "Foot_Board.sch" 50
+F2 "Sensor_Power" I L 6750 3000 50 
+F3 "Data_Out[1..3]" O R 7750 3450 50 
+$EndSheet
 $Comp
-L Device:C_Small C?
-U 1 1 611B1301
-P 5050 3100
-F 0 "C?" H 5142 3146 50  0000 L CNN
-F 1 "C_Small" H 5142 3055 50  0000 L CNN
-F 2 "" H 5050 3100 50  0001 C CNN
-F 3 "~" H 5050 3100 50  0001 C CNN
-	1    5050 3100
+L Connector_Generic:Conn_01x08 J?
+U 1 1 611E3554
+P 3850 4050
+F 0 "J?" H 3930 4042 50  0000 L CNN
+F 1 "Conn_01x08" H 3930 3951 50  0000 L CNN
+F 2 "" H 3850 4050 50  0001 C CNN
+F 3 "~" H 3850 4050 50  0001 C CNN
+	1    3850 4050
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C_Small C?
-U 1 1 611B18D9
-P 5700 3000
-F 0 "C?" H 5792 3046 50  0000 L CNN
-F 1 "C_Small" H 5792 2955 50  0000 L CNN
-F 2 "" H 5700 3000 50  0001 C CNN
-F 3 "~" H 5700 3000 50  0001 C CNN
-	1    5700 3000
-	1    0    0    -1  
+L Connector_Generic:Conn_01x08 J?
+U 1 1 611E4224
+P 3050 3000
+F 0 "J?" H 3350 3100 50  0000 C CNN
+F 1 "Conn_01x08" H 3350 3000 50  0000 C CNN
+F 2 "" H 3050 3000 50  0001 C CNN
+F 3 "~" H 3050 3000 50  0001 C CNN
+	1    3050 3000
+	-1   0    0    -1  
 $EndComp
 $Comp
-L Device:C_Small C?
-U 1 1 611B1E5F
-P 5150 2800
-F 0 "C?" H 5242 2846 50  0000 L CNN
-F 1 "C_Small" H 5242 2755 50  0000 L CNN
-F 2 "" H 5150 2800 50  0001 C CNN
-F 3 "~" H 5150 2800 50  0001 C CNN
-	1    5150 2800
-	1    0    0    -1  
+L Connector_Generic:Conn_01x06 J?
+U 1 1 611E4D84
+P 3050 3750
+F 0 "J?" H 3350 3850 50  0000 C CNN
+F 1 "Conn_01x06" H 3350 3750 50  0000 C CNN
+F 2 "" H 3050 3750 50  0001 C CNN
+F 3 "~" H 3050 3750 50  0001 C CNN
+	1    3050 3750
+	-1   0    0    -1  
 $EndComp
-$Comp
-L Device:C_Small C?
-U 1 1 611B356B
-P 5700 3350
-F 0 "C?" H 5792 3396 50  0000 L CNN
-F 1 "C_Small" H 5792 3305 50  0000 L CNN
-F 2 "" H 5700 3350 50  0001 C CNN
-F 3 "~" H 5700 3350 50  0001 C CNN
-	1    5700 3350
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C_Small C?
-U 1 1 611B391E
-P 5050 3350
-F 0 "C?" H 5142 3396 50  0000 L CNN
-F 1 "C_Small" H 5142 3305 50  0000 L CNN
-F 2 "" H 5050 3350 50  0001 C CNN
-F 3 "~" H 5050 3350 50  0001 C CNN
-	1    5050 3350
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C_Small C?
-U 1 1 611B4706
-P 5750 2700
-F 0 "C?" H 5842 2746 50  0000 L CNN
-F 1 "C_Small" H 5842 2655 50  0000 L CNN
-F 2 "" H 5750 2700 50  0001 C CNN
-F 3 "~" H 5750 2700 50  0001 C CNN
-	1    5750 2700
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R_Small_US R?
-U 1 1 611B4D3E
-P 6400 2650
-F 0 "R?" H 6468 2696 50  0000 L CNN
-F 1 "R_Small_US" H 6468 2605 50  0000 L CNN
-F 2 "" H 6400 2650 50  0001 C CNN
-F 3 "~" H 6400 2650 50  0001 C CNN
-	1    6400 2650
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R_Small_US R?
-U 1 1 611B541B
-P 6400 2950
-F 0 "R?" H 6468 2996 50  0000 L CNN
-F 1 "R_Small_US" H 6468 2905 50  0000 L CNN
-F 2 "" H 6400 2950 50  0001 C CNN
-F 3 "~" H 6400 2950 50  0001 C CNN
-	1    6400 2950
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R_Small_US R?
-U 1 1 611B565A
-P 6350 3300
-F 0 "R?" H 6418 3346 50  0000 L CNN
-F 1 "R_Small_US" H 6418 3255 50  0000 L CNN
-F 2 "" H 6350 3300 50  0001 C CNN
-F 3 "~" H 6350 3300 50  0001 C CNN
-	1    6350 3300
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R_Small_US R?
-U 1 1 611B59E7
-P 7150 2700
-F 0 "R?" H 7218 2746 50  0000 L CNN
-F 1 "R_Small_US" H 7218 2655 50  0000 L CNN
-F 2 "" H 7150 2700 50  0001 C CNN
-F 3 "~" H 7150 2700 50  0001 C CNN
-	1    7150 2700
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R_Small_US R?
-U 1 1 611B5C51
-P 7100 3150
-F 0 "R?" H 7168 3196 50  0000 L CNN
-F 1 "R_Small_US" H 7168 3105 50  0000 L CNN
-F 2 "" H 7100 3150 50  0001 C CNN
-F 3 "~" H 7100 3150 50  0001 C CNN
-	1    7100 3150
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R_Small_US R?
-U 1 1 611B5DE3
-P 7150 3450
-F 0 "R?" H 7218 3496 50  0000 L CNN
-F 1 "R_Small_US" H 7218 3405 50  0000 L CNN
-F 2 "" H 7150 3450 50  0001 C CNN
-F 3 "~" H 7150 3450 50  0001 C CNN
-	1    7150 3450
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R_Small_US R?
-U 1 1 611B8589
-P 6400 3800
-F 0 "R?" H 6468 3846 50  0000 L CNN
-F 1 "R_Small_US" H 6468 3755 50  0000 L CNN
-F 2 "" H 6400 3800 50  0001 C CNN
-F 3 "~" H 6400 3800 50  0001 C CNN
-	1    6400 3800
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:R_Small_US R?
-U 1 1 611B859B
-P 7150 3850
-F 0 "R?" H 7218 3896 50  0000 L CNN
-F 1 "R_Small_US" H 7218 3805 50  0000 L CNN
-F 2 "" H 7150 3850 50  0001 C CNN
-F 3 "~" H 7150 3850 50  0001 C CNN
-	1    7150 3850
-	1    0    0    -1  
-$EndComp
+$Sheet
+S 6000 4000 1000 800 
+U 611E7D97
+F0 "Bluetooth Module" 50
+F1 "Bluetooth.sch" 50
+F2 "BT_Power" I L 6000 4150 50 
+F3 "TXD" O R 7000 4600 50 
+F4 "RXD" I L 6000 4250 50 
+$EndSheet
 $EndSCHEMATC
