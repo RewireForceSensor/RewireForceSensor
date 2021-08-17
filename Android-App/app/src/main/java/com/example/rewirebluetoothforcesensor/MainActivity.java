@@ -13,10 +13,12 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import java.io.File;
@@ -126,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         catch(IOException e){
                             e.printStackTrace();
+                            Toast.makeText(getApplicationContext(), "File Write Error, please try again", Toast.LENGTH_SHORT).show();
                         }
 
                         break;
@@ -157,24 +160,33 @@ public class MainActivity extends AppCompatActivity {
                     //format timestamp
                     String fileName = sdf.format(timestamp);
 
+                    String state = Environment.getExternalStorageState();
+                    File file = null;
+                    connectStatus.setText(getExternalFilesDir(null).getAbsolutePath());
 
+                    File exportFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/RewireForceSensor");
 
-                    //File log = new File(fileName);
-                    try {
-                        String state = Environment.getExternalStorageState();
+                    boolean success = true;
+                    if (!exportFolder.exists()) {
+                        success = exportFolder.mkdirs();
+                    }
+
+                    if(success) {
+
                         if (Environment.MEDIA_MOUNTED.equals(state)) {
-                            /*File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                            File file = new File(folder, fileName);
-
-                            csvOut = new FileOutputStream(file);
-                            csvOut.write("Timestamp, Lh, Lout, Lin, Rh, Rout, Rin".getBytes());
-                            connectStatus.setText("write");*/
-                            val parcelFileDescriptor = openFileDescriptor(fileName, "r", null)
+                            file = new File(exportFolder, fileName);
                         }
 
-                    }
-                    catch(Exception e){
-                        e.printStackTrace();
+                        try {
+                            file.createNewFile();
+                            csvOut = new FileOutputStream(file, true);
+                            csvOut.write("Timestamp, Lh, Lout, Lin, Rh, Rout, Rin".getBytes());
+                            csvOut.flush();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            logging.setChecked(false);
+                            Toast.makeText(getApplicationContext(), "File Creation Error, please try again", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
 
@@ -185,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     catch(IOException e){
                         e.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "File Creation Error, please try again", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
