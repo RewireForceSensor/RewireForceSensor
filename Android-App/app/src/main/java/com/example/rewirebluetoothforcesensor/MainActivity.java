@@ -42,6 +42,14 @@ public class MainActivity extends AppCompatActivity {
     public int RightNoWeightTimeCount = 0;
     public int RightNoWeightValue = 0;
 
+    double[] lh_arr = new double[4];
+    double[] lo_arr = new double[4];
+    double[] li_arr = new double[4];
+    double[] rh_arr = new double[4];
+    double[] ro_arr = new double[4];
+    double[] ri_arr = new double[4];
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,28 +109,60 @@ public class MainActivity extends AppCompatActivity {
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
                         String[] splitArr = arduinoMsg.split(","); // Split up message into strings
                         //for(int i=0; i<3; i++){
-                        pads[0].setText(splitArr[0]); // left heel
-                        pads[1].setText(splitArr[1]); // left outside
-                        pads[2].setText(splitArr[2]); // left inside
-                        pads[3].setText(splitArr[3]); // right heel
-                        pads[4].setText(splitArr[4]); // right outside
-                        pads[5].setText(splitArr[5]); // right inside
+                      //  pads[0].setText(splitArr[0]); // left heel
+                      //  pads[1].setText(splitArr[1]); // left outside
+                      //  pads[2].setText(splitArr[2]); // left inside
+                      //  pads[3].setText(splitArr[3]); // right heel
+                      //  pads[4].setText(splitArr[4]); // right outside
+                      //  pads[5].setText(splitArr[5]); // right inside
                         //pads[0].setText(arduinoMsg);
                         //} // Print messages to pads
                         //pads[1].setText(arduinoMsg);
                         //  Log.i("pad",arduinoMsg);
 
+
+                        double lh_val = Double.parseDouble(splitArr[0]);
+                        double lo_val = Double.parseDouble(splitArr[1]);
+                        double li_val = Double.parseDouble(splitArr[2]);
+                        double rh_val = Double.parseDouble(splitArr[3]);
+                        double ro_val = Double.parseDouble(splitArr[4]);
+                        double ri_val = Double.parseDouble(splitArr[5]);
+
+                        //this is the spot where the 3 point moving average goes
+
+                        //time to call upon the aid of my trusty friend, calculatron
+                        lh_arr[2]=lh_val; //set new value to third spot in array
+                        lh_arr = calculatron(lh_arr); // shift stuff back a spot, will get [val, val, 0, avg]
+                        //since all the arrays start populated with 0s, calculatron should just work
+                        pads[0].setText(String.format("%.2f", lh_arr[3])); // print avg to left heel, round it
+
+                        lo_arr[2] = lo_val;
+                        lo_arr = calculatron(lo_arr);
+                        pads[1].setText(String.format("%.2f", lo_arr[3]));
+
+                        li_arr[2] = li_val;
+                        li_arr = calculatron(li_arr);
+                        pads[2].setText(String.format("%.2f", li_arr[3]));
+
+                        rh_arr[2] = rh_val;
+                        rh_arr = calculatron(rh_arr);
+                        pads[3].setText(String.format("%.2f", rh_arr[3]));
+
+                        ro_arr[2] = ro_val;
+                        ro_arr = calculatron(ro_arr);
+                        pads[4].setText(String.format("%.2f", ro_arr[3]));
+
+                        ri_arr[2] = ri_val;
+                        ri_arr = calculatron(ri_arr);
+                        pads[2].setText(String.format("%.2f", ri_arr[3]));
+
+
+                        //update total cycle count
                         totalCycles++;
 
-                        double lhval = Double.parseDouble(splitArr[0]);
-                        double loval = Double.parseDouble(splitArr[1]);
-                        double lival = Double.parseDouble(splitArr[2]);
-                        double rhval = Double.parseDouble(splitArr[3]);
-                        double roval = Double.parseDouble(splitArr[4]);
-                        double rival = Double.parseDouble(splitArr[5]);
+                        double leftval = li_val+lo_val+lh_val;
+                        double rightval = rh_val+ro_val+ri_val;
 
-                        double leftval = lival+loval+lhval;
-                        double rightval = rhval+roval+rival;
 
 
                         if (leftval == 0 && rightval == 0)
@@ -294,6 +334,27 @@ public class MainActivity extends AppCompatActivity {
         a.addCategory(Intent.CATEGORY_HOME);
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
+    }
+
+
+
+    public double[] calculatron(double[] values)
+    {
+        // the infinitely wise calculatron takes in an array, averages it,
+        // and shifts some stuff around to make a new array
+        double first = values[0];
+        double second = values[1];
+        double third = values[2];
+        double placeholder = 0;
+        double printout = ((first+second+third)/3);
+
+            values[0] = second;
+            values[1] = third;
+            values[2] = placeholder;
+            values[3] = printout;
+            return values;
+
+
     }
 
 }
