@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 2 3
+Sheet 3 3
 Title ""
 Date ""
 Rev ""
@@ -214,6 +214,8 @@ $Comp
 L Connector_Generic:Conn_02x03_Counter_Clockwise J?
 U 1 1 611D5C2C
 P 4900 2500
+AR Path="/611C8367/611D5C2C" Ref="J?"  Part="1" 
+AR Path="/611CB06B/611D5C2C" Ref="J?"  Part="1" 
 F 0 "J?" H 4950 2817 50  0000 C CNN
 F 1 "Conn_02x03_Counter_Clockwise" H 4950 2726 50  0000 C CNN
 F 2 "" H 4900 2500 50  0001 C CNN

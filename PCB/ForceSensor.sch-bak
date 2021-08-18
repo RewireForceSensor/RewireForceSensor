@@ -383,20 +383,32 @@ Wire Bus Line
 	6400 3450 6500 3450
 Wire Bus Line
 	6400 2400 6500 2400
-Wire Bus Line
-	6500 2400 6500 1950
-Wire Bus Line
-	6500 3450 6500 3000
-Entry Wire Line
-	6500 1950 6600 1850
-Entry Wire Line
-	6500 2050 6600 1950
-Entry Wire Line
-	6500 2150 6600 2050
-Entry Wire Line
-	6500 3000 6600 2900
-Entry Wire Line
-	6500 3100 6600 3000
-Entry Wire Line
-	6500 3200 6600 3100
+Text Label 6500 2400 0    50   ~ 0
+Right_Data[1..3]
+Text Label 6500 3450 0    50   ~ 0
+Left_Data[1..3]
+Text Label 2700 3550 2    50   ~ 0
+Left_Data1
+Text Label 2700 3650 2    50   ~ 0
+Left_Data2
+Text Label 2700 3750 2    50   ~ 0
+Left_Data3
+Text Label 2700 3850 2    50   ~ 0
+Right_Data1
+Text Label 2700 3950 2    50   ~ 0
+Right_Data2
+Text Label 2700 4050 2    50   ~ 0
+Right_Data3
+Wire Wire Line
+	2700 4050 2850 4050
+Wire Wire Line
+	2850 3950 2700 3950
+Wire Wire Line
+	2700 3850 2850 3850
+Wire Wire Line
+	2850 3750 2700 3750
+Wire Wire Line
+	2700 3650 2850 3650
+Wire Wire Line
+	2850 3550 2700 3550
 $EndSCHEMATC
