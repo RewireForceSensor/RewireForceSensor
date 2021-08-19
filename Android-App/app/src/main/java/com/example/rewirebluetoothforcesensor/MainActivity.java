@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
                         ri_arr[2] = ri_val;
                         ri_arr = calculatron(ri_arr);
-                        pads[2].setText(String.format("%.2f", ri_arr[3]));
+                        pads[5].setText(String.format("%.2f", ri_arr[3]));
 
 
                         //update total cycle count
@@ -168,12 +168,12 @@ public class MainActivity extends AppCompatActivity {
                         if (leftval == 0 && rightval == 0)
                         {progbar.setProgress(50);}
                         else {
-                            int barVal = (int) Math.round(100 * leftval / (leftval + rightval));
+                            int barVal = (int) Math.round(100 * (leftval / (leftval + rightval)));
                             progbar.setProgress(barVal);
                         }
 
-                        padLtotal.setText(String.valueOf(leftval));
-                        padRtotal.setText(String.valueOf(rightval));
+                        padLtotal.setText((String.format("%.2f", leftval)));
+                        padRtotal.setText((String.format("%.2f", rightval)));
 
                         break;
                 }
