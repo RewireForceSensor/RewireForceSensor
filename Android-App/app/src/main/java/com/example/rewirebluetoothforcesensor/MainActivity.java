@@ -1,13 +1,19 @@
 package com.example.rewirebluetoothforcesensor;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -48,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
 
     private static FileOutputStream csvOut;
+    private static ParcelFileDescriptor pfd;
     private static Context context;
+
+    ActivityResultLauncher<Intent> fileActivityResultLauncher;
 
 
     @Override
@@ -69,7 +78,42 @@ public class MainActivity extends AppCompatActivity {
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final TextView connectStatus = findViewById(R.id.connectstatus);
 
+        connect.setEnabled(true);
+        logging.setEnabled(false);
+
         MainActivity.context = getApplicationContext();
+
+        fileActivityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>(){
+                    @Override
+                    public void onActivityResult(ActivityResult result){
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            // There are no request codes
+                            Intent data = result.getData();
+                            Uri uri = data.getData();
+                            try {
+                                pfd = getContentResolver().
+                                        openFileDescriptor(uri, "w");
+                                csvOut =
+                                        new FileOutputStream(pfd.getFileDescriptor());
+                                csvOut.write("Timestamp, Lh, Lout, Lin, Rh, Rout, Rin".getBytes());
+                                csvOut.write(System.getProperty( "line.separator" ).getBytes());
+                                csvOut.flush();
+                            }
+                            catch(FileNotFoundException e){
+                                e.printStackTrace();
+                            }
+                            catch(IOException e){
+                                e.printStackTrace();
+                            }
+                        }
+                        else{
+                            logging.setChecked(false);
+                        }
+                    }
+                }
+        );
 
         deviceName = getIntent().getStringExtra("deviceName");
         if(deviceName != null) {
@@ -92,12 +136,14 @@ public class MainActivity extends AppCompatActivity {
                             case 1:
                                 //toolbar.setSubtitle("Connected to " + deviceName);
                                 connectStatus.setText("Connected to " + deviceName);
-                                connect.setEnabled(true);
+                                connect.setEnabled(false);
+                                logging.setEnabled(true);
                                 break;
                             case -1:
                                 //toolbar.setSubtitle("Device fails to connect");
                                 connectStatus.setText("Device fails to connect");
                                 connect.setEnabled(true);
+                                logging.setEnabled(false);
                                 break;
                         }
                         break;
@@ -123,12 +169,15 @@ public class MainActivity extends AppCompatActivity {
 
                         String csvText = timestampStr + ", " + arduinoMsg;
 
-                        try {
-                            csvOut.write(csvText.getBytes());
-                        }
-                        catch(IOException e){
-                            e.printStackTrace();
-                            Toast.makeText(getApplicationContext(), "File Write Error, please try again", Toast.LENGTH_SHORT).show();
+                        if(logging.isChecked() && csvOut!=null && pfd != null) {
+                            try {
+                                csvOut.write(csvText.getBytes());
+                                csvOut.write(System.getProperty( "line.separator" ).getBytes());
+                                csvOut.flush();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Toast.makeText(getApplicationContext(), "File Write Error, please try again", Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         break;
@@ -160,49 +209,31 @@ public class MainActivity extends AppCompatActivity {
                     //format timestamp
                     String fileName = sdf.format(timestamp);
 
-                    String state = Environment.getExternalStorageState();
-                    File file = null;
-                    connectStatus.setText(getExternalFilesDir(null).getAbsolutePath());
-
-                    File exportFolder = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/RewireForceSensor");
-
-                    boolean success = true;
-                    if (!exportFolder.exists()) {
-                        success = exportFolder.mkdirs();
-                    }
-
-                    if(success) {
-
-                        if (Environment.MEDIA_MOUNTED.equals(state)) {
-                            file = new File(exportFolder, fileName);
-                        }
-
-                        try {
-                            file.createNewFile();
-                            csvOut = new FileOutputStream(file, true);
-                            csvOut.write("Timestamp, Lh, Lout, Lin, Rh, Rout, Rin".getBytes());
-                            csvOut.flush();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            logging.setChecked(false);
-                            Toast.makeText(getApplicationContext(), "File Creation Error, please try again", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
+                    Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType(".csv -> text/plain");
+                    intent.putExtra(Intent.EXTRA_TITLE, fileName+".csv");
+                    fileActivityResultLauncher.launch(intent);
 
                 }
                 else{
-                    try {
-                        csvOut.close();
-                    }
-                    catch(IOException e){
-                        e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "File Creation Error, please try again", Toast.LENGTH_SHORT).show();
+                    if(csvOut != null && pfd != null) {
+                        try {
+                            csvOut.close();
+                            pfd.close();
+                            csvOut = null;
+                            pfd = null;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(), "File Creation Error, please try again", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }
         });
     }
+
+
 
     /* ============================ Thread to Create Bluetooth Connection =================================== */
     public static class CreateConnectThread extends Thread {
