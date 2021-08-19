@@ -23,6 +23,7 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -53,12 +54,25 @@ public class MainActivity extends AppCompatActivity {
     private final static int CONNECTING_STATUS = 1; // used in bluetooth handler to identify message status
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
 
+
     private static FileOutputStream csvOut;
     private static ParcelFileDescriptor pfd;
     private static Context context;
 
     ActivityResultLauncher<Intent> fileActivityResultLauncher;
 
+    public int totalCycles = 0; //total num of cycles
+    public int LeftNoWeightTimeCount = 0;
+    public int LeftNoWeightValue = 0;
+    public int RightNoWeightTimeCount = 0;
+    public int RightNoWeightValue = 0;
+
+    double[] lh_arr = new double[4];
+    double[] lo_arr = new double[4];
+    double[] li_arr = new double[4];
+    double[] rh_arr = new double[4];
+    double[] ro_arr = new double[4];
+    double[] ri_arr = new double[4];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +91,11 @@ public class MainActivity extends AppCompatActivity {
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final TextView connectStatus = findViewById(R.id.connectstatus);
+        final TextView padLtotal = findViewById(R.id.padLtot);
+        final TextView padRtotal = findViewById(R.id.padRtot);
+        final ProgressBar progbar = findViewById(R.id.progressBar);
+
+
 
         connect.setEnabled(true);
         logging.setEnabled(false);
@@ -160,13 +179,6 @@ public class MainActivity extends AppCompatActivity {
                         //format timestamp
                         String timestampStr = sdf.format(timestamp);
 
-                        pads[0].setText(splitArr[0]);
-                        pads[1].setText(splitArr[1]);
-                        pads[2].setText(splitArr[2]);
-                        pads[3].setText(splitArr[3]);
-                        pads[4].setText(splitArr[4]);
-                        pads[5].setText(splitArr[5]);
-
                         String csvText = timestampStr + ", " + arduinoMsg;
 
                         if(logging.isChecked() && csvOut!=null && pfd != null) {
@@ -179,6 +191,61 @@ public class MainActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "File Write Error, please try again", Toast.LENGTH_SHORT).show();
                             }
                         }
+
+
+                        double lh_val = Double.parseDouble(splitArr[0]);
+                        double lo_val = Double.parseDouble(splitArr[1]);
+                        double li_val = Double.parseDouble(splitArr[2]);
+                        double rh_val = Double.parseDouble(splitArr[3]);
+                        double ro_val = Double.parseDouble(splitArr[4]);
+                        double ri_val = Double.parseDouble(splitArr[5]);
+
+                        //this is the spot where the 3 point moving average goes
+
+                        //time to call upon the aid of my trusty friend, calculatron
+                        lh_arr[2]=lh_val; //set new value to third spot in array
+                        lh_arr = calculatron(lh_arr); // shift stuff back a spot, will get [val, val, 0, avg]
+                        //since all the arrays start populated with 0s, calculatron should just work
+                        pads[0].setText(String.format("%.2f", lh_arr[3])); // print avg to left heel, round it
+
+                        lo_arr[2] = lo_val;
+                        lo_arr = calculatron(lo_arr);
+                        pads[1].setText(String.format("%.2f", lo_arr[3]));
+
+                        li_arr[2] = li_val;
+                        li_arr = calculatron(li_arr);
+                        pads[2].setText(String.format("%.2f", li_arr[3]));
+
+                        rh_arr[2] = rh_val;
+                        rh_arr = calculatron(rh_arr);
+                        pads[3].setText(String.format("%.2f", rh_arr[3]));
+
+                        ro_arr[2] = ro_val;
+                        ro_arr = calculatron(ro_arr);
+                        pads[4].setText(String.format("%.2f", ro_arr[3]));
+
+                        ri_arr[2] = ri_val;
+                        ri_arr = calculatron(ri_arr);
+                        pads[5].setText(String.format("%.2f", ri_arr[3]));
+
+
+                        //update total cycle count
+                        totalCycles++;
+
+                        double leftval = li_val+lo_val+lh_val;
+                        double rightval = rh_val+ro_val+ri_val;
+
+
+
+                        if (leftval == 0 && rightval == 0)
+                        {progbar.setProgress(50);}
+                        else {
+                            int barVal = (int) Math.round(100 * (leftval / (leftval + rightval)));
+                            progbar.setProgress(barVal);
+                        }
+
+                        padLtotal.setText((String.format("%.2f", leftval)));
+                        padRtotal.setText((String.format("%.2f", rightval)));
 
                         break;
                 }
@@ -378,6 +445,27 @@ public class MainActivity extends AppCompatActivity {
         a.addCategory(Intent.CATEGORY_HOME);
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
+    }
+
+
+
+    public double[] calculatron(double[] values)
+    {
+        // the infinitely wise calculatron takes in an array, averages it,
+        // and shifts some stuff around to make a new array
+        double first = values[0];
+        double second = values[1];
+        double third = values[2];
+        double placeholder = 0;
+        double printout = ((first+second+third)/3);
+
+            values[0] = second;
+            values[1] = third;
+            values[2] = placeholder;
+            values[3] = printout;
+            return values;
+
+
     }
 
 }
