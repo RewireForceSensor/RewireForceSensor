@@ -219,9 +219,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:progressBackgroundTint = "#FF4EF606"
-        android:progressTint = "#C31313"
+        android:progressTint = "#E4ADAF"
+        android:progressTintMode="src_atop"
 
         />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
