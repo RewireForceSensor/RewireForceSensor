@@ -2,7 +2,7 @@
 
   (general
     (thickness 1.6)
-    (drawings 5)
+    (drawings 4)
     (tracks 80)
     (zones 0)
     (modules 21)
@@ -1766,9 +1766,6 @@
     )
   )
 
-  (gr_text "Foot Sensor Board\nReWire Lab\nSummer 2021" (at 221.996 47.498) (layer F.SilkS)
-    (effects (font (size 1.5 1.5) (thickness 0.3)))
-  )
   (gr_line (start 263.525 109.855) (end 263.525 42.545) (layer Edge.Cuts) (width 0.05) (tstamp 61205410))
   (gr_line (start 210.185 109.855) (end 263.525 109.855) (layer Edge.Cuts) (width 0.05))
   (gr_line (start 210.185 42.545) (end 210.185 109.855) (layer Edge.Cuts) (width 0.05))
