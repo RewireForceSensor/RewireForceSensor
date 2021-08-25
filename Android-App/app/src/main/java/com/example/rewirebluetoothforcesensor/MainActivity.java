@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         final ProgressBar progbar = findViewById(R.id.progressBar);
 
 
-
         connect.setEnabled(true);
         logging.setEnabled(false);
 
@@ -116,9 +115,10 @@ public class MainActivity extends AppCompatActivity {
                                         openFileDescriptor(uri, "w");
                                 csvOut =
                                         new FileOutputStream(pfd.getFileDescriptor());
-                                csvOut.write("Timestamp, Lh, Lout, Lin, Rh, Rout, Rin".getBytes());
+                                csvOut.write("Timestamp, Lh, Lout, Lin, Rh, Rout, Rin, Cycle".getBytes());
                                 csvOut.write(System.getProperty( "line.separator" ).getBytes());
                                 csvOut.flush();
+                                totalCycles = 0;
                             }
                             catch(FileNotFoundException e){
                                 e.printStackTrace();
@@ -171,26 +171,7 @@ public class MainActivity extends AppCompatActivity {
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
                         String[] splitArr = arduinoMsg.split(","); // Split up message into strings
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd.HH-mm-ss");
 
-                        Date date = new Date();
-                        Timestamp timestamp = new Timestamp(date.getTime());
-
-                        //format timestamp
-                        String timestampStr = sdf.format(timestamp);
-
-                        String csvText = timestampStr + ", " + arduinoMsg;
-
-                        if(logging.isChecked() && csvOut!=null && pfd != null) {
-                            try {
-                                csvOut.write(csvText.getBytes());
-                                csvOut.write(System.getProperty( "line.separator" ).getBytes());
-                                csvOut.flush();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                Toast.makeText(getApplicationContext(), "File Write Error, please try again", Toast.LENGTH_SHORT).show();
-                            }
-                        }
 
 
                         double lh_val = Double.parseDouble(splitArr[0]);
@@ -246,6 +227,29 @@ public class MainActivity extends AppCompatActivity {
 
                         padLtotal.setText((String.format("%.2f", leftval)));
                         padRtotal.setText((String.format("%.2f", rightval)));
+
+                        // Logging to CSV
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd.HH-mm-ss");
+
+                        Date date = new Date();
+                        Timestamp timestamp = new Timestamp(date.getTime());
+
+                        //format timestamp
+                        String timestampStr = sdf.format(timestamp);
+
+                        String csvText = timestampStr + ", " + arduinoMsg + totalCycles;
+                        csvText = csvText.replaceAll("\n", "").replaceAll("\r","");
+
+                        if(logging.isChecked() && csvOut!=null && pfd != null) {
+                            try {
+                                csvOut.write(csvText.getBytes());
+                                csvOut.write(System.getProperty( "line.separator" ).getBytes());
+                                csvOut.flush();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Toast.makeText(getApplicationContext(), "File Write Error, please try again", Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
                         break;
                 }
