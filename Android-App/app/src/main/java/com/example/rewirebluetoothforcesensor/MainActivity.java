@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         final ProgressBar progbar = findViewById(R.id.progressBar);
 
 
-
         connect.setEnabled(true);
         logging.setEnabled(false);
 
@@ -119,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                                 csvOut.write("Timestamp, Lh, Lout, Lin, Rh, Rout, Rin, Cycle".getBytes());
                                 csvOut.write(System.getProperty( "line.separator" ).getBytes());
                                 csvOut.flush();
+                                totalCycles = 0;
                             }
                             catch(FileNotFoundException e){
                                 e.printStackTrace();
@@ -237,7 +237,8 @@ public class MainActivity extends AppCompatActivity {
                         //format timestamp
                         String timestampStr = sdf.format(timestamp);
 
-                        String csvText = timestampStr + ", " + arduinoMsg + ", " + totalCycles;
+                        String csvText = timestampStr + ", " + arduinoMsg + totalCycles;
+                        csvText = csvText.replaceAll("\n", "").replaceAll("\r","");
 
                         if(logging.isChecked() && csvOut!=null && pfd != null) {
                             try {
