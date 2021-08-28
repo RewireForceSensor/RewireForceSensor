@@ -27,20 +27,20 @@ $EndComp
 Text Notes 2850 2500 0    71   ~ 0
 Arduino UNO Rev 3\n       * PWM
 $Sheet
-S 6850 2200 1000 750 
+S 7000 2700 1000 750 
 U 611C8367
 F0 "Left Foot" 50
 F1 "Foot_Board.sch" 50
-F2 "Sensor_Power" I L 6850 2350 50 
-F3 "Data_Out[1..3]" O R 7850 2800 50 
+F2 "Sensor_Power" I L 7000 2850 50 
+F3 "Data_Out[1..3]" O R 8000 3300 50 
 $EndSheet
 $Sheet
-S 8700 2200 1000 750 
+S 8850 2700 1000 750 
 U 611CB06B
 F0 "Right Foot" 50
 F1 "Foot_Board.sch" 50
-F2 "Sensor_Power" I L 8700 2350 50 
-F3 "Data_Out[1..3]" O R 9700 2800 50 
+F2 "Sensor_Power" I L 8850 2850 50 
+F3 "Data_Out[1..3]" O R 9850 3300 50 
 $EndSheet
 $Comp
 L Connector_Generic:Conn_01x08 J2
@@ -187,12 +187,12 @@ Wire Wire Line
 $Comp
 L power:+3V3 #PWR02
 U 1 1 611DDE98
-P 2650 2950
-F 0 "#PWR02" H 2650 2800 50  0001 C CNN
-F 1 "+3V3" H 2665 3123 50  0000 C CNN
-F 2 "" H 2650 2950 50  0001 C CNN
-F 3 "" H 2650 2950 50  0001 C CNN
-	1    2650 2950
+P 5000 2900
+F 0 "#PWR02" H 5000 2750 50  0001 C CNN
+F 1 "+3V3" H 5015 3073 50  0000 C CNN
+F 2 "" H 5000 2900 50  0001 C CNN
+F 3 "" H 5000 2900 50  0001 C CNN
+	1    5000 2900
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -299,44 +299,40 @@ D3
 $Comp
 L power:+5V #PWR08
 U 1 1 611F02A4
-P 6650 2300
-F 0 "#PWR08" H 6650 2150 50  0001 C CNN
-F 1 "+5V" H 6665 2473 50  0000 C CNN
-F 2 "" H 6650 2300 50  0001 C CNN
-F 3 "" H 6650 2300 50  0001 C CNN
-	1    6650 2300
+P 6800 2850
+F 0 "#PWR08" H 6800 2700 50  0001 C CNN
+F 1 "+5V" H 6815 3023 50  0000 C CNN
+F 2 "" H 6800 2850 50  0001 C CNN
+F 3 "" H 6800 2850 50  0001 C CNN
+	1    6800 2850
 	1    0    0    -1  
 $EndComp
 $Comp
 L power:+5V #PWR09
 U 1 1 611F08C5
-P 8550 2300
-F 0 "#PWR09" H 8550 2150 50  0001 C CNN
-F 1 "+5V" H 8565 2473 50  0000 C CNN
-F 2 "" H 8550 2300 50  0001 C CNN
-F 3 "" H 8550 2300 50  0001 C CNN
-	1    8550 2300
+P 8700 2800
+F 0 "#PWR09" H 8700 2650 50  0001 C CNN
+F 1 "+5V" H 8715 2973 50  0000 C CNN
+F 2 "" H 8700 2800 50  0001 C CNN
+F 3 "" H 8700 2800 50  0001 C CNN
+	1    8700 2800
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	6650 2300 6650 2350
+	6800 2850 7000 2850
 Wire Wire Line
-	6650 2350 6850 2350
+	8700 2800 8700 2850
 Wire Wire Line
-	8550 2300 8550 2350
-Wire Wire Line
-	8550 2350 8700 2350
+	8700 2850 8850 2850
 Wire Notes Line
 	2050 4850 2050 2200
-Wire Notes Line
-	2050 2200 4600 2200
 Wire Bus Line
-	7850 2800 7950 2800
+	8000 3300 8100 3300
 Wire Bus Line
-	9700 2800 9800 2800
-Text Label 9800 2800 0    50   ~ 0
+	9850 3300 9950 3300
+Text Label 9950 3300 0    50   ~ 0
 Right_Data[1..3]
-Text Label 7950 2800 0    50   ~ 0
+Text Label 8100 3300 0    50   ~ 0
 Left_Data[1..3]
 Text Label 2700 3550 2    50   ~ 0
 Left_Data1
@@ -365,23 +361,11 @@ Wire Wire Line
 Text Notes 5100 3950 0    71   ~ 0
 HC-06 BT Connection
 Wire Notes Line
-	4600 3750 6650 3750
-Wire Notes Line
-	6650 3750 6650 4850
-Wire Notes Line
 	4600 2200 4600 4850
 Wire Notes Line
 	2050 4850 6650 4850
-Wire Notes Line
-	6500 1700 10500 1700
-Wire Notes Line
-	6500 3150 10500 3150
-Text Notes 7550 1900 0    71   ~ 0
+Text Notes 7700 2400 0    71   ~ 0
 Left and Right Foot Sensor Inputs
-Wire Notes Line
-	6500 1700 6500 3150
-Wire Notes Line
-	10500 1700 10500 3150
 NoConn ~ 2850 3400
 $Comp
 L Connector_Generic:Conn_01x06 J1
@@ -396,4 +380,70 @@ F 3 "~" H 4900 4350 50  0001 C CNN
 $EndComp
 NoConn ~ 5100 4150
 NoConn ~ 5100 4650
+$Comp
+L Device:LED D1
+U 1 1 612997DC
+P 5650 3100
+F 0 "D1" V 5597 2982 50  0000 R CNN
+F 1 "LED" V 5688 2982 50  0000 R CNN
+F 2 "Diode_THT:D_T-1_P2.54mm_Vertical_AnodeUp" H 5650 3100 50  0001 C CNN
+F 3 "~" H 5650 3100 50  0001 C CNN
+	1    5650 3100
+	0    -1   1    0   
+$EndComp
+$Comp
+L Device:R_Small_US R?
+U 1 1 61299FC5
+P 5300 2950
+AR Path="/611E7D97/61299FC5" Ref="R?"  Part="1" 
+AR Path="/61299FC5" Ref="R9"  Part="1" 
+F 0 "R9" H 5368 2996 50  0000 L CNN
+F 1 "5K Ohm" H 5368 2905 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" H 5300 2950 50  0001 C CNN
+F 3 "~" H 5300 2950 50  0001 C CNN
+	1    5300 2950
+	0    -1   -1   0   
+$EndComp
+$Comp
+L BPSDisplay:GND #PWR?
+U 1 1 6129C000
+P 5650 3400
+AR Path="/611E7D97/6129C000" Ref="#PWR?"  Part="1" 
+AR Path="/6129C000" Ref="#PWR016"  Part="1" 
+F 0 "#PWR016" H 5650 3150 50  0001 C CNN
+F 1 "GND" V 5655 3272 50  0000 R CNN
+F 2 "" H 5650 3400 50  0000 C CNN
+F 3 "" H 5650 3400 50  0000 C CNN
+	1    5650 3400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5650 2950 5400 2950
+Wire Wire Line
+	5650 3250 5650 3400
+Wire Wire Line
+	5000 2950 5200 2950
+Wire Wire Line
+	5000 2900 5000 2950
+Text Notes 4950 2500 0    71   ~ 0
+Power Status LED
+Wire Notes Line
+	6650 2200 6650 4850
+Wire Notes Line
+	4600 3750 10650 3750
+Wire Notes Line
+	2050 2200 10650 2200
+Wire Notes Line
+	10650 2200 10650 3750
+$Comp
+L power:+3V3 #PWR04
+U 1 1 612A6CAE
+P 2650 2950
+F 0 "#PWR04" H 2650 2800 50  0001 C CNN
+F 1 "+3V3" H 2665 3123 50  0000 C CNN
+F 2 "" H 2650 2950 50  0001 C CNN
+F 3 "" H 2650 2950 50  0001 C CNN
+	1    2650 2950
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
