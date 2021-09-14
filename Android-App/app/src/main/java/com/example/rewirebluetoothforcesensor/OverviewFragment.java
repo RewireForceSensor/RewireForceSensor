@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-class OverviewFragment extends DataViewFragment {
+public class OverviewFragment extends DataViewFragment {
     TextView[] pads;
     String[] sensorData;
     int totalCycles;
@@ -40,22 +40,23 @@ class OverviewFragment extends DataViewFragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.overview_fragment, container, false);
 
-        pads = new TextView[]{getView().findViewById(R.id.pad0),
-                getView().findViewById(R.id.pad1),
-                getView().findViewById(R.id.pad2),
-                getView().findViewById(R.id.pad3),
-                getView().findViewById(R.id.pad4),
-                getView().findViewById(R.id.pad5)};
+        pads = new TextView[]{rootView.findViewById(R.id.pad0),
+                rootView.findViewById(R.id.pad1),
+                rootView.findViewById(R.id.pad2),
+                rootView.findViewById(R.id.pad3),
+                rootView.findViewById(R.id.pad4),
+                rootView.findViewById(R.id.pad5)};
 
-        padLtotal = getView().findViewById(R.id.padLtot);
-        padRtotal = getView().findViewById(R.id.padRtot);
-        progbar = getView().findViewById(R.id.progressBar);
+        padLtotal = rootView.findViewById(R.id.padLtot);
+        padRtotal = rootView.findViewById(R.id.padRtot);
+        progbar = rootView.findViewById(R.id.progressBar);
 
         sensorData = new String[6];
         totalCycles = 0;
 
         return rootView;
     }
+
 
     public void putSensorData(Bundle args){
         for(int i=0; i<6; i++) {
@@ -136,9 +137,7 @@ class OverviewFragment extends DataViewFragment {
         values[3] = printout;
         return values;
 
-
     }
-
 
 
 }
