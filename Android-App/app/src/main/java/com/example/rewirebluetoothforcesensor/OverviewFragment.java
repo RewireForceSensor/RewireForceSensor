@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+// Feet
 public class OverviewFragment extends DataViewFragment {
     TextView[] pads;
     String[] sensorData;
