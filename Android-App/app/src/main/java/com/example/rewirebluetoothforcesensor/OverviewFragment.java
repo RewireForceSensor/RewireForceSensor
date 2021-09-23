@@ -1,13 +1,22 @@
 package com.example.rewirebluetoothforcesensor;
 
+import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import ca.hss.heatmaplib.HeatMap;
+import ca.hss.heatmaplib.HeatMapMarkerCallback;
 
 // Feet
 public class OverviewFragment extends DataViewFragment {
@@ -20,6 +29,9 @@ public class OverviewFragment extends DataViewFragment {
     public int RightNoWeightTimeCount = 0;
     public int RightNoWeightValue = 0;
 
+    HeatMap heatMap;
+    HeatMap.DataPoint[] heatMapPoints = new HeatMap.DataPoint[6];
+
     double[] lh_arr = new double[4];
     double[] lo_arr = new double[4];
     double[] li_arr = new double[4];
@@ -31,6 +43,8 @@ public class OverviewFragment extends DataViewFragment {
     TextView padRtotal;
     ProgressBar progbar;
 
+    ViewGroup rootView;
+
     public OverviewFragment(){
         super(R.layout.overview_fragment);
     }
@@ -38,7 +52,7 @@ public class OverviewFragment extends DataViewFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
+        rootView = (ViewGroup) inflater.inflate(
                 R.layout.overview_fragment, container, false);
 
         pads = new TextView[]{rootView.findViewById(R.id.pad0),
@@ -55,9 +69,39 @@ public class OverviewFragment extends DataViewFragment {
         sensorData = new String[6];
         totalCycles = 0;
 
+
         return rootView;
     }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        heatMap = (HeatMap) rootView.findViewById(R.id.heatMap);
+
+        heatMap.setMinimum(0.0);
+        heatMap.setMaximum(255.0);
+
+        //When creating data points with this heat map library, x and y are a percentage of the full parent width/height
+
+        for(int i=0; i<heatMapPoints.length; i++){
+            int[] xy = new int[2];
+
+
+            heatMapPoints[i] = new HeatMap.DataPoint(0.6f, 0.6f, 255);
+            Log.i("XY", pads[i].getX() + ", " + pads[i].getY());
+            heatMap.addData(heatMapPoints[i]);
+        }
+        heatMap.setMarkerCallback(new HeatMapMarkerCallback.CircleHeatMapMarker(0xff9400D3));
+
+        heatMapPoints[0].value = 255;
+        heatMapPoints[1].value = 255;
+        heatMapPoints[2].value = 255;
+        heatMapPoints[3].value = 255;
+        heatMapPoints[4].value = 255;
+        heatMapPoints[5].value = 255;
+
+        heatMap.forceRefresh();
+    }
 
     public void putSensorData(Bundle args){
         for(int i=0; i<6; i++) {
@@ -119,6 +163,15 @@ public class OverviewFragment extends DataViewFragment {
 
         padLtotal.setText((String.format("%.2f", leftval)));
         padRtotal.setText((String.format("%.2f", rightval)));
+
+        heatMapPoints[0].value = lh_val;
+        heatMapPoints[1].value = lo_val;
+        heatMapPoints[2].value = li_val;
+        heatMapPoints[3].value = rh_val;
+        heatMapPoints[4].value = ro_val;
+        heatMapPoints[5].value = ri_val;
+
+        heatMap.forceRefresh();
 
     }
 
