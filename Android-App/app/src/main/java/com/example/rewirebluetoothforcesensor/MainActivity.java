@@ -155,6 +155,10 @@ public class MainActivity extends AppCompatActivity {
                     case MESSAGE_READ:
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
                         String[] splitArr = arduinoMsg.split(","); // Split up message into strings
+                        int[] sensorDataArr = new int[6];
+                        for(int i=0; i<sensorDataArr.length; i++){
+                            sensorDataArr[i] = Integer.parseInt(splitArr[i]);
+                        }
 
                         //update total cycle count
                         totalCycles++;
@@ -184,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
 
                         // Send data from main activity to fragment(s)
                         Bundle sensorData = new Bundle();
-                        sensorData.putStringArray("sensorData", splitArr);
+                        sensorData.putIntArray("sensorData", sensorDataArr);
                         sensorData.putInt("totalCycles", totalCycles);
 
                         for(int i=0; i<NUM_PAGES; i++) {

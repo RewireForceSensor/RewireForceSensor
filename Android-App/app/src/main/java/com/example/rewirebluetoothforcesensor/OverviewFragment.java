@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 // Feet
 public class OverviewFragment extends DataViewFragment {
     TextView[] pads;
-    String[] sensorData;
+    int[] sensorDataArr;
     int totalCycles;
 
     public int LeftNoWeightTimeCount = 0;
@@ -20,12 +20,11 @@ public class OverviewFragment extends DataViewFragment {
     public int RightNoWeightTimeCount = 0;
     public int RightNoWeightValue = 0;
 
-    double[] lh_arr = new double[4];
-    double[] lo_arr = new double[4];
-    double[] li_arr = new double[4];
-    double[] rh_arr = new double[4];
-    double[] ro_arr = new double[4];
-    double[] ri_arr = new double[4];
+    double[][] movingAvgArr = new double[4][6];
+
+    double leftTotal;
+    double rightTotal;
+    int progbarVal;
 
     TextView padLtotal;
     TextView padRtotal;
@@ -52,8 +51,13 @@ public class OverviewFragment extends DataViewFragment {
         padRtotal = rootView.findViewById(R.id.padRtot);
         progbar = rootView.findViewById(R.id.progressBar);
 
-        sensorData = new String[6];
+        sensorDataArr = new int[6];
         totalCycles = 0;
+
+        leftTotal = 0;
+        rightTotal = 0;
+
+        progbarVal = 0;
 
         return rootView;
     }
@@ -61,64 +65,39 @@ public class OverviewFragment extends DataViewFragment {
 
     public void putSensorData(Bundle args){
         for(int i=0; i<6; i++) {
-            sensorData = args.getStringArray("sensorData");
+            sensorDataArr = args.getIntArray("sensorData");
             totalCycles = args.getInt("totalCycles");
         }
     }
 
     public void update(){
         for(int i=0; i<6; i++){
-            pads[i].setText(sensorData[i]);
+            pads[i].setText(sensorDataArr[i]);
         }
-
-        double lh_val = Double.parseDouble(sensorData[0]);
-        double lo_val = Double.parseDouble(sensorData[1]);
-        double li_val = Double.parseDouble(sensorData[2]);
-        double rh_val = Double.parseDouble(sensorData[3]);
-        double ro_val = Double.parseDouble(sensorData[4]);
-        double ri_val = Double.parseDouble(sensorData[5]);
 
         //this is the spot where the 3 point moving average goes
 
-        //time to call upon the aid of my trusty friend, calculatron
-        lh_arr[2]=lh_val; //set new value to third spot in array
-        lh_arr = calculatron(lh_arr); // shift stuff back a spot, will get [val, val, 0, avg]
-        //since all the arrays start populated with 0s, calculatron should just work
-        pads[0].setText(String.format("%.2f", lh_arr[3])); // print avg to left heel, round it
-
-        lo_arr[2] = lo_val;
-        lo_arr = calculatron(lo_arr);
-        pads[1].setText(String.format("%.2f", lo_arr[3]));
-
-        li_arr[2] = li_val;
-        li_arr = calculatron(li_arr);
-        pads[2].setText(String.format("%.2f", li_arr[3]));
-
-        rh_arr[2] = rh_val;
-        rh_arr = calculatron(rh_arr);
-        pads[3].setText(String.format("%.2f", rh_arr[3]));
-
-        ro_arr[2] = ro_val;
-        ro_arr = calculatron(ro_arr);
-        pads[4].setText(String.format("%.2f", ro_arr[3]));
-
-        ri_arr[2] = ri_val;
-        ri_arr = calculatron(ri_arr);
-        pads[5].setText(String.format("%.2f", ri_arr[3]));
-
-
-        double leftval = li_val+lo_val+lh_val;
-        double rightval = rh_val+ro_val+ri_val;
-
-        if (leftval == 0 && rightval == 0)
-        {progbar.setProgress(50);}
-        else {
-            int barVal = (int) Math.round(100 * (leftval / (leftval + rightval)));
-            progbar.setProgress(barVal);
+        for(int i=0; i<movingAvgArr.length; i++){
+            //time to call upon the aid of my trusty friend, calculatron
+            movingAvgArr[i][2] = sensorDataArr[i]; //set new value to third spot in array
+            movingAvgArr[i] = calculatron(movingAvgArr[i]); // shift stuff back a spot, will get [val, val, 0, avg]
+            //since all the arrays start populated with 0s, calculatron should just work
+            pads[i].setText(String.format("%.2f", movingAvgArr[i][3])); // print avg to textView, round it
         }
 
-        padLtotal.setText((String.format("%.2f", leftval)));
-        padRtotal.setText((String.format("%.2f", rightval)));
+        leftTotal = sensorDataArr[0] + sensorDataArr[1] + sensorDataArr[2];
+        rightTotal = sensorDataArr[3] + sensorDataArr[4] + sensorDataArr[5];
+
+        if(leftTotal == 0 && rightTotal == 0){
+            progbar.setProgress(50);
+        }
+        else{
+            progbarVal = (int) Math.round(100 * (leftTotal / (leftTotal + rightTotal)));
+            progbar.setProgress(progbarVal);
+        }
+
+        padLtotal.setText((String.format("%.2f", leftTotal)));
+        padRtotal.setText((String.format("%.2f", rightTotal)));
 
     }
 
