@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 // Feet
 public class OverviewFragment extends DataViewFragment {
     TextView[] pads;
-    int[] sensorDataArr;
+    double[] sensorDataArr;
     int totalCycles;
 
     public int LeftNoWeightTimeCount = 0;
@@ -51,7 +51,7 @@ public class OverviewFragment extends DataViewFragment {
         padRtotal = rootView.findViewById(R.id.padRtot);
         progbar = rootView.findViewById(R.id.progressBar);
 
-        sensorDataArr = new int[6];
+        sensorDataArr = new double[6];
         totalCycles = 0;
 
         leftTotal = 0;
@@ -65,14 +65,14 @@ public class OverviewFragment extends DataViewFragment {
 
     public void putSensorData(Bundle args){
         for(int i=0; i<6; i++) {
-            sensorDataArr = args.getIntArray("sensorData");
+            sensorDataArr = args.getDoubleArray("sensorData");
             totalCycles = args.getInt("totalCycles");
         }
     }
 
     public void update(){
         for(int i=0; i<6; i++){
-            pads[i].setText(sensorDataArr[i]);
+            pads[i].setText("" + sensorDataArr[i]);
         }
 
         //this is the spot where the 3 point moving average goes
