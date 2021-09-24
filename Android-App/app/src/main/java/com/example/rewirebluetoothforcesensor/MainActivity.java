@@ -39,6 +39,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 import static android.content.ContentValues.TAG;
 
@@ -155,9 +156,10 @@ public class MainActivity extends AppCompatActivity {
                     case MESSAGE_READ:
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
                         String[] splitArr = arduinoMsg.split(","); // Split up message into strings
-                        int[] sensorDataArr = new int[6];
+                        double[] sensorDataArr = new double[6];
                         for(int i=0; i<sensorDataArr.length; i++){
-                            sensorDataArr[i] = Integer.parseInt(splitArr[i]);
+
+                            sensorDataArr[i] = Double.parseDouble(splitArr[i]);
                         }
 
                         //update total cycle count
@@ -188,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
                         // Send data from main activity to fragment(s)
                         Bundle sensorData = new Bundle();
-                        sensorData.putIntArray("sensorData", sensorDataArr);
+                        sensorData.putDoubleArray("sensorData", sensorDataArr);
                         sensorData.putInt("totalCycles", totalCycles);
 
                         for(int i=0; i<NUM_PAGES; i++) {
