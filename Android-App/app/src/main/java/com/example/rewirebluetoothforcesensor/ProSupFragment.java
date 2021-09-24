@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-class ProSupFragment extends DataViewFragment {
+public class ProSupFragment extends DataViewFragment {
     int[] sensorDataArr;
     int totalCycles;
 
@@ -55,29 +55,29 @@ class ProSupFragment extends DataViewFragment {
     }
 
     public void update(){
-        LineData data = chart.getData();
-
-        if (data != null) {
-
-            ILineDataSet dataSet = data.getDataSetByIndex(0);
-            // set.addEntry(...); // can be called as well
-
-            if (dataSet == null) {
-                dataSet = createSet();
-                data.addDataSet(dataSet);
-            }
-
-            data.addEntry(new Entry(dataSet.getEntryCount(), sensorDataArr[1] - sensorDataArr[2]), 0);
-            data.notifyDataChanged();
-
-            // let the chart know it's data has changed
-            chart.notifyDataSetChanged();
-
-            chart.setVisibleXRangeMaximum(120);
-
-            chart.moveViewToX(data.getEntryCount());
-
-        }
+//        LineData data = chart.getData();
+//
+//        if (data != null) {
+//
+//            ILineDataSet dataSet = data.getDataSetByIndex(0);
+//            // set.addEntry(...); // can be called as well
+//
+//            if (dataSet == null) {
+//                dataSet = createSet();
+//                data.addDataSet(dataSet);
+//            }
+//
+//            data.addEntry(new Entry(dataSet.getEntryCount(), sensorDataArr[1] - sensorDataArr[2]), 0);
+//            data.notifyDataChanged();
+//
+//            // let the chart know it's data has changed
+//            chart.notifyDataSetChanged();
+//
+//            chart.setVisibleXRangeMaximum(120);
+//
+//            chart.moveViewToX(data.getEntryCount());
+//
+//        }
     }
 
 
