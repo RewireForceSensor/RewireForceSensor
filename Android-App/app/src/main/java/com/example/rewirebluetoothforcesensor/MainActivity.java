@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private final static int CONNECTING_STATUS = 1; // used in bluetooth handler to identify message status
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
 
-    private static final int NUM_PAGES = 3;
+    private static final int NUM_PAGES = 4;
     private ViewPager2 viewPager;
     private FragmentStateAdapter pagerAdapter;
 
@@ -280,6 +280,8 @@ public class MainActivity extends AppCompatActivity {
                     return new ProSupFragment();
                 case 2:
                     return new AntPosFragment();
+                case 3:
+                    return new LeftRightFragment();
                 default:
                     throw new IllegalArgumentException();
             }
