@@ -31,7 +31,9 @@ public class OverviewFragment extends DataViewFragment {
     ProgressBar progbar;
 
     public OverviewFragment(){
+
         super(R.layout.overview_fragment);
+        this.setName("OVERVIEW");
     }
 
     @Override
