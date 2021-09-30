@@ -16,12 +16,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/supinationLabel"
+        android:id="@+id/anteriorLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:rotation="-90"
-        android:text="Supination"
+        android:text="Anterior"
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,15 +31,15 @@
         />
 
     <TextView
-        android:id="@+id/pronationLabel"
+        android:id="@+id/posteriorLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:rotation="-90"
-        android:text="Pronation"
+        android:text="Posterior"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/supinationLabel"
+        app:layout_constraintEnd_toEndOf="@+id/anteriorLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 

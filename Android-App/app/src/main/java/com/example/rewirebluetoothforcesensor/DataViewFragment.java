@@ -6,6 +6,8 @@ import androidx.annotation.LayoutRes;
 import androidx.fragment.app.Fragment;
 
 abstract class DataViewFragment extends Fragment {
+    String name = "";
+
     public DataViewFragment(){
         super();
     }
@@ -17,6 +19,14 @@ abstract class DataViewFragment extends Fragment {
     abstract void putSensorData(Bundle sensorData);
 
     abstract void update();
+
+    public String getName(){
+        return name;
+    }
+
+    public void setName(String name){
+        this.name = name;
+    }
 
 
 }

@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private final static int CONNECTING_STATUS = 1; // used in bluetooth handler to identify message status
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
 
-    private static final int NUM_PAGES = 2;
+    private static final int NUM_PAGES = 3;
     private ViewPager2 viewPager;
     private FragmentStateAdapter pagerAdapter;
 
@@ -80,11 +80,20 @@ public class MainActivity extends AppCompatActivity {
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final TextView connectStatus = findViewById(R.id.connectstatus);
+        final TextView title = findViewById(R.id.title2);
 
         connect.setEnabled(true);
         logging.setEnabled(false);
 
         MainActivity.context = getApplicationContext();
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                title.setText(((DataViewFragment)getSupportFragmentManager().getFragments().get(position)).getName());
+            }
+        });
 
         fileActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -269,6 +278,8 @@ public class MainActivity extends AppCompatActivity {
                     return new OverviewFragment();
                 case 1:
                     return new ProSupFragment();
+                case 2:
+                    return new AntPosFragment();
                 default:
                     throw new IllegalArgumentException();
             }
