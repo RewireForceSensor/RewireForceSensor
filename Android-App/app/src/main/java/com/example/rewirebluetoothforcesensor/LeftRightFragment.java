@@ -11,7 +11,7 @@ public class LeftRightFragment extends GraphViewFragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public LeftRightFragment(){
 
-        super(R.layout.prosup_fragment, 0f, 10f);
+        super(R.layout.leftright_fragment, 0f, 10f);
         this.setName("OVERALL BALANCE");
         setSuppliers(new DoubleSupplier() {
             @Override
