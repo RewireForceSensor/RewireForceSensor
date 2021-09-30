@@ -60,6 +60,7 @@ public class GraphViewFragment extends DataViewFragment {
                 contentLayoutId, container, false);
 
         chart = (LineChart) rootView.findViewById(R.id.chart);
+        chart.getDescription().setText("");
 
         List<Entry> entries = new ArrayList<Entry>();
         LineDataSet leftDataSet = createLSet();
