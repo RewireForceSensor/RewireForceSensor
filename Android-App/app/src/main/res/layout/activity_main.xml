@@ -101,23 +101,30 @@
         android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
         app:layout_constraintBottom_toBottomOf="@+id/prev"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.953"
         app:layout_constraintStart_toEndOf="@+id/prev"
         app:layout_constraintTop_toTopOf="@+id/prev"
-        app:srcCompat="@android:drawable/ic_media_next" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/arrow"
+        tools:srcCompat="@drawable/arrow" />
 
     <ImageButton
         android:id="@+id/prev"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:rotation="180"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.041"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_media_previous" />
+        app:layout_constraintVertical_bias="0.152"
+        app:srcCompat="@drawable/arrow"
+        tools:srcCompat="@drawable/arrow" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

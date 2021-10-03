@@ -90,6 +90,15 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.context = getApplicationContext();
 
         viewPager.setUserInputEnabled(false);
+        viewPager.setOffscreenPageLimit(NUM_PAGES);
+
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                title.setText(((DataViewFragment)getSupportFragmentManager().findFragmentByTag("f"+viewPager.getCurrentItem())).getName());
+            }
+        });
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 if(viewPager.getCurrentItem() < NUM_PAGES - 1)
                     viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
                 else{
-                    viewPager.setCurrentItem(0);
+                    viewPager.setCurrentItem(0, true);
                 }
             }
         });
@@ -108,11 +117,10 @@ public class MainActivity extends AppCompatActivity {
                 if(viewPager.getCurrentItem() > 0)
                     viewPager.setCurrentItem(viewPager.getCurrentItem()-1);
                 else{
-                    viewPager.setCurrentItem(NUM_PAGES-1);
+                    viewPager.setCurrentItem(NUM_PAGES-1, true);
                 }
             }
         });
-
 
 
         //title.setText(((DataViewFragment)getSupportFragmentManager().getFragments().get(position)).getName());
