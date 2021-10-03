@@ -26,6 +26,7 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -39,7 +40,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
-import java.util.logging.Logger;
 
 import static android.content.ContentValues.TAG;
 
@@ -77,23 +77,53 @@ public class MainActivity extends AppCompatActivity {
 
         final Button connect = findViewById(R.id.connect);
         final ToggleButton logging = findViewById(R.id.logging);
+        final ImageButton next = findViewById(R.id.next);
+        final ImageButton prev = findViewById(R.id.prev);
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final TextView connectStatus = findViewById(R.id.connectstatus);
-        final TextView title = findViewById(R.id.title2);
+        final TextView title = findViewById(R.id.pagerTitle);
 
         connect.setEnabled(true);
         logging.setEnabled(false);
 
         MainActivity.context = getApplicationContext();
 
+        viewPager.setUserInputEnabled(false);
+        viewPager.setOffscreenPageLimit(NUM_PAGES);
+
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                title.setText(((DataViewFragment)getSupportFragmentManager().getFragments().get(position)).getName());
+                title.setText(((DataViewFragment)getSupportFragmentManager().findFragmentByTag("f"+viewPager.getCurrentItem())).getName());
             }
         });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(viewPager.getCurrentItem() < NUM_PAGES - 1)
+                    viewPager.setCurrentItem(viewPager.getCurrentItem()+1);
+                else{
+                    viewPager.setCurrentItem(0, true);
+                }
+            }
+        });
+
+        prev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(viewPager.getCurrentItem() > 0)
+                    viewPager.setCurrentItem(viewPager.getCurrentItem()-1);
+                else{
+                    viewPager.setCurrentItem(NUM_PAGES-1, true);
+                }
+            }
+        });
+
+
+        //title.setText(((DataViewFragment)getSupportFragmentManager().getFragments().get(position)).getName());
 
         fileActivityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
