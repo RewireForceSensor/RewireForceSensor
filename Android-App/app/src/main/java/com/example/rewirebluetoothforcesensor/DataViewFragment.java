@@ -20,6 +20,8 @@ abstract class DataViewFragment extends Fragment {
 
     abstract void update();
 
+    abstract void clear();
+
     public String getName(){
         return name;
     }

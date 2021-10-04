@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(pagerAdapter);
 
         final Button connect = findViewById(R.id.connect);
+        final Button disconnect = findViewById(R.id.disconnect);
         final ToggleButton logging = findViewById(R.id.logging);
         final ImageButton next = findViewById(R.id.next);
         final ImageButton prev = findViewById(R.id.prev);
@@ -84,7 +85,10 @@ public class MainActivity extends AppCompatActivity {
         final TextView connectStatus = findViewById(R.id.connectstatus);
         final TextView title = findViewById(R.id.pagerTitle);
 
+        connect.setVisibility(View.VISIBLE);
         connect.setEnabled(true);
+        disconnect.setVisibility(View.GONE);
+        disconnect.setEnabled(false);
         logging.setEnabled(false);
 
         MainActivity.context = getApplicationContext();
@@ -121,6 +125,43 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        disconnect.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+                if (createConnectThread != null){
+                    createConnectThread.cancel();
+                }
+
+                if(logging.isChecked()){
+                    if(csvOut != null && pfd != null) {
+                        try {
+                            csvOut.close();
+                            pfd.close();
+                            csvOut = null;
+                            pfd = null;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            Toast.makeText(getApplicationContext(), "File Creation Error, please try again", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    logging.setChecked(false);
+                }
+
+                for(Fragment f: getSupportFragmentManager().getFragments()){
+                    ((DataViewFragment)f).clear();
+                }
+
+                disconnect.setEnabled(false);
+                disconnect.setVisibility(View.GONE);
+                connect.setEnabled(true);
+                connect.setVisibility(View.VISIBLE);
+            }
+        });
+
+
 
 
         //title.setText(((DataViewFragment)getSupportFragmentManager().getFragments().get(position)).getName());
@@ -181,12 +222,18 @@ public class MainActivity extends AppCompatActivity {
                                 //toolbar.setSubtitle("Connected to " + deviceName);
                                 connectStatus.setText("Connected to " + deviceName);
                                 connect.setEnabled(false);
+                                connect.setVisibility(View.GONE);
+                                disconnect.setEnabled(true);
+                                disconnect.setVisibility(View.VISIBLE);
                                 logging.setEnabled(true);
                                 break;
                             case -1:
                                 //toolbar.setSubtitle("Device fails to connect");
                                 connectStatus.setText("Device fails to connect");
                                 connect.setEnabled(true);
+                                connect.setVisibility(View.VISIBLE);
+                                disconnect.setEnabled(false);
+                                disconnect.setVisibility(View.GONE);
                                 logging.setEnabled(false);
                                 break;
                         }
@@ -464,6 +511,7 @@ public class MainActivity extends AppCompatActivity {
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
     }
+
 
 
 }

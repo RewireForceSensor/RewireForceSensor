@@ -158,4 +158,10 @@ public class GraphViewFragment extends DataViewFragment {
         dataSet.setMode(LineDataSet.Mode.CUBIC_BEZIER); // Makes lines smooth
         return dataSet;
     }
+
+    @Override
+    public void clear(){
+        chart.clear();
+        chart.invalidate();
+    }
 }

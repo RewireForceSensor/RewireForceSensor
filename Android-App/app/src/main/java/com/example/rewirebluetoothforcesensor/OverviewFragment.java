@@ -121,5 +121,17 @@ public class OverviewFragment extends DataViewFragment {
 
     }
 
+    @Override
+    public void clear(){
+        for(int i=0; i<pads.length; i++){
+            pads[i].setText("");
+        }
+
+        padLtotal.setText("");
+        padRtotal.setText("");
+
+        progbar.setProgress(50);
+    }
+
 
 }
