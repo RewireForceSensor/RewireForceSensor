@@ -232,12 +232,6 @@ public class MainActivity extends AppCompatActivity {
                         sensorData.putDoubleArray("sensorData", sensorDataArr);
                         sensorData.putInt("totalCycles", totalCycles);
 
-//                        for(int i=0; i<NUM_PAGES; i++) {
-//                            DataViewFragment frag = (DataViewFragment)getSupportFragmentManager().findFragmentByTag("f1");
-//                            frag.putSensorData(sensorData);
-//                            frag.update();
-//                        }
-
                         for(Fragment f: getSupportFragmentManager().getFragments()){
                             ((DataViewFragment)f).putSensorData(sensorData);
                             ((DataViewFragment)f).update();

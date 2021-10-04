@@ -100,8 +100,8 @@ public class GraphViewFragment extends DataViewFragment {
                 data.addDataSet(dataRSet);
             }
 
-            data.addEntry(new Entry(dataLSet.getEntryCount(), (float)(leftSupplier.getAsDouble())), 0); // Left side
-            data.addEntry(new Entry(dataRSet.getEntryCount(), (float)(rightSupplier.getAsDouble())), 1); // Right side
+            data.addEntry(new Entry(totalCycles, (float)(leftSupplier.getAsDouble())), 0); // Left side
+            data.addEntry(new Entry(totalCycles, (float)(rightSupplier.getAsDouble())), 1); // Right side
             //dataSet.getEntryCount();
             data.notifyDataChanged();
 
