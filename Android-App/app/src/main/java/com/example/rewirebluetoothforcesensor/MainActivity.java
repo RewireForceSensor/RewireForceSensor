@@ -25,8 +25,10 @@ import android.os.Message;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -38,7 +40,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
@@ -52,12 +56,26 @@ public class MainActivity extends AppCompatActivity {
     public static ConnectedThread connectedThread;
     public static CreateConnectThread createConnectThread;
 
+    private Button connect;
+    private Button disconnect;
+    private ToggleButton logging;
+    private ImageButton next;
+    private ImageButton prev;
+
+    private Toolbar toolbar;
+    private TextView connectStatus;
+    private Spinner spinner;
+
     private final static int CONNECTING_STATUS = 1; // used in bluetooth handler to identify message status
     private final static int MESSAGE_READ = 2; // used in bluetooth handler to identify message update
 
     private static final int NUM_PAGES = 4;
     private ViewPager2 viewPager;
     private FragmentStateAdapter pagerAdapter;
+
+    private String[] spinnerItems;
+    private HashMap<Integer, String> spinnerMap;
+    private ArrayAdapter<String> spinnerAdapter;
 
     public int totalCycles = 0; //total num of cycles
     private static FileOutputStream csvOut;
@@ -75,15 +93,17 @@ public class MainActivity extends AppCompatActivity {
         pagerAdapter = new ScreenSlidePagerAdapter(this);
         viewPager.setAdapter(pagerAdapter);
 
-        final Button connect = findViewById(R.id.connect);
-        final Button disconnect = findViewById(R.id.disconnect);
-        final ToggleButton logging = findViewById(R.id.logging);
-        final ImageButton next = findViewById(R.id.next);
-        final ImageButton prev = findViewById(R.id.prev);
+        connect = findViewById(R.id.connect);
+        disconnect = findViewById(R.id.disconnect);
+        logging = findViewById(R.id.logging);
+        next = findViewById(R.id.next);
+        prev = findViewById(R.id.prev);
+        toolbar = findViewById(R.id.toolbar);
+        connectStatus = findViewById(R.id.connectstatus);
+        spinner = findViewById(R.id.spinner);
 
-        final Toolbar toolbar = findViewById(R.id.toolbar);
-        final TextView connectStatus = findViewById(R.id.connectstatus);
-        final TextView title = findViewById(R.id.pagerTitle);
+        spinnerItems = new String[NUM_PAGES];
+        spinnerMap = new HashMap<Integer, String>();
 
         connect.setVisibility(View.VISIBLE);
         connect.setEnabled(true);
@@ -100,7 +120,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-                title.setText(((DataViewFragment)getSupportFragmentManager().findFragmentByTag("f"+viewPager.getCurrentItem())).getName());
+                if(spinnerAdapter != null){
+                    spinnerAdapter = new ArrayAdapter(MainActivity.this, android.R.layout.simple_spinner_item, spinnerItems);
+                    spinner.setAdapter(spinnerAdapter);
+                    spinner.invalidate();
+                }
+                Log.i("arr", Arrays.toString(spinnerItems));
+                //title.setText(((DataViewFragment)getSupportFragmentManager().findFragmentByTag("f"+viewPager.getCurrentItem())).getName());
             }
         });
 
@@ -344,18 +370,27 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment createFragment(int position) {
+            DataViewFragment frag;
             switch(position) {
                 case 0:
-                    return new OverviewFragment();
+                    frag = new OverviewFragment();
+                    break;
                 case 1:
-                    return new ProSupFragment();
+                    frag = new ProSupFragment();
+                    break;
                 case 2:
-                    return new AntPosFragment();
+                    frag = new AntPosFragment();
+                    break;
                 case 3:
-                    return new LeftRightFragment();
+                    frag = new LeftRightFragment();
+                    break;
                 default:
                     throw new IllegalArgumentException();
             }
+
+            spinnerItems[position] = frag.getName();
+            spinnerMap.put(position, frag.getName());
+            return frag;
             //return new OverviewFragment();
 
         }
