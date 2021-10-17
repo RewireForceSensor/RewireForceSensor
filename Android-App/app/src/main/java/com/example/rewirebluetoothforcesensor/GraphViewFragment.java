@@ -108,7 +108,8 @@ public class GraphViewFragment extends DataViewFragment {
             // let the chart know it's data has changed
             chart.notifyDataSetChanged();
 
-            chart.setVisibleXRangeMaximum(120);
+            //chart.setVisibleXRangeMaximum(120);
+            chart.setScaleEnabled(true);
             chart.getAxisLeft().setAxisMaximum(yMax);
             chart.getAxisLeft().setAxisMinimum(yMin);
             chart.getAxisRight().setEnabled(false);
