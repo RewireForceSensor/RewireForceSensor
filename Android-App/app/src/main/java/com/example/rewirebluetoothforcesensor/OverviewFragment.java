@@ -1,6 +1,7 @@
 package com.example.rewirebluetoothforcesensor;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ public class OverviewFragment extends DataViewFragment {
     public int RightNoWeightTimeCount = 0;
     public int RightNoWeightValue = 0;
 
-    double[][] movingAvgArr = new double[4][6];
+    double[][] movingAvgArr = new double[6][4];
 
     double leftTotal;
     double rightTotal;
@@ -73,13 +74,15 @@ public class OverviewFragment extends DataViewFragment {
     }
 
     public void update(){
-        for(int i=0; i<6; i++){
-            pads[i].setText("" + sensorDataArr[i]);
-        }
+//        for(int i=0; i<6; i++){
+//            pads[i].setText(String.format("%.2f", sensorDataArr[i]));
+//        }
 
         //this is the spot where the 3 point moving average goes
 
-        for(int i=0; i<movingAvgArr.length; i++){
+        //Log.i("length",""+movingAvgArr.length);
+
+        for(int i=0; i<6; i++){
             //time to call upon the aid of my trusty friend, calculatron
             movingAvgArr[i][2] = sensorDataArr[i]; //set new value to third spot in array
             movingAvgArr[i] = calculatron(movingAvgArr[i]); // shift stuff back a spot, will get [val, val, 0, avg]

@@ -11,7 +11,8 @@ float vout;
 
 int ports[6] = {A0, A1, A2, A3, A4, A5};
 float values[6];
-float coeffs[6] = {17.2, 17.2, 17.2, 17.2, 17.2*5/3.2, 17.2*5/4};
+float coeffs[6] = {15, 15, 15, 15, 15, 15};
+float threshold = 0.03;
 
 void setup() {
   // put your setup code here, to run once:
@@ -25,7 +26,7 @@ void loop() {
     for(int i=0; i<6; i++){
       ffsdata = analogRead(ports[i]);
       vout = (ffsdata * 5.0) / 1023.0;
-      vout = vout * coeffs[i];
+      vout = (vout > threshold)?(vout * coeffs[i]):0.0;
       values[i] = vout;
       
       Serial.print(i);
