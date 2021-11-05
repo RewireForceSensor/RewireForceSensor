@@ -4,20 +4,29 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.Activity;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -38,6 +47,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -64,8 +74,19 @@ public class MainActivity extends AppCompatActivity {
     private static ParcelFileDescriptor pfd;
     private static Context context;
 
+//    private int[] supProFlags = {0, 0}; // [L, R] 0 nothing, 1 supination, 2 pronation
+//    private int[] antPosFlag = {0, 0}; // [L, R] 0 nothing, 1 anterior, 2 posterior
+//    private boolean zeroWeightFlag = false; // false = nothing, true = not enough weight on pad
+//
+    private boolean supProNotified = false; // false = notif not active, true = notif active
+    private boolean antPosNotified = false; // false = notif not active, true = notif active
+    private boolean zeroWeightNotified = false; // false = notif not active, true = notif active
+
+    private FlagViewModel flagViewModel;
+
     ActivityResultLauncher<Intent> fileActivityResultLauncher;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
         disconnect.setVisibility(View.GONE);
         disconnect.setEnabled(false);
         logging.setEnabled(false);
+
+        createNotificationChannel();
 
         MainActivity.context = getApplicationContext();
 
@@ -161,7 +184,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        flagViewModel = new ViewModelProvider(this).get(FlagViewModel.class);
+        flagViewModel.getSupProFlag().observe(this, flags -> {
+            ArrayList<String> feet = new ArrayList<>();
+            String footText;
+            if(flags[0] > 0){
+                footText = "Left ";
+                if(flags[0] == 1){
+                    footText += "Supination";
+                }
+                else{
+                    footText += "Pronation";
+                }
+                feet.add(footText);
+            }
+            if(flags[1] > 0){
+                footText = "Right ";
+                if(flags[0] == 1){
+                    footText += "Supination";
+                }
+                else{
+                    footText += "Pronation";
+                }
+                feet.add(footText);
 
+            }
+
+            String notifReason = String.join(", ", feet);
+            alarmed("Supination/Pronation", notifReason);
+        });
 
 
         //title.setText(((DataViewFragment)getSupportFragmentManager().getFragments().get(position)).getName());
@@ -348,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     return new OverviewFragment();
                 case 1:
-                    return new ProSupFragment();
+                    return new SupProFragment();
                 case 2:
                     return new AntPosFragment();
                 case 3:
@@ -512,6 +563,50 @@ public class MainActivity extends AppCompatActivity {
         startActivity(a);
     }
 
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Channel Name";
+            String description = "Notification Channel Description";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("RewireForceSensor", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    public void alarmed(String title, String reason)
+    {
+        long[] pattern = {0, 100, 100, 200, 200};
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "RewireForceSensor")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Issue: " + title)
+                .setContentText(reason) // "A man has fallen into the river in LEGO City!"
+                .setVibrate(pattern)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_ERROR)
+                .setOnlyAlertOnce(true);
+
+        NotificationManagerCompat.from(this).notify(1, builder.build());
+
+        //Log.i("test","test");
+    }
+    public void comforted()
+    {
+
+    }
+
+    public class NotificationDismissedReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int notificationId = intent.getExtras().getInt("com.my.app.notificationId");
+
+        }
+    }
 
 
 }

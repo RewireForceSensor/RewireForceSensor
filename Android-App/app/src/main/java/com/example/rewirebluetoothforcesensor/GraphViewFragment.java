@@ -3,12 +3,12 @@ package com.example.rewirebluetoothforcesensor;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
@@ -29,6 +29,9 @@ public class GraphViewFragment extends DataViewFragment {
     DoubleSupplier leftSupplier;
     DoubleSupplier rightSupplier;
 
+    double currentLeftVal;
+    double currentRightVal;
+
     LineChart chart;
     float yMax = 10f;
     float yMin = -10f;
@@ -44,7 +47,7 @@ public class GraphViewFragment extends DataViewFragment {
     }
 
     public GraphViewFragment(int contentLayoutId){
-        super(R.layout.prosup_fragment);
+        super(R.layout.suppro_fragment);
         this.contentLayoutId = contentLayoutId;
     }
 
@@ -81,6 +84,7 @@ public class GraphViewFragment extends DataViewFragment {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void update(){
         LineData data = chart.getData();
 
@@ -100,8 +104,11 @@ public class GraphViewFragment extends DataViewFragment {
                 data.addDataSet(dataRSet);
             }
 
-            data.addEntry(new Entry(totalCycles, (float)(leftSupplier.getAsDouble())), 0); // Left side
-            data.addEntry(new Entry(totalCycles, (float)(rightSupplier.getAsDouble())), 1); // Right side
+            this.currentLeftVal = leftSupplier.getAsDouble();
+            this.currentRightVal = rightSupplier.getAsDouble();
+
+            data.addEntry(new Entry(totalCycles, (float)currentLeftVal), 0); // Left side
+            data.addEntry(new Entry(totalCycles, (float)currentRightVal), 1); // Right side
             //dataSet.getEntryCount();
             data.notifyDataChanged();
 
