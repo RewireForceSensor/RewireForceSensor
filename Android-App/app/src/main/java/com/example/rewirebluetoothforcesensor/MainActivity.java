@@ -16,6 +16,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -49,6 +50,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
@@ -78,9 +81,10 @@ public class MainActivity extends AppCompatActivity {
 //    private int[] antPosFlag = {0, 0}; // [L, R] 0 nothing, 1 anterior, 2 posterior
 //    private boolean zeroWeightFlag = false; // false = nothing, true = not enough weight on pad
 //
-    private boolean supProNotified = false; // false = notif not active, true = notif active
-    private boolean antPosNotified = false; // false = notif not active, true = notif active
+    //private boolean supProNotified = false; // false = notif not active, true = notif active
+    //private boolean antPosNotified = false; // false = notif not active, true = notif active
     private boolean zeroWeightNotified = false; // false = notif not active, true = notif active
+    private Notification activeNotif;
 
     private FlagViewModel flagViewModel;
 
@@ -185,33 +189,17 @@ public class MainActivity extends AppCompatActivity {
         });
 
         flagViewModel = new ViewModelProvider(this).get(FlagViewModel.class);
-        flagViewModel.getSupProFlag().observe(this, flags -> {
-            ArrayList<String> feet = new ArrayList<>();
-            String footText;
-            if(flags[0] > 0){
-                footText = "Left ";
-                if(flags[0] == 1){
-                    footText += "Supination";
-                }
-                else{
-                    footText += "Pronation";
-                }
-                feet.add(footText);
+        flagViewModel.getZeroWeightFlag().observe(this, flags -> {
+            if((flags[0] == 1 || flags[1] == 1) && !zeroWeightNotified) {
+                activeNotif = alarmed("Zero Weight Condition","There is an issue with foot placement");
+                zeroWeightNotified = true;
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        zeroWeightNotified = false;
+                    }
+                }, 30000);
             }
-            if(flags[1] > 0){
-                footText = "Right ";
-                if(flags[0] == 1){
-                    footText += "Supination";
-                }
-                else{
-                    footText += "Pronation";
-                }
-                feet.add(footText);
-
-            }
-
-            String notifReason = String.join(", ", feet);
-            alarmed("Supination/Pronation", notifReason);
         });
 
 
@@ -393,6 +381,7 @@ public class MainActivity extends AppCompatActivity {
             super(fa);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public Fragment createFragment(int position) {
             switch(position) {
@@ -579,19 +568,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void alarmed(String title, String reason)
+    public Notification alarmed(String title, String reason)
     {
         long[] pattern = {0, 100, 100, 200, 200};
+        Intent fullScreenIntent = new Intent(this, ZeroWeightNotif.class);
+        PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(this, 0,
+                fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "RewireForceSensor")
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("Issue: " + title)
                 .setContentText(reason) // "A man has fallen into the river in LEGO City!"
                 .setVibrate(pattern)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_ERROR)
-                .setOnlyAlertOnce(true);
+                .setCategory(NotificationCompat.CATEGORY_ALARM)
+                .setFullScreenIntent(fullScreenPendingIntent, true);
 
-        NotificationManagerCompat.from(this).notify(1, builder.build());
+        Notification notif = builder.build();
+        NotificationManagerCompat.from(this).notify(1, notif);
+        return notif;
 
         //Log.i("test","test");
     }

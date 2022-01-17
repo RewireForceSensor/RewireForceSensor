@@ -33,29 +33,27 @@ public class SupProFragment extends GraphViewFragment {
     @Override
     public void update(){
         super.update();
-        supProFlags[0] = 1;
-        supProFlags[1] = 1;
+        if(currentLeftVal > threshold){
+            supProFlags[0] = 1;
+        }
+        else if(currentLeftVal < -threshold){
+            supProFlags[0] = 2;
+        }
+        else{
+            supProFlags[0] = 0;
+        }
+
+        if(currentRightVal > threshold){
+            supProFlags[1] = 1;
+        }
+        else if(currentRightVal < -threshold){
+            supProFlags[1] = 2;
+        }
+        else{
+            supProFlags[1] = 0;
+        }
         flagViewModel.setSupProFlag(supProFlags);
-//        if(currentLeftVal > threshold){
-//            supProFlags[0] = 1;
-//        }
-//        else if(currentLeftVal < -threshold){
-//            supProFlags[0] = 2;
-//        }
-//        else{
-//            supProFlags[0] = 0;
-//        }
-//
-//        if(currentRightVal > threshold){
-//            supProFlags[1] = 1;
-//        }
-//        else if(currentRightVal < -threshold){
-//            supProFlags[1] = 2;
-//        }
-//        else{
-//            supProFlags[1] = 0;
-//        }
-        supProFlags[0] = 1;// Test
+
     }
 
 }
