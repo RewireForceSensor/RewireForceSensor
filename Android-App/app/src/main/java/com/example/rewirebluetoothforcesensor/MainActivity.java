@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
     private static ParcelFileDescriptor pfd;
     private static Context context;
 
+    public boolean isLoadCell = true;
+
     ActivityResultLauncher<Intent> fileActivityResultLauncher;
 
     @Override
@@ -346,7 +348,10 @@ public class MainActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch(position) {
                 case 0:
-                    return new OverviewFragment();
+                    if(!isLoadCell)
+                        return new OverviewFragment();
+                    else
+                        return new LoadCellFragment();
                 case 1:
                     return new ProSupFragment();
                 case 2:
