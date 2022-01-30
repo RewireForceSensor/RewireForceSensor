@@ -348,10 +348,10 @@ public class MainActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch(position) {
                 case 0:
-                    if(!isLoadCell)
+                    //if(!isLoadCell)
                         return new OverviewFragment();
-                    else
-                        return new LoadCellFragment();
+                    //else
+                        //return new LoadCellFragment();
                 case 1:
                     return new ProSupFragment();
                 case 2:
