@@ -24,7 +24,7 @@
     <ImageView
         android:id="@+id/leftFoot"
         android:layout_width="180dp"
-        android:layout_height="438dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:adjustViewBounds="true"
         android:cropToPadding="false"

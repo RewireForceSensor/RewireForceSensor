@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
@@ -22,15 +23,22 @@ public class LoadCellView extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        paint.setColor(Color.GREEN);
-        Rect rect = new Rect(0, 0, getWidth(), getHeight());
-        canvas.drawRect(rect, paint);
+        RectF r = new RectF(0, 0, getWidth(), getHeight());
+        paint.setColor(Color.TRANSPARENT);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawRoundRect(r, 25, 25, paint);
 
-        paint.setColor(Color.RED);
-        canvas.drawCircle(100, 100, 100, paint);
-        canvas.drawCircle(getWidth()-100, getHeight()-100, 100, paint);
-        canvas.drawCircle(getWidth()-100, 100, 100, paint);
-        canvas.drawCircle(100, getHeight()-100, 100, paint);
+        paint.setColor(Color.BLACK);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(15);
+        canvas.drawRoundRect(r, 75, 75, paint);
+
+//        paint.setColor(Color.RED);
+//        paint.setStyle(Paint.Style.FILL);
+//        canvas.drawCircle(100, 100, 100, paint);
+//        canvas.drawCircle(getWidth()-100, getHeight()-100, 100, paint);
+//        canvas.drawCircle(getWidth()-100, 100, 100, paint);
+//        canvas.drawCircle(100, getHeight()-100, 100, paint);
     }
 
     //TODO: Override this function properly in order to make this view fit the fragment

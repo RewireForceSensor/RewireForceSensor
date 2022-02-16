@@ -1,17 +1,14 @@
 package com.example.rewirebluetoothforcesensor;
 
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.constraintlayout.solver.widgets.Rectangle;
+import androidx.dynamicanimation.animation.DynamicAnimation;
+import androidx.dynamicanimation.animation.SpringAnimation;
 
 // Feet
 public class LoadCellFragment extends DataViewFragment{
@@ -34,7 +31,7 @@ public class LoadCellFragment extends DataViewFragment{
     TextView padRtotal;
     ProgressBar progbar;
 
-    LoadCellView loadCellView;
+    View indicator;
 
     public LoadCellFragment(){
 
@@ -49,8 +46,8 @@ public class LoadCellFragment extends DataViewFragment{
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.load_cell_fragment, container, false);
 
-        loadCellView = (LoadCellView) rootView.findViewById(R.id.loadCellView);
-
+        indicator = rootView.findViewById(R.id.imageView);
+        //SpringAnimation springAnim = new SpringAnimation(img, DynamicAnimation.TRANSLATION_Y, 0);
         /*pads = new TextView[]{rootView.findViewById(R.id.pad0),
                 rootView.findViewById(R.id.pad1),
                 rootView.findViewById(R.id.pad2),

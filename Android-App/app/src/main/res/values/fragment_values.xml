@@ -3,4 +3,10 @@
     <dimen
         name="fragment_height"
         >550dp</dimen>
+    <dimen
+        name="load_cell_height"
+        >433dp</dimen>
+    <dimen
+        name="load_cell_width"
+        >177dp</dimen>
 </resources>
