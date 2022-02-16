@@ -1,0 +1,6 @@
+(sym_lib_table
+  (lib (name A000066)(type Legacy)(uri ${KIPRJMOD}/A000066.lib)(options "")(descr ""))
+  (lib (name HX711)(type Legacy)(uri ${KIPRJMOD}/HX711.lib)(options "")(descr ""))
+  (lib (name V2_load_cell-cache)(type Legacy)(uri ${KIPRJMOD}/V2_load_cell-cache.lib)(options "")(descr ""))
+  (lib (name HC-05)(type Legacy)(uri ${KIPRJMOD}/HC-05.lib)(options "")(descr ""))
+)

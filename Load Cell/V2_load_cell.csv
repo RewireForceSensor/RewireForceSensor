@@ -1,0 +1,12 @@
+Id,Designator,Package,Quantity,Designation,Link
+1,SW1,PinSocket_1x02_P2.54mm_Vertical,1,SW_DIP_x01,https://www.amazon.com/COOLOOdirect-Solder-Rocker-Switch-Toggle/dp/B071Y7SMVQ/ref=sr_1_3?crid=11MJ33PIMQO6N&keywords=switch+electronics&qid=1644043886&sprefix=switch+electronics%2Caps%2C82&sr=8-3
+2,D1,PinSocket_1x02_P2.54mm_Vertical,1,LED,
+3,A1,Arduino_Nano,1,Arduino_Nano_Every,https://www.amazon.com/ELEGOO-Arduino-ATmega328P-Without-Compatible/dp/B0713XK923/ref=sr_1_1_sspa?crid=2G0FJZRICFQDC&keywords=arduino%2Bnano&qid=1644043622&sprefix=arduino%2Bnano%2Caps%2C94&sr=8-1-spons&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUFNS1hKWjZKVUY4WkomZW5jcnlwdGVkSWQ9QTA0NTAyNzUzRko2RUxFNFc1QThQJmVuY3J5cHRlZEFkSWQ9QTA2NjkyODkxN1hJSjdRU1JQNlpVJndpZGdldE5hbWU9c3BfYXRmJmFjdGlvbj1jbGlja1JlZGlyZWN0JmRvTm90TG9nQ2xpY2s9dHJ1ZQ&th=1
+4,"J9,J8,J6,J7",JST_PH_B3B-PH-K_1x03_P2.00mm_Vertical,4,Conn_01x03,https://www.amazon.com/DEPEPE-2-54mm-Headers-Arduino-Prototype/dp/B074HVBTZ4/ref=sr_1_6?crid=1GWFL1IJWH2LD&keywords=header+pins&qid=1644209967&sprefix=header+pins%2Caps%2C169&sr=8-6
+5,"H4,H3,H2,H1",MountingHole_3.2mm_M3,4,MountingHole,
+6,"J16,J10,J12,J14",PinHeader_1x06_P2.54mm_Vertical,4,Conn_01x06,
+7,"R12,R11",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,2,2k,
+8,"R10,R9,R1,R2,R3,R4,R5,R6,R7,R8",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,10,1k,
+9,J1,PinSocket_1x02_P2.54mm_Vertical,1,Conn_01x02,
+10,"J2,J3",PinSocket_1x06_P2.54mm_Horizontal,2,Conn_01x06,
+11,"J11,J13,J15,J17",PinHeader_1x04_P2.54mm_Vertical,4,Conn_01x04,
