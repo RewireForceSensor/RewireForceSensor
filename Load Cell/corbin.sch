@@ -117,31 +117,10 @@ Text HLabel 3100 3700 0    50   Input ~ 0
 E-
 Text HLabel 3100 3800 0    50   Input ~ 0
 E+
-Text HLabel 6650 3500 1    50   Input ~ 0
+Text HLabel 6800 3650 3    50   Input ~ 0
 DT
-Text HLabel 6650 3700 3    50   Input ~ 0
+Text HLabel 6650 3550 1    50   Input ~ 0
 SCK
-$Comp
-L Connector_Generic:Conn_01x04 J11
-U 1 1 61D53FBD
-P 7200 3550
-AR Path="/61D3CBFC/61D53FBD" Ref="J11"  Part="1" 
-AR Path="/61D4E257/61D53FBD" Ref="J13"  Part="1" 
-AR Path="/61D4EE64/61D53FBD" Ref="J15"  Part="1" 
-AR Path="/61D4FC97/61D53FBD" Ref="J17"  Part="1" 
-F 0 "J11" H 7280 3542 50  0000 L CNN
-F 1 "Conn_01x04" H 7280 3451 50  0000 L CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 7200 3550 50  0001 C CNN
-F 3 "~" H 7200 3550 50  0001 C CNN
-	1    7200 3550
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	7000 3500 7000 3550
-Wire Wire Line
-	7000 3650 7000 3700
-Wire Wire Line
-	6550 3700 7000 3700
 Text GLabel 5850 4500 3    50   Input ~ 0
 GND
 Text Label 4950 3800 0    50   ~ 0
@@ -211,16 +190,37 @@ Wire Wire Line
 	4850 3600 5150 3600
 Wire Wire Line
 	5850 2900 6750 2900
+$Comp
+L Connector_Generic:Conn_01x04 J11
+U 1 1 61D53FBD
+P 7200 3550
+AR Path="/61D3CBFC/61D53FBD" Ref="J11"  Part="1" 
+AR Path="/61D4E257/61D53FBD" Ref="J13"  Part="1" 
+AR Path="/61D4EE64/61D53FBD" Ref="J15"  Part="1" 
+AR Path="/61D4FC97/61D53FBD" Ref="J17"  Part="1" 
+F 0 "J11" H 7280 3542 50  0000 L CNN
+F 1 "Conn_01x04" H 7280 3451 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 7200 3550 50  0001 C CNN
+F 3 "~" H 7200 3550 50  0001 C CNN
+	1    7200 3550
+	1    0    0    -1  
+$EndComp
 Wire Wire Line
-	6750 2900 6750 3750
+	6750 2900 6750 3450
 Wire Wire Line
-	6750 3750 7000 3750
+	6750 3450 7000 3450
 Wire Wire Line
-	6550 3500 7000 3500
+	6550 3500 6550 3650
 Wire Wire Line
-	7000 3450 6800 3450
+	6550 3650 7000 3650
 Wire Wire Line
-	6800 3450 6800 4500
+	6550 3700 6650 3700
 Wire Wire Line
-	6800 4500 5850 4500
+	6650 3700 6650 3550
+Wire Wire Line
+	6650 3550 7000 3550
+Wire Wire Line
+	7000 3750 7000 4500
+Wire Wire Line
+	5850 4500 7000 4500
 $EndSCHEMATC
