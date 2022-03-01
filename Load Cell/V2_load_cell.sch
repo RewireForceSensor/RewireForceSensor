@@ -300,11 +300,11 @@ Connection ~ 9000 4100
 Wire Wire Line
 	8650 4100 8550 4100
 Text Label 8550 3900 2    50   ~ 0
-A1
+RX0
 Text Label 8550 4100 2    50   ~ 0
-A3
-Text Label 9000 4100 0    50   ~ 0
 RX1
+Text Label 9000 4100 0    50   ~ 0
+RX1R
 Text Label 8550 4000 2    50   ~ 0
 TX1
 $Comp
@@ -387,7 +387,7 @@ F 3 "~" H 9150 3000 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 Text Label 9150 3900 0    50   ~ 0
-RX0
+RX0R
 Text Label 8550 3800 2    50   ~ 0
 TX0
 Wire Wire Line
@@ -497,13 +497,13 @@ Text Label 5350 3900 2    50   ~ 0
 SCK0
 Text Label 5350 3800 2    50   ~ 0
 DT0
-Text Label 5350 3600 2    50   ~ 0
-A1
-Text Label 5350 3400 2    50   ~ 0
-A3
+Text Label 5350 3500 2    50   ~ 0
+RX0
+Text Label 5350 3700 2    50   ~ 0
+RX1
 Text Label 5350 3300 2    50   ~ 0
 ST
-Text Label 5350 3500 2    50   ~ 0
+Text Label 5350 3400 2    50   ~ 0
 TX0
 NoConn ~ 5350 4000
 Text Label 3000 1150 0    50   ~ 0
@@ -514,6 +514,6 @@ Text Label 3000 2200 0    50   ~ 0
 A+1
 Text Label 3000 2400 0    50   ~ 0
 E+1
-Text Label 5350 3700 2    50   ~ 0
+Text Label 5350 3600 2    50   ~ 0
 TX1
 $EndSCHEMATC
