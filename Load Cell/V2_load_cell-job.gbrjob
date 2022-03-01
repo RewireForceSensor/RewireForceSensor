@@ -7,7 +7,7 @@
       "Application": "Pcbnew",
       "Version":     "(5.1.9)-1"
     },
-    "CreationDate":  "2022-01-30T23:42:20-06:00"
+    "CreationDate":  "2022-02-28T17:24:07-06:00"
   },
   "GeneralSpecs":
   {
@@ -19,8 +19,8 @@
     },
     "Size":
     {
-      "X": 114.400,
-      "Y": 114.400
+      "X": 114.350,
+      "Y": 114.350
     },
     "LayerNumber": 2,
     "BoardThickness":  1.600
@@ -40,47 +40,47 @@
   "FilesAttributes":
   [
     {
-      "Path":  "V2_load_cell-F_Cu.gbr",
+      "Path":  "V2_load_cell-F_Cu.gtl",
       "FileFunction":  "Copper,L1,Top",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "V2_load_cell-B_Cu.gbr",
+      "Path":  "V2_load_cell-B_Cu.gbl",
       "FileFunction":  "Copper,L2,Bot",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "V2_load_cell-F_Paste.gbr",
+      "Path":  "V2_load_cell-F_Paste.gtp",
       "FileFunction":  "SolderPaste,Top",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "V2_load_cell-B_Paste.gbr",
+      "Path":  "V2_load_cell-B_Paste.gbp",
       "FileFunction":  "SolderPaste,Bot",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "V2_load_cell-F_SilkS.gbr",
+      "Path":  "V2_load_cell-F_SilkS.gto",
       "FileFunction":  "Legend,Top",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "V2_load_cell-B_SilkS.gbr",
+      "Path":  "V2_load_cell-B_SilkS.gbo",
       "FileFunction":  "Legend,Bot",
       "FilePolarity":  "Positive"
     },
     {
-      "Path":  "V2_load_cell-F_Mask.gbr",
+      "Path":  "V2_load_cell-F_Mask.gts",
       "FileFunction":  "SolderMask,Top",
       "FilePolarity":  "Negative"
     },
     {
-      "Path":  "V2_load_cell-B_Mask.gbr",
+      "Path":  "V2_load_cell-B_Mask.gbs",
       "FileFunction":  "SolderMask,Bot",
       "FilePolarity":  "Negative"
     },
     {
-      "Path":  "V2_load_cell-Edge_Cuts.gbr",
+      "Path":  "V2_load_cell-Edge_Cuts.gm1",
       "FileFunction":  "Profile",
       "FilePolarity":  "Positive"
     }
