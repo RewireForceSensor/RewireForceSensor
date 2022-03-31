@@ -33,13 +33,13 @@
 
 #include "HX711.h"
 
-#define LOADCELL_DOUT_PIN  7
-#define LOADCELL_SCK_PIN  8
+#define LOADCELL_DOUT_PIN  A1
+#define LOADCELL_SCK_PIN  A0
 
 HX711 scale;
 
 //float calibration_factor = -7050; //-7050 worked for my 440lb max scale setup
-float calibration_factor = 0;
+float calibration_factor = -110000;
 
 void setup() {
   Serial.begin(9600);
@@ -50,6 +50,8 @@ void setup() {
   Serial.println("Press - or z to decrease calibration factor");
   
   scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+  //digitalWrite(LOADCELL_DOUT_PIN, LOW);
+  //digitalWrite(LOADCELL_SCK_PIN, LOW);
   scale.set_scale();
   scale.tare(); //Reset the scale to 0
   
@@ -60,7 +62,7 @@ void setup() {
 
 void loop() {
 
-  scale.set_scale(calibration_factor); //Adjust to this calibration factor
+  //scale.set_scale(calibration_factor); //Adjust to this calibration factor
   Serial.print("Reading: ");
   Serial.print(scale.get_units(), 1);
   Serial.print(" lbs"); //Change this to kg and re-adjust the calibration factor if you follow SI units like a sane person
@@ -76,4 +78,5 @@ void loop() {
     else if(temp == '-' || temp == 'z')
       calibration_factor -= 10;
   }
+  //Serial.println(digitalRead(A1));
 }
