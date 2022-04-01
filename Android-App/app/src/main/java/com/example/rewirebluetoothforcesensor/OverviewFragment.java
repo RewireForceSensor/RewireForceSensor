@@ -66,10 +66,8 @@ public class OverviewFragment extends DataViewFragment {
 
 
     public void putSensorData(Bundle args){
-        for(int i=0; i<6; i++) {
-            sensorDataArr = args.getDoubleArray("sensorData");
-            totalCycles = args.getInt("totalCycles");
-        }
+        sensorDataArr = args.getDoubleArray("sensorData");
+        totalCycles = args.getInt("totalCycles");
     }
 
     public void update(){

@@ -35,6 +35,8 @@ public class GraphViewFragment extends DataViewFragment {
 
     int contentLayoutId;
 
+    int thresh = 50;
+
     public GraphViewFragment(int contentLayoutId, float yMin, float yMax){
         super(contentLayoutId);
         this.contentLayoutId = contentLayoutId;
@@ -100,8 +102,15 @@ public class GraphViewFragment extends DataViewFragment {
                 data.addDataSet(dataRSet);
             }
 
+            if(totalCycles%thresh == 0 && dataLSet.getEntryCount()>thresh){
+                for(int i=0; i<dataLSet.getEntryCount()/2; i+=3) {
+                    dataLSet.removeEntry(i);
+                    dataRSet.removeEntry(i);
+                }
+            }
             data.addEntry(new Entry(totalCycles, (float)(leftSupplier.getAsDouble())), 0); // Left side
             data.addEntry(new Entry(totalCycles, (float)(rightSupplier.getAsDouble())), 1); // Right side
+
             //dataSet.getEntryCount();
             data.notifyDataChanged();
 
@@ -117,7 +126,6 @@ public class GraphViewFragment extends DataViewFragment {
             //chart.setVisibleYRangeMaximum(50f, YAxis.AxisDependency.LEFT);
 
             chart.moveViewToX(data.getEntryCount());
-
         }
     }
 

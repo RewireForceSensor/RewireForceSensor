@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.DoubleSupplier;
+import static com.example.rewirebluetoothforcesensor.Constants.*;
 
 public class ProSupFragment extends GraphViewFragment {
 
@@ -32,11 +33,15 @@ public class ProSupFragment extends GraphViewFragment {
         setSuppliers(new DoubleSupplier() {
             @Override
             public double getAsDouble() {
+                if(isLoadCell)
+                    return (sensorDataArr[0]+sensorDataArr[2])/2 - (sensorDataArr[1]+sensorDataArr[3])/2;
                 return sensorDataArr[1] - sensorDataArr[2];
             }
         }, new DoubleSupplier() {
             @Override
             public double getAsDouble() {
+                if(isLoadCell)
+                    return (sensorDataArr[5]+sensorDataArr[7])/2 - (sensorDataArr[4]+sensorDataArr[6])/2;
                 return sensorDataArr[4] - sensorDataArr[5];
             }
         });

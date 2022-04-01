@@ -42,6 +42,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import static android.content.ContentValues.TAG;
+import static com.example.rewirebluetoothforcesensor.Constants.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
     private static FileOutputStream csvOut;
     private static ParcelFileDescriptor pfd;
     private static Context context;
-
-    public boolean isLoadCell = true;
 
     ActivityResultLauncher<Intent> fileActivityResultLauncher;
 
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                                         openFileDescriptor(uri, "w");
                                 csvOut =
                                         new FileOutputStream(pfd.getFileDescriptor());
-                                csvOut.write("Timestamp, Lh, Lout, Lin, Rh, Rout, Rin, Cycle".getBytes());
+                                csvOut.write("Timestamp, 1, 2, 3, 4, 5, 6, 7, 8, Cycle".getBytes());
                                 csvOut.write(System.getProperty( "line.separator" ).getBytes());
                                 csvOut.flush();
                                 totalCycles = 0;
@@ -244,16 +243,24 @@ public class MainActivity extends AppCompatActivity {
                     case MESSAGE_READ:
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
                         String[] splitArr = arduinoMsg.split(","); // Split up message into strings
-                        double[] sensorDataArr = new double[6];
+                        //Log.e("LEN", Integer.toString(splitArr.length));
+                        double[] sensorDataArr;
+                        if(splitArr.length < (isLoadCell?9:7)){
+                            break;
+                        }
+                        if(isLoadCell)
+                            sensorDataArr = new double[8];
+                        else
+                            sensorDataArr = new double[6];
                         for(int i=0; i<sensorDataArr.length; i++){
-
-                            sensorDataArr[i] = Double.parseDouble(splitArr[i]);
+                            //Log.e("VALUE", splitArr[i]);
+                            sensorDataArr[i] = Double.valueOf(splitArr[i]);
                         }
 
                         //update total cycle count
                         totalCycles++;
 
-                        // Logging to CSV
+                        //Logging to CSV
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd.HH-mm-ss");
 
                         Date date = new Date();
@@ -348,10 +355,10 @@ public class MainActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch(position) {
                 case 0:
-                    //if(!isLoadCell)
+                    if(!isLoadCell)
                         return new OverviewFragment();
-                    //else
-                        //return new LoadCellFragment();
+                    else
+                        return new LoadCellFragment();
                 case 1:
                     return new ProSupFragment();
                 case 2:
