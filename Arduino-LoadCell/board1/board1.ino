@@ -1,3 +1,4 @@
+#include <Chrono.h>
 #include <SoftwareSerial.h>
 #include "HX711.h"
 
@@ -14,13 +15,15 @@
 #define LC4_DOUT_PIN  A5
 #define LC4_SCK_PIN  A4
 
+Chrono timer;
+
 HX711 scales[4];
 int factors[4];
 
 SoftwareSerial BT1Serial(BT1TX, BT1RX);
 SoftwareSerial BT2Serial(BT2TX, BT2RX);
 
-//char c = '\n';
+char c = '\n';
 String s = "";
 
 void setup() {
@@ -51,18 +54,22 @@ void loop() {
   //if (BT2Serial.available())
   //{
       //c = BT2Serial.read();
-      //s += c;
+      s += c;
 //      Serial.print(c);
-      //if(c == '\n'){
-        for(int i=0; i<8; i++){
-          //s += scales[i].get_units();
-          s += random(0, 1000)/100.0f;
-          s += ", ";
+      if(c == '\n'){
+        s.remove(s.length()-1);
+      //if(timer.hasPassed(200)){
+        for(int i=0; i<4; i++){
+          s += scales[i].get_units();
+          //s += random(0, 1000)/100.0f;
+          s += ",";
         }
         BT1Serial.println(s);
         Serial.println(s);
-        s="";  
+        s="";
+        timer.restart();
       //}
+      }
   //}
 
   
