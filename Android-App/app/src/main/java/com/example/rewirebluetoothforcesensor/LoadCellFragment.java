@@ -1,17 +1,17 @@
 package com.example.rewirebluetoothforcesensor;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
+import androidx.dynamicanimation.animation.DynamicAnimation;
+import androidx.dynamicanimation.animation.SpringAnimation;
 
 // Feet
-public class OverviewFragment extends DataViewFragment {
+public class LoadCellFragment extends DataViewFragment{
     TextView[] pads;
     double[] sensorDataArr;
     int totalCycles;
@@ -21,7 +21,7 @@ public class OverviewFragment extends DataViewFragment {
     public int RightNoWeightTimeCount = 0;
     public int RightNoWeightValue = 0;
 
-    double[][] movingAvgArr = new double[6][4];
+    double[][] movingAvgArr = new double[4][8];
 
     double leftTotal;
     double rightTotal;
@@ -31,30 +31,38 @@ public class OverviewFragment extends DataViewFragment {
     TextView padRtotal;
     ProgressBar progbar;
 
-    public OverviewFragment(){
+    View indicator;
 
-        super(R.layout.overview_fragment);
+    public LoadCellFragment(){
+
+        super(R.layout.load_cell_fragment);
         this.setName("OVERVIEW");
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.overview_fragment, container, false);
+                R.layout.load_cell_fragment, container, false);
 
-        pads = new TextView[]{rootView.findViewById(R.id.pad0),
-                rootView.findViewById(R.id.pad1),
-                rootView.findViewById(R.id.pad2),
-                rootView.findViewById(R.id.pad3),
-                rootView.findViewById(R.id.pad4),
-                rootView.findViewById(R.id.pad5)};
+//        indicator = rootView.findViewById(R.id.imageView);
+        //SpringAnimation springAnim = new SpringAnimation(img, DynamicAnimation.TRANSLATION_Y, 0);
+        pads = new TextView[]{
+                rootView.findViewById(R.id.loadPad0),
+                rootView.findViewById(R.id.loadPad1),
+                rootView.findViewById(R.id.loadPad2),
+                rootView.findViewById(R.id.loadPad3),
+                rootView.findViewById(R.id.loadPad4),
+                rootView.findViewById(R.id.loadPad5),
+                rootView.findViewById(R.id.loadPad6),
+                rootView.findViewById(R.id.loadPad7)};
 
-        padLtotal = rootView.findViewById(R.id.padLtot);
-        padRtotal = rootView.findViewById(R.id.padRtot);
-        progbar = rootView.findViewById(R.id.progressBar);
+        padLtotal = rootView.findViewById(R.id.leftLoadTotal);
+        padRtotal = rootView.findViewById(R.id.rightLoadTotal);
+        //progbar = rootView.findViewById(R.id.progressBar);
 
-        sensorDataArr = new double[6];
+        sensorDataArr = new double[8];
         totalCycles = 0;
 
         leftTotal = 0;
@@ -72,15 +80,13 @@ public class OverviewFragment extends DataViewFragment {
     }
 
     public void update(){
-//        for(int i=0; i<6; i++){
-//            pads[i].setText(String.format("%.2f", sensorDataArr[i]));
-//        }
+        for(int i=0; i<8; i++){
+            pads[i].setText("" + sensorDataArr[i]);
+        }
 
         //this is the spot where the 3 point moving average goes
 
-        //Log.i("length",""+movingAvgArr.length);
-
-        for(int i=0; i<6; i++){
+        for(int i=0; i<movingAvgArr.length; i++){
             //time to call upon the aid of my trusty friend, calculatron
             movingAvgArr[i][2] = sensorDataArr[i]; //set new value to third spot in array
             movingAvgArr[i] = calculatron(movingAvgArr[i]); // shift stuff back a spot, will get [val, val, 0, avg]
@@ -91,17 +97,16 @@ public class OverviewFragment extends DataViewFragment {
         leftTotal = sensorDataArr[0] + sensorDataArr[1] + sensorDataArr[2];
         rightTotal = sensorDataArr[3] + sensorDataArr[4] + sensorDataArr[5];
 
-        if(leftTotal == 0 && rightTotal == 0){
-            progbar.setProgress(50);
-        }
-        else{
-            progbarVal = (int) Math.round(100 * (leftTotal / (leftTotal + rightTotal)));
-            progbar.setProgress(progbarVal);
-        }
+//        if(leftTotal == 0 && rightTotal == 0){
+//            progbar.setProgress(50);
+//        }
+//        else{
+//            progbarVal = (int) Math.round(100 * (leftTotal / (leftTotal + rightTotal)));
+//            progbar.setProgress(progbarVal);
+//        }
 
         padLtotal.setText((String.format("%.2f", leftTotal)));
         padRtotal.setText((String.format("%.2f", rightTotal)));
-
     }
 
     public double[] calculatron(double[] values)
@@ -131,7 +136,7 @@ public class OverviewFragment extends DataViewFragment {
         padLtotal.setText("");
         padRtotal.setText("");
 
-        progbar.setProgress(50);
+        //progbar.setProgress(50);
     }
 
 
