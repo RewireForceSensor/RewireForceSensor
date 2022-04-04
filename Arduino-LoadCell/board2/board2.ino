@@ -26,29 +26,29 @@ SoftwareSerial BT1Serial(BT1TX, BT1RX);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
-  //BT1Serial.begin(9600);
-  scales[0].begin(LC1_DOUT_PIN, LC1_SCK_PIN);
-  scales[1].begin(LC2_DOUT_PIN, LC2_SCK_PIN);
-  scales[2].begin(LC3_DOUT_PIN, LC3_SCK_PIN);
-  scales[3].begin(LC4_DOUT_PIN, LC4_SCK_PIN);
-
-  factors[0] = -1000;
-  factors[1] = -1000;
-  factors[2] = -1000;
-  factors[3] = -1000;
-
-  for(int i=0; i<4; i++){
-    scales[i].set_scale(factors[i]);
-    //scales[i].set_scale();
-    scales[i].tare();
-  }
+  BT1Serial.begin(9600);
+//  scales[0].begin(LC1_DOUT_PIN, LC1_SCK_PIN);
+//  scales[1].begin(LC2_DOUT_PIN, LC2_SCK_PIN);
+//  scales[2].begin(LC3_DOUT_PIN, LC3_SCK_PIN);
+//  scales[3].begin(LC4_DOUT_PIN, LC4_SCK_PIN);
+//
+//  factors[0] = -1000;
+//  factors[1] = -1000;
+//  factors[2] = -1000;
+//  factors[3] = -1000;
+//
+//  for(int i=0; i<4; i++){
+//    //scales[i].set_scale(factors[i]);
+//    scales[i].set_scale();
+//    scales[i].tare();
+//  }
 
   randomSeed(analogRead(7));
 }
 
 void loop() {
   
-  if(timer.hasPassed(100)){
+  if(timer.hasPassed(200)){
     Serial.println("--------------------");
     for(int i=0; i<4; i++){
       //s += scales[i].get_units();
@@ -60,5 +60,4 @@ void loop() {
     s = "";
     timer.restart();
   }
-  
 }

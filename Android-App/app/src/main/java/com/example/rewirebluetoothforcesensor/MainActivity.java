@@ -135,8 +135,8 @@ public class MainActivity extends AppCompatActivity {
                     createConnectThread.cancel();
                 }
 
-                if(logging.isChecked()){
-                    if(csvOut != null && pfd != null) {
+                if(logging.isChecked()) {
+                    if (csvOut != null && pfd != null) {
                         try {
                             csvOut.close();
                             pfd.close();
@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
 
                 disconnect.setEnabled(false);
                 disconnect.setVisibility(View.GONE);
+                logging.setEnabled(false);
                 connect.setEnabled(true);
                 connect.setVisibility(View.VISIBLE);
             }

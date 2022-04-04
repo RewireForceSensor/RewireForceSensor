@@ -23,7 +23,7 @@ int factors[4];
 SoftwareSerial BT1Serial(BT1TX, BT1RX);
 SoftwareSerial BT2Serial(BT2TX, BT2RX);
 
-//char c = '\n';
+char c = '\n';
 String s = "";
 
 void setup() {
@@ -54,21 +54,22 @@ void loop() {
   //if (BT2Serial.available())
   //{
       //c = BT2Serial.read();
-      //s += c;
+      s += c;
 //      Serial.print(c);
-      //if(c == '\n'){
-      if(timer.hasPassed(200)){
-        for(int i=0; i<8; i++){
-          //s += scales[i].get_units();
-          s += random(0, 1000)/100.0f;
+      if(c == '\n'){
+        s.remove(s.length()-1);
+      //if(timer.hasPassed(200)){
+        for(int i=0; i<4; i++){
+          s += scales[i].get_units();
+          //s += random(0, 1000)/100.0f;
           s += ",";
         }
         BT1Serial.println(s);
         Serial.println(s);
         s="";
         timer.restart();
-      }
       //}
+      }
   //}
 
   
