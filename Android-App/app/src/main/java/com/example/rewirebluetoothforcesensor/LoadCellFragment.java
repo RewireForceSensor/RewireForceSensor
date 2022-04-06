@@ -29,6 +29,8 @@ public class LoadCellFragment extends DataViewFragment{
 
     TextView padLtotal;
     TextView padRtotal;
+    TextView padxy;
+  
     ProgressBar progbar;
 
     View indicator;
@@ -60,6 +62,8 @@ public class LoadCellFragment extends DataViewFragment{
 
         padLtotal = rootView.findViewById(R.id.leftLoadTotal);
         padRtotal = rootView.findViewById(R.id.rightLoadTotal);
+
+        padxy = rootView.findViewById(R.id.xy);
         //progbar = rootView.findViewById(R.id.progressBar);
 
         sensorDataArr = new double[8];
@@ -84,6 +88,8 @@ public class LoadCellFragment extends DataViewFragment{
             pads[i].setText("" + sensorDataArr[i]);
         }
 
+        padxy.setText(sensorDataArr[8] + ", " + sensorDataArr[9]);
+
         //this is the spot where the 3 point moving average goes
 
         for(int i=0; i<movingAvgArr.length; i++){
@@ -94,8 +100,8 @@ public class LoadCellFragment extends DataViewFragment{
             pads[i].setText(String.format("%.2f", movingAvgArr[i][3])); // print avg to textView, round it
         }
 
-        leftTotal = sensorDataArr[0] + sensorDataArr[1] + sensorDataArr[2];
-        rightTotal = sensorDataArr[3] + sensorDataArr[4] + sensorDataArr[5];
+        leftTotal = sensorDataArr[0] + sensorDataArr[1] + sensorDataArr[2] + sensorDataArr[3];
+        rightTotal = sensorDataArr[4] + sensorDataArr[5] + sensorDataArr[6] + sensorDataArr[7];
 
 //        if(leftTotal == 0 && rightTotal == 0){
 //            progbar.setProgress(50);
