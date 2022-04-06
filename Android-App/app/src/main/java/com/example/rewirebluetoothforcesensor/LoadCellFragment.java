@@ -30,6 +30,7 @@ public class LoadCellFragment extends DataViewFragment{
     TextView padLtotal;
     TextView padRtotal;
     TextView padxy;
+  
     ProgressBar progbar;
 
     View indicator;
@@ -86,6 +87,7 @@ public class LoadCellFragment extends DataViewFragment{
         for(int i=0; i<8; i++){
             pads[i].setText("" + sensorDataArr[i]);
         }
+
         padxy.setText(sensorDataArr[8] + ", " + sensorDataArr[9]);
 
         //this is the spot where the 3 point moving average goes

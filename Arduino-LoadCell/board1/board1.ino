@@ -19,6 +19,7 @@ Chrono timer;
 
 HX711 scales[4];
 int factors[4];
+
 long offsets[4];
 float xdist[4] = {-1.3, 1.3, -1.3, 1.3};
 float ydist[4] = {2.85, 2.85, -2.85, -2.85};
