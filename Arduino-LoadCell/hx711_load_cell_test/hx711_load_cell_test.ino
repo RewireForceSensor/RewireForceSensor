@@ -33,13 +33,14 @@
 
 #include "HX711.h"
 
-#define LOADCELL_DOUT_PIN  A1
-#define LOADCELL_SCK_PIN  A0
+#define LOADCELL_DOUT_PIN  7
+#define LOADCELL_SCK_PIN  8
 
 HX711 scale;
 
 //float calibration_factor = -7050; //-7050 worked for my 440lb max scale setup
-float calibration_factor = -110000;
+float calibration_factor = 0;
+long offset = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -55,28 +56,43 @@ void setup() {
   scale.set_scale();
   scale.tare(); //Reset the scale to 0
   
-  long zero_factor = scale.read_average(); //Get a baseline reading
+  
+  long zero_factor = scale.read_average(200); //Get a baseline reading
   Serial.print("Zero factor: "); //This can be used to remove the need to tare the scale. Useful in permanent scale projects.
   Serial.println(zero_factor);
+  offset = zero_factor;
 }
 
 void loop() {
-
-  //scale.set_scale(calibration_factor); //Adjust to this calibration factor
+  scale.set_offset(offset);
+  if(calibration_factor != 0)
+    scale.set_scale(calibration_factor); //Adjust to this calibration factor
+  else
+    scale.set_scale(1); //Adjust to this calibration factor
   Serial.print("Reading: ");
-  Serial.print(scale.get_units(), 1);
+  Serial.print(scale.get_units(), 5);
   Serial.print(" lbs"); //Change this to kg and re-adjust the calibration factor if you follow SI units like a sane person
   Serial.print(" calibration_factor: ");
   Serial.print(calibration_factor);
+  Serial.print(" offset: ");
+  Serial.print(offset);
   Serial.println();
 
   if(Serial.available())
   {
     char temp = Serial.read();
-    if(temp == '+' || temp == 'a')
+    if(temp == '+')
       calibration_factor += 10;
-    else if(temp == '-' || temp == 'z')
+    else if(temp == '-')
       calibration_factor -= 10;
+    else if(temp == 'a')
+      calibration_factor += 100;
+    else if(temp == 'z')
+      calibration_factor -= 100;
+    else if(temp == 'o')
+      offset += 100;
+    else if(temp == 'l')
+      offset -= 100;
   }
   //Serial.println(digitalRead(A1));
 }

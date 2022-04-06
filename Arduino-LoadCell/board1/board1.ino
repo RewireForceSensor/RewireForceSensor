@@ -19,12 +19,22 @@ Chrono timer;
 
 HX711 scales[4];
 int factors[4];
+long offsets[4];
+float xdist[4] = {-1.3, 1.3, -1.3, 1.3};
+float ydist[4] = {2.85, 2.85, -2.85, -2.85};
+float dist = 3.11;
+
+float copx = 0;
+float copy = 0;
+float valsum = 0;
 
 SoftwareSerial BT1Serial(BT1TX, BT1RX);
 SoftwareSerial BT2Serial(BT2TX, BT2RX);
 
 char c = '\n';
 String s = "";
+
+int times = 50;
 
 void setup() {
   // put your setup code here, to run once:
@@ -37,40 +47,73 @@ void setup() {
   scales[2].begin(LC3_DOUT_PIN, LC3_SCK_PIN);
   scales[3].begin(LC4_DOUT_PIN, LC4_SCK_PIN);
 
-  factors[0] = -1000;
-  factors[1] = -1000;
-  factors[2] = -1000;
-  factors[3] = -1000;
-
+  factors[0] = -24750;
+  factors[1] = -20710;
+  factors[2] = -11490;
+  factors[3] = -24130;
+  
+  offsets[0] = -3326999;
+  offsets[1] = -532573;
+  offsets[2] = -1569829;
+  offsets[3] = -1235554;
+  
   for(int i=0; i<4; i++){
+    long zero_factor = scales[i].read_average(times); //Get a baseline reading
+    Serial.print("Zero factor: "); //This can be used to remove the need to tare the scale. Useful in permanent scale projects.
+    Serial.println(zero_factor);
+    offsets[i] = zero_factor;
+    
     scales[i].set_scale(factors[i]);
-    //scales[i].set_scale();
+    scales[i].set_offset(offsets[i]);
     scales[i].tare();
   }
 }
 
 void loop() {
   // Keep reading from HC-06 and send to Arduino Serial Monitor
-  //if (BT2Serial.available())
-  //{
-      //c = BT2Serial.read();
+  /*BT2Serial.listen();
+  if (BT2Serial.available())
+  {
+      c = BT2Serial.read();
       s += c;
-//      Serial.print(c);
+      
       if(c == '\n'){
-        s.remove(s.length()-1);
-      //if(timer.hasPassed(200)){
+        s.remove(s.length()-1); // remove newline
+        s.remove(s.length()-1); // remove cr
+      */
+      //if(timer.hasPassed(100)){
         for(int i=0; i<4; i++){
-          s += scales[i].get_units();
+          s += "0.00,";  
+        }
+        for(int i=0; i<4; i++){
+          float val = scales[i].get_units(5);
+          s += val;
           //s += random(0, 1000)/100.0f;
           s += ",";
+          valsum += val;
+          copx += val*xdist[i];
+          copy += val*ydist[i];
         }
+
+        copx /= valsum;
+        copy /= valsum;
+
+        s += copx;
+        s += ",";
+        s += copy;
+        s += ",";
+
+        copx = 0;
+        copy = 0;
+        valsum = 0;
+        
         BT1Serial.println(s);
         Serial.println(s);
         s="";
+        c=' ';
         timer.restart();
       //}
-      }
-  //}
-
-  
+      //}
+    
+  //}  
 }

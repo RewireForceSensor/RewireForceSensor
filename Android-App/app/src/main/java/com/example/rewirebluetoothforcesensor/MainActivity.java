@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         final Button connect = findViewById(R.id.connect);
         final Button disconnect = findViewById(R.id.disconnect);
         final ToggleButton logging = findViewById(R.id.logging);
+        //final Button reset = findViewById(R.id.reset);
         final ImageButton next = findViewById(R.id.next);
         final ImageButton prev = findViewById(R.id.prev);
 
@@ -126,6 +127,15 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        /*reset.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                if(mmSocket.isConnected()){
+                    connectedThread.write("r");
+                }
+            }
+        });*/
 
         disconnect.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -182,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                                         openFileDescriptor(uri, "w");
                                 csvOut =
                                         new FileOutputStream(pfd.getFileDescriptor());
-                                csvOut.write("Timestamp, 1, 2, 3, 4, 5, 6, 7, 8, Cycle".getBytes());
+                                csvOut.write("Timestamp, 1, 2, 3, 4, 5, 6, 7, 8, x, y Cycle".getBytes());
                                 csvOut.write(System.getProperty( "line.separator" ).getBytes());
                                 csvOut.flush();
                                 totalCycles = 0;
@@ -250,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         }
                         if(isLoadCell)
-                            sensorDataArr = new double[8];
+                            sensorDataArr = new double[10];
                         else
                             sensorDataArr = new double[6];
                         for(int i=0; i<sensorDataArr.length; i++){
