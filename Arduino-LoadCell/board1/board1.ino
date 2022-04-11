@@ -48,24 +48,24 @@ void setup() {
   scales[2].begin(LC3_DOUT_PIN, LC3_SCK_PIN);
   scales[3].begin(LC4_DOUT_PIN, LC4_SCK_PIN);
 
-  factors[0] = -24750;
-  factors[1] = -20710;
-  factors[2] = -11490;
-  factors[3] = -24130;
+  factors[0] = 1;
+  factors[1] = 1;
+  factors[2] = 1;
+  factors[3] = 1;
   
-  offsets[0] = -3326999;
-  offsets[1] = -532573;
-  offsets[2] = -1569829;
-  offsets[3] = -1235554;
+  offsets[0] = 0;
+  offsets[1] = 0;
+  offsets[2] = 0;
+  offsets[3] = 0;
   
   for(int i=0; i<4; i++){
-    long zero_factor = scales[i].read_average(times); //Get a baseline reading
-    Serial.print("Zero factor: "); //This can be used to remove the need to tare the scale. Useful in permanent scale projects.
-    Serial.println(zero_factor);
-    offsets[i] = zero_factor;
+    //long zero_factor = scales[i].read_average(times); //Get a baseline reading
+    //Serial.print("Zero factor: "); //This can be used to remove the need to tare the scale. Useful in permanent scale projects.
+    //Serial.println(zero_factor);
+    //offsets[i] = zero_factor;
     
-    scales[i].set_scale(factors[i]);
-    scales[i].set_offset(offsets[i]);
+    scales[i].set_scale(1);
+    scales[i].set_offset(0);
     scales[i].tare();
   }
 }
@@ -82,12 +82,12 @@ void loop() {
         s.remove(s.length()-1); // remove newline
         s.remove(s.length()-1); // remove cr
       */
-      //if(timer.hasPassed(100)){
+      if(timer.hasPassed(200)){
         for(int i=0; i<4; i++){
           s += "0.00,";  
         }
         for(int i=0; i<4; i++){
-          float val = scales[i].get_units(5);
+          float val = scales[i].get_units();
           s += val;
           //s += random(0, 1000)/100.0f;
           s += ",";
@@ -113,7 +113,7 @@ void loop() {
         s="";
         c=' ';
         timer.restart();
-      //}
+      }
       //}
     
   //}  

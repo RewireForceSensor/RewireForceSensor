@@ -26,6 +26,7 @@ import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
@@ -60,12 +62,17 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private FragmentStateAdapter pagerAdapter;
 
-    public int totalCycles = 0; //total num of cycles
+    public int totalCycles = 1; //total num of cycles
     private static FileOutputStream csvOut;
     private static ParcelFileDescriptor pfd;
     private static Context context;
 
-    String validDouble = "[\\x00-\\x20]*[+-]?(((((\\p{Digit}+)(\\.)?((\\p{Digit}+)?)([eE][+-]?(\\p{Digit}+))?)|(\\.((\\p{Digit}+))([eE][+-]?(\\p{Digit}+))?)|(((0[xX](\\p{XDigit}+)(\\.)?)|(0[xX](\\p{XDigit}+)?(\\.)(\\p{XDigit}+)))[pP][+-]?(\\p{Digit}+)))[fFdD]?))[\\x00-\\x20]*";
+    private String validDouble = "[\\x00-\\x20]*[+-]?(((((\\p{Digit}+)(\\.)?((\\p{Digit}+)?)([eE][+-]?(\\p{Digit}+))?)|(\\.((\\p{Digit}+))([eE][+-]?(\\p{Digit}+))?)|(((0[xX](\\p{XDigit}+)(\\.)?)|(0[xX](\\p{XDigit}+)?(\\.)(\\p{XDigit}+)))[pP][+-]?(\\p{Digit}+)))[fFdD]?))[\\x00-\\x20]*";
+
+    private static CalibrationStage calibrationStage = CalibrationStage.UNCALIBRATED;
+    private static double[] offsets = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    private static double[] factors = {-10000.0, -10000.0, -10000.0, -10000.0, -10000.0, -10000.0, -10000.0, -10000.0};
+    private static double calibrationLbs = 0;
 
     ActivityResultLauncher<Intent> fileActivityResultLauncher;
 
@@ -86,6 +93,11 @@ public class MainActivity extends AppCompatActivity {
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final TextView connectStatus = findViewById(R.id.connectstatus);
+
+        final TextView calibrationInfo = findViewById(R.id.calibrationInfo);
+        final Button calibration = findViewById(R.id.calibration);
+        final EditText calibrationLbsField = findViewById(R.id.calibrationLbs);
+
         final TextView title = findViewById(R.id.pagerTitle);
 
         connect.setVisibility(View.VISIBLE);
@@ -93,6 +105,12 @@ public class MainActivity extends AppCompatActivity {
         disconnect.setVisibility(View.GONE);
         disconnect.setEnabled(false);
         logging.setEnabled(false);
+        calibration.setEnabled(false);
+
+        calibrationInfo.setVisibility(View.VISIBLE);
+
+        calibrationLbsField.setVisibility(View.GONE);
+        calibrationLbsField.setEnabled(false);
 
         MainActivity.context = getApplicationContext();
 
@@ -125,6 +143,46 @@ public class MainActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(viewPager.getCurrentItem()-1);
                 else{
                     viewPager.setCurrentItem(NUM_PAGES-1, true);
+                }
+            }
+        });
+
+        calibration.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                calibrationInfo.setVisibility(View.VISIBLE);
+
+                if(calibrationStage != CalibrationStage.FINISHED){
+                    calibrationStage = CalibrationStage.values()[calibrationStage.ordinal() + 1];
+
+                }
+                else{
+                    calibrationStage = CalibrationStage.OFFSET;
+                    calibration.setText("Next Step");
+                }
+
+                switch(calibrationStage){
+                    case UNCALIBRATED:
+                        calibrationInfo.setText("Before connection, ensure the scale has no weight on it.");
+                        break;
+                    case OFFSET:
+                        calibrationInfo.setText("Place no weight on the scale and wait until values are all approximately zero.");
+                        break;
+                    case WEIGHT:
+                        calibrationInfo.setText("Place a known weight in the middle of both scales and type it in the field below. When finished, hit next step.");
+                        calibrationLbsField.setVisibility(View.VISIBLE);
+                        calibrationLbsField.setEnabled(true);
+                        break;
+                    case FACTOR:
+                        calibrationLbs = Double.parseDouble(calibrationLbsField.getText().toString());
+                        calibrationLbsField.setVisibility(View.GONE);
+                        calibrationLbsField.setEnabled(false);
+                        calibrationInfo.setText("Wait until the weight in the center of both scales resembles the known weight you placed.");
+                        break;
+                    case FINISHED:
+                        calibration.setText("Recalibrate");
+                        calibrationInfo.setText("");
+                        calibrationInfo.setVisibility(View.GONE);
                 }
             }
         });
@@ -166,9 +224,6 @@ public class MainActivity extends AppCompatActivity {
                 connect.setVisibility(View.VISIBLE);
             }
         });
-
-
-
 
         //title.setText(((DataViewFragment)getSupportFragmentManager().getFragments().get(position)).getName());
 
@@ -226,12 +281,25 @@ public class MainActivity extends AppCompatActivity {
                         switch(msg.arg1){
                             case 1:
                                 //toolbar.setSubtitle("Connected to " + deviceName);
-                                connectStatus.setText("Connected to " + deviceName);
+                                if(calibrationStage != CalibrationStage.FINISHED) {
+                                    connectStatus.setText("Connected to " + deviceName + ". Calibrating...");
+                                    calibrationStage = CalibrationStage.OFFSET;
+                                    calibrationInfo.setText("Place no weight on the scale and wait until values are all approximately zero.");
+                                    logging.setEnabled(false);
+                                    calibration.setEnabled(true);
+                                    calibration.setText("Next Step");
+                                }
+                                else{
+                                    connectStatus.setText("Connected to " + deviceName);
+                                    calibrationInfo.setText("");
+                                    calibrationInfo.setVisibility(View.GONE);
+                                    logging.setEnabled(true);
+                                    calibration.setText("Recalibrate");
+                                }
                                 connect.setEnabled(false);
                                 connect.setVisibility(View.GONE);
                                 disconnect.setEnabled(true);
                                 disconnect.setVisibility(View.VISIBLE);
-                                logging.setEnabled(true);
                                 break;
                             case -1:
                                 //toolbar.setSubtitle("Device fails to connect");
@@ -250,13 +318,11 @@ public class MainActivity extends AppCompatActivity {
                         //Log.e("LEN", Integer.toString(splitArr.length));
                         double[] sensorDataArr;
                         boolean numberFormatException = false;
-                        if(splitArr.length < (isLoadCell?9:7)){
+                        if(splitArr.length < 9){
                             break;
                         }
-                        if(isLoadCell)
-                            sensorDataArr = new double[8];
-                        else
-                            sensorDataArr = new double[6];
+
+                        sensorDataArr = new double[8];
 
                         for(int i=0; i<sensorDataArr.length; i++){
                             //Log.e("VALUE", splitArr[i]);
@@ -266,37 +332,52 @@ public class MainActivity extends AppCompatActivity {
                             catch(NumberFormatException e){
                                 Log.e("Number Format Error", "Failure in receive from Arduino");
                                 numberFormatException = true;
+                                break;
                             }
+
+                            if(calibrationStage == CalibrationStage.OFFSET){
+                                // Add to average offset
+                                offsets[i] *= (totalCycles-1);
+                                offsets[i] += sensorDataArr[i];
+                                offsets[i] /= totalCycles;
+                            }
+
+                            sensorDataArr[i] -= offsets[i];
+                            sensorDataArr[i] /= factors[i];
+                            sensorDataArr[i] = Math.floor(sensorDataArr[i] * 100)/100;
                         }
 
+                        Log.i("offsets", Arrays.toString(offsets));
+
                         if(numberFormatException){
-                            totalCycles++;
                             break;
                         }
 
                         //update total cycle count
                         totalCycles++;
 
-                        //Logging to CSV
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd.HH-mm-ss");
+                        if(calibrationStage == CalibrationStage.FINISHED) {
+                            //Logging to CSV
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd.HH-mm-ss");
 
-                        Date date = new Date();
-                        Timestamp timestamp = new Timestamp(date.getTime());
+                            Date date = new Date();
+                            Timestamp timestamp = new Timestamp(date.getTime());
 
-                        //format timestamp
-                        String timestampStr = sdf.format(timestamp);
+                            //format timestamp
+                            String timestampStr = sdf.format(timestamp);
 
-                        String csvText = timestampStr + ", " + arduinoMsg + totalCycles;
-                        csvText = csvText.replaceAll("\n", "").replaceAll("\r","");
+                            String csvText = timestampStr + ", " + arduinoMsg + totalCycles;
+                            csvText = csvText.replaceAll("\n", "").replaceAll("\r", "");
 
-                        if(logging.isChecked() && csvOut!=null && pfd != null) {
-                            try {
-                                csvOut.write(csvText.getBytes());
-                                csvOut.write(System.getProperty( "line.separator" ).getBytes());
-                                csvOut.flush();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                                Toast.makeText(getApplicationContext(), "File Write Error, please try again", Toast.LENGTH_SHORT).show();
+                            if (logging.isChecked() && csvOut != null && pfd != null) {
+                                try {
+                                    csvOut.write(csvText.getBytes());
+                                    csvOut.write(System.getProperty("line.separator").getBytes());
+                                    csvOut.flush();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    Toast.makeText(getApplicationContext(), "File Write Error, please try again", Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
 
@@ -305,9 +386,17 @@ public class MainActivity extends AppCompatActivity {
                         sensorData.putDoubleArray("sensorData", sensorDataArr);
                         sensorData.putInt("totalCycles", totalCycles);
 
-                        for(Fragment f: getSupportFragmentManager().getFragments()){
-                            ((DataViewFragment)f).putSensorData(sensorData);
-                            ((DataViewFragment)f).update();
+                        // Only publish data to all fragments if calibrated
+                        if(calibrationStage == CalibrationStage.FINISHED) {
+                            for (Fragment f : getSupportFragmentManager().getFragments()) {
+                                ((DataViewFragment) f).putSensorData(sensorData);
+                                ((DataViewFragment) f).update();
+                            }
+                        }
+                        else{
+                            DataViewFragment f = (DataViewFragment)getSupportFragmentManager().getFragments().get(0);
+                            f.putSensorData(sensorData);
+                            f.update();
                         }
 
                         break;
@@ -372,10 +461,7 @@ public class MainActivity extends AppCompatActivity {
         public Fragment createFragment(int position) {
             switch(position) {
                 case 0:
-                    if(!isLoadCell)
-                        return new OverviewFragment();
-                    else
-                        return new LoadCellFragment();
+                    return new LoadCellFragment();
                 case 1:
                     return new ProSupFragment();
                 case 2:
