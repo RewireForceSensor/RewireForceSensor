@@ -264,6 +264,7 @@ public class MainActivity extends AppCompatActivity {
                                 sensorDataArr[i] = Double.valueOf(splitArr[i]);
                             }
                             catch(NumberFormatException e){
+                                Log.e("Number Format Error", "Failure in receive from Arduino");
                                 numberFormatException = true;
                             }
                         }
