@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
     private static ParcelFileDescriptor pfd;
     private static Context context;
 
+    String validDouble = "[\\x00-\\x20]*[+-]?(((((\\p{Digit}+)(\\.)?((\\p{Digit}+)?)([eE][+-]?(\\p{Digit}+))?)|(\\.((\\p{Digit}+))([eE][+-]?(\\p{Digit}+))?)|(((0[xX](\\p{XDigit}+)(\\.)?)|(0[xX](\\p{XDigit}+)?(\\.)(\\p{XDigit}+)))[pP][+-]?(\\p{Digit}+)))[fFdD]?))[\\x00-\\x20]*";
+
     ActivityResultLauncher<Intent> fileActivityResultLauncher;
 
     @Override
@@ -134,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
                 if (createConnectThread != null){
                     createConnectThread.cancel();
                 }
+
+                connectStatus.setText("Disconnected");
 
                 if(logging.isChecked()) {
                     if (csvOut != null && pfd != null) {
@@ -240,12 +244,12 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                         }
                         break;
-
                     case MESSAGE_READ:
                         String arduinoMsg = msg.obj.toString(); // Read message from Arduino
                         String[] splitArr = arduinoMsg.split(","); // Split up message into strings
                         //Log.e("LEN", Integer.toString(splitArr.length));
                         double[] sensorDataArr;
+                        boolean numberFormatException = false;
                         if(splitArr.length < (isLoadCell?9:7)){
                             break;
                         }
@@ -253,9 +257,21 @@ public class MainActivity extends AppCompatActivity {
                             sensorDataArr = new double[8];
                         else
                             sensorDataArr = new double[6];
+
                         for(int i=0; i<sensorDataArr.length; i++){
                             //Log.e("VALUE", splitArr[i]);
-                            sensorDataArr[i] = Double.valueOf(splitArr[i]);
+                            try {
+                                sensorDataArr[i] = Double.valueOf(splitArr[i]);
+                            }
+                            catch(NumberFormatException e){
+                                Log.e("Number Format Error", "Failure in receive from Arduino");
+                                numberFormatException = true;
+                            }
+                        }
+
+                        if(numberFormatException){
+                            totalCycles++;
+                            break;
                         }
 
                         //update total cycle count
