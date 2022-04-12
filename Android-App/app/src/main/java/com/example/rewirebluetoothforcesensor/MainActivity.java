@@ -73,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
     private static double[] offsets = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
     private static double[] factors = {-10000.0, -10000.0, -10000.0, -10000.0, -10000.0, -10000.0, -10000.0, -10000.0};
     private static double calibrationLbs = 0;
+    private static int offsetCycleStart = 0;
+    private static int factorCycleStart = 0;
 
     ActivityResultLauncher<Intent> fileActivityResultLauncher;
 
@@ -151,10 +153,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 calibrationInfo.setVisibility(View.VISIBLE);
-
                 if(calibrationStage != CalibrationStage.FINISHED){
                     calibrationStage = CalibrationStage.values()[calibrationStage.ordinal() + 1];
-
+                    if(calibrationStage == CalibrationStage.FINISHED){
+                        calibrationInfo.setVisibility(View.GONE);
+                    }
                 }
                 else{
                     calibrationStage = CalibrationStage.OFFSET;
@@ -166,7 +169,13 @@ public class MainActivity extends AppCompatActivity {
                         calibrationInfo.setText("Before connection, ensure the scale has no weight on it.");
                         break;
                     case OFFSET:
+                        offsetCycleStart = totalCycles - 1;
+                        for(int i=0; i<8; i++){
+                            offsets[i] = 0;
+                            factors[i] = -10000;
+                        }
                         calibrationInfo.setText("Place no weight on the scale and wait until values are all approximately zero.");
+                        connectStatus.setText("Connected to " + deviceName + ". Calibrating...");
                         break;
                     case WEIGHT:
                         calibrationInfo.setText("Place a known weight in the middle of both scales and type it in the field below. When finished, hit next step.");
@@ -174,15 +183,30 @@ public class MainActivity extends AppCompatActivity {
                         calibrationLbsField.setEnabled(true);
                         break;
                     case FACTOR:
-                        calibrationLbs = Double.parseDouble(calibrationLbsField.getText().toString());
+                        try {
+                            calibrationLbs = Double.parseDouble(calibrationLbsField.getText().toString()) / 4.0;
+                        }
+                        catch(NumberFormatException e){
+                            Log.e("NumberFormatError", "No weight entered");
+                            calibrationStage = CalibrationStage.WEIGHT;
+                            break;
+                        }
+                        factorCycleStart = totalCycles - 1;
                         calibrationLbsField.setVisibility(View.GONE);
                         calibrationLbsField.setEnabled(false);
                         calibrationInfo.setText("Wait until the weight in the center of both scales resembles the known weight you placed.");
+                        calibration.setText("Finish");
                         break;
                     case FINISHED:
+                        totalCycles = 1;
+                        for(Fragment f: getSupportFragmentManager().getFragments()){
+                            ((DataViewFragment)f).clear();
+                            ((DataViewFragment)f).refreshView();
+                        }
                         calibration.setText("Recalibrate");
                         calibrationInfo.setText("");
                         calibrationInfo.setVisibility(View.GONE);
+                        connectStatus.setText("Connected to " + deviceName);
                 }
             }
         });
@@ -196,6 +220,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 connectStatus.setText("Disconnected");
+                calibration.setEnabled(false);
+                calibrationInfo.setVisibility(View.GONE);
 
                 if(logging.isChecked()) {
                     if (csvOut != null && pfd != null) {
@@ -282,6 +308,13 @@ public class MainActivity extends AppCompatActivity {
                             case 1:
                                 //toolbar.setSubtitle("Connected to " + deviceName);
                                 if(calibrationStage != CalibrationStage.FINISHED) {
+                                    for(int i=0; i<8; i++){
+                                        offsets[i] = 0;
+                                        factors[i] = -10000;
+                                    }
+                                    totalCycles = 1;
+                                    offsetCycleStart = 0;
+                                    factorCycleStart = 0;
                                     connectStatus.setText("Connected to " + deviceName + ". Calibrating...");
                                     calibrationStage = CalibrationStage.OFFSET;
                                     calibrationInfo.setText("Place no weight on the scale and wait until values are all approximately zero.");
@@ -337,17 +370,27 @@ public class MainActivity extends AppCompatActivity {
 
                             if(calibrationStage == CalibrationStage.OFFSET){
                                 // Add to average offset
-                                offsets[i] *= (totalCycles-1);
+                                offsets[i] *= (totalCycles-offsetCycleStart-1);
                                 offsets[i] += sensorDataArr[i];
-                                offsets[i] /= totalCycles;
+                                offsets[i] /= totalCycles-offsetCycleStart;
                             }
 
                             sensorDataArr[i] -= offsets[i];
+
+                            if(calibrationStage == CalibrationStage.FACTOR){
+                                factors[i] *= totalCycles-factorCycleStart-1;
+                                factors[i] += sensorDataArr[i]/calibrationLbs;
+                                factors[i] /= totalCycles-factorCycleStart;
+                                if(factors[i] == 0){
+                                    factors[i] = 1;
+                                }
+                            }
+
                             sensorDataArr[i] /= factors[i];
                             sensorDataArr[i] = Math.floor(sensorDataArr[i] * 100)/100;
                         }
 
-                        Log.i("offsets", Arrays.toString(offsets));
+                        Log.i("factors", Arrays.toString(factors));
 
                         if(numberFormatException){
                             break;
