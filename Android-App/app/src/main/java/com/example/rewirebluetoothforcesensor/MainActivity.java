@@ -222,6 +222,8 @@ public class MainActivity extends AppCompatActivity {
                 connectStatus.setText("Disconnected");
                 calibration.setEnabled(false);
                 calibrationInfo.setVisibility(View.GONE);
+                calibrationLbsField.setEnabled(false);
+                calibrationLbsField.setVisibility(View.GONE);
 
                 if(logging.isChecked()) {
                     if (csvOut != null && pfd != null) {
@@ -248,6 +250,16 @@ public class MainActivity extends AppCompatActivity {
                 logging.setEnabled(false);
                 connect.setEnabled(true);
                 connect.setVisibility(View.VISIBLE);
+
+                if(calibrationStage != CalibrationStage.FINISHED){
+                    for(int i=0; i<8; i++){
+                        offsets[i] = 0;
+                        factors[i] = -10000;
+                    }
+                    totalCycles = 1;
+                    offsetCycleStart = 0;
+                    factorCycleStart = 0;
+                }
             }
         });
 
@@ -328,6 +340,7 @@ public class MainActivity extends AppCompatActivity {
                                     calibrationInfo.setVisibility(View.GONE);
                                     logging.setEnabled(true);
                                     calibration.setText("Recalibrate");
+                                    calibration.setEnabled(true);
                                 }
                                 connect.setEnabled(false);
                                 connect.setVisibility(View.GONE);
@@ -350,8 +363,8 @@ public class MainActivity extends AppCompatActivity {
                         String[] splitArr = arduinoMsg.split(","); // Split up message into strings
                         //Log.e("LEN", Integer.toString(splitArr.length));
                         double[] sensorDataArr;
-                        boolean numberFormatException = false;
-                        if(splitArr.length < 9){
+                        boolean skipRead = false;
+                        if(splitArr.length < 11){
                             break;
                         }
 
@@ -364,7 +377,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             catch(NumberFormatException e){
                                 Log.e("Number Format Error", "Failure in receive from Arduino");
-                                numberFormatException = true;
+                                skipRead = true;
                                 break;
                             }
 
@@ -392,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
 
                         Log.i("factors", Arrays.toString(factors));
 
-                        if(numberFormatException){
+                        if(skipRead){
                             break;
                         }
 
