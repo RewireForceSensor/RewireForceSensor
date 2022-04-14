@@ -259,6 +259,7 @@ public class MainActivity extends AppCompatActivity {
                     totalCycles = 1;
                     offsetCycleStart = 0;
                     factorCycleStart = 0;
+                    calibrationStage = CalibrationStage.UNCALIBRATED;
                 }
             }
         });
