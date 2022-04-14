@@ -65,6 +65,8 @@ public class OverviewFragment extends DataViewFragment {
         return rootView;
     }
 
+    public void refreshView(){}
+
 
     public void putSensorData(Bundle args){
         sensorDataArr = args.getDoubleArray("sensorData");

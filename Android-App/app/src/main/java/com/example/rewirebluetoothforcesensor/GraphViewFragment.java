@@ -58,9 +58,15 @@ public class GraphViewFragment extends DataViewFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
+        rootView = (ViewGroup) inflater.inflate(
                 contentLayoutId, container, false);
 
+        refreshView();
+
+        return rootView;
+    }
+
+    public void refreshView(){
         chart = (LineChart) rootView.findViewById(R.id.chart);
         chart.getDescription().setText("");
 
@@ -72,12 +78,10 @@ public class GraphViewFragment extends DataViewFragment {
 
         chart.setData(data);
         chart.invalidate();
-
-        return rootView;
     }
 
     public void putSensorData(Bundle args){
-        for(int i=0; i<6; i++) {
+        for(int i=0; i<8; i++) {
             sensorDataArr = args.getDoubleArray("sensorData");
             totalCycles = args.getInt("totalCycles");
         }

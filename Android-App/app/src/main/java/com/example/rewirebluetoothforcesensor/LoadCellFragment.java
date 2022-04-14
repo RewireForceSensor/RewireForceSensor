@@ -43,11 +43,17 @@ public class LoadCellFragment extends DataViewFragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
+        rootView = (ViewGroup) inflater.inflate(
                 R.layout.load_cell_fragment, container, false);
 
+        refreshView();
 //        indicator = rootView.findViewById(R.id.imageView);
         //SpringAnimation springAnim = new SpringAnimation(img, DynamicAnimation.TRANSLATION_Y, 0);
+
+        return rootView;
+    }
+
+    public void refreshView(){
         pads = new TextView[]{
                 rootView.findViewById(R.id.loadPad0),
                 rootView.findViewById(R.id.loadPad1),
@@ -70,7 +76,6 @@ public class LoadCellFragment extends DataViewFragment{
 
         progbarVal = 0;
 
-        return rootView;
     }
 
 
@@ -94,8 +99,8 @@ public class LoadCellFragment extends DataViewFragment{
             pads[i].setText(String.format("%.2f", movingAvgArr[i][3])); // print avg to textView, round it
         }
 
-        leftTotal = sensorDataArr[0] + sensorDataArr[1] + sensorDataArr[2];
-        rightTotal = sensorDataArr[3] + sensorDataArr[4] + sensorDataArr[5];
+        leftTotal = sensorDataArr[0] + sensorDataArr[1] + sensorDataArr[2] + sensorDataArr[3];
+        rightTotal = sensorDataArr[4] + sensorDataArr[5] + sensorDataArr[6] + sensorDataArr[7];
 
 //        if(leftTotal == 0 && rightTotal == 0){
 //            progbar.setProgress(50);

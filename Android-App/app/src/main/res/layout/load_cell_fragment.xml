@@ -7,17 +7,6 @@
     android:background="@android:color/transparent">
 
     <com.example.rewirebluetoothforcesensor.LoadCellView
-        android:id="@+id/loadCellView"
-        android:layout_width="185dp"
-        android:layout_height="420dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.615" />
-
-    <com.example.rewirebluetoothforcesensor.LoadCellView
         android:id="@+id/loadCellView2"
         android:layout_width="182dp"
         android:layout_height="421dp"
@@ -29,32 +18,18 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/loadPad0"
-        android:layout_width="68dp"
-        android:layout_height="46dp"
-        android:background="#FFDBDB"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/loadCellView"
-        app:layout_constraintEnd_toEndOf="@+id/loadCellView"
-        app:layout_constraintHorizontal_bias="0.102"
-        app:layout_constraintStart_toStartOf="@+id/loadCellView"
-        app:layout_constraintTop_toTopOf="@+id/loadCellView"
-        app:layout_constraintVertical_bias="0.053" />
-
-    <TextView
         android:id="@+id/loadPad1"
         android:layout_width="68dp"
         android:layout_height="46dp"
         android:background="#FFDBDB"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/loadCellView"
         app:layout_constraintEnd_toEndOf="@+id/loadCellView"
         app:layout_constraintHorizontal_bias="0.897"
         app:layout_constraintStart_toStartOf="@+id/loadCellView"
         app:layout_constraintTop_toTopOf="@+id/loadCellView"
-        app:layout_constraintVertical_bias="0.053" />
+        app:layout_constraintVertical_bias="0.048" />
 
     <TextView
         android:id="@+id/loadPad2"
@@ -62,13 +37,13 @@
         android:layout_height="46dp"
         android:background="#FFDBDB"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/loadCellView"
         app:layout_constraintEnd_toEndOf="@+id/loadCellView"
         app:layout_constraintHorizontal_bias="0.102"
         app:layout_constraintStart_toStartOf="@+id/loadCellView"
         app:layout_constraintTop_toTopOf="@+id/loadCellView"
-        app:layout_constraintVertical_bias="0.954" />
+        app:layout_constraintVertical_bias="0.949" />
 
     <TextView
         android:id="@+id/loadPad3"
@@ -76,13 +51,13 @@
         android:layout_height="46dp"
         android:background="#FFDBDB"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/loadCellView"
         app:layout_constraintEnd_toEndOf="@+id/loadCellView"
         app:layout_constraintHorizontal_bias="0.897"
         app:layout_constraintStart_toStartOf="@+id/loadCellView"
         app:layout_constraintTop_toTopOf="@+id/loadCellView"
-        app:layout_constraintVertical_bias="0.954" />
+        app:layout_constraintVertical_bias="0.949" />
 
     <TextView
         android:id="@+id/loadPad4"
@@ -90,13 +65,13 @@
         android:layout_height="46dp"
         android:background="#FFDBDB"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/loadCellView2"
         app:layout_constraintEnd_toEndOf="@+id/loadCellView2"
         app:layout_constraintHorizontal_bias="0.149"
         app:layout_constraintStart_toStartOf="@+id/loadCellView2"
         app:layout_constraintTop_toTopOf="@+id/loadCellView2"
-        app:layout_constraintVertical_bias="0.053" />
+        app:layout_constraintVertical_bias="0.048" />
 
     <TextView
         android:id="@+id/loadPad5"
@@ -104,13 +79,13 @@
         android:layout_height="46dp"
         android:background="#FFDBDB"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/loadCellView2"
         app:layout_constraintEnd_toEndOf="@+id/loadCellView2"
         app:layout_constraintHorizontal_bias="0.912"
         app:layout_constraintStart_toStartOf="@+id/loadCellView2"
         app:layout_constraintTop_toTopOf="@+id/loadCellView2"
-        app:layout_constraintVertical_bias="0.053" />
+        app:layout_constraintVertical_bias="0.048" />
 
     <TextView
         android:id="@+id/loadPad6"
@@ -118,13 +93,13 @@
         android:layout_height="46dp"
         android:background="#FFDBDB"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/loadCellView2"
         app:layout_constraintEnd_toEndOf="@+id/loadCellView2"
         app:layout_constraintHorizontal_bias="0.149"
         app:layout_constraintStart_toStartOf="@+id/loadCellView2"
         app:layout_constraintTop_toTopOf="@+id/loadCellView2"
-        app:layout_constraintVertical_bias="0.952" />
+        app:layout_constraintVertical_bias="0.944" />
 
     <TextView
         android:id="@+id/loadPad7"
@@ -132,13 +107,13 @@
         android:layout_height="46dp"
         android:background="#FFDBDB"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/loadCellView2"
         app:layout_constraintEnd_toEndOf="@+id/loadCellView2"
         app:layout_constraintHorizontal_bias="0.912"
         app:layout_constraintStart_toStartOf="@+id/loadCellView2"
         app:layout_constraintTop_toTopOf="@+id/loadCellView2"
-        app:layout_constraintVertical_bias="0.952" />
+        app:layout_constraintVertical_bias="0.944" />
 
     <TextView
         android:id="@+id/leftLoadTotal"
@@ -146,13 +121,13 @@
         android:layout_height="46dp"
         android:background="#FFDBDB"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/loadCellView"
         app:layout_constraintEnd_toEndOf="@+id/loadCellView"
         app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="@+id/loadCellView"
         app:layout_constraintTop_toTopOf="@+id/loadCellView"
-        app:layout_constraintVertical_bias="0.459" />
+        app:layout_constraintVertical_bias="0.454" />
 
     <TextView
         android:id="@+id/rightLoadTotal"
@@ -160,12 +135,37 @@
         android:layout_height="46dp"
         android:background="#FFDBDB"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/loadCellView2"
         app:layout_constraintEnd_toEndOf="@+id/loadCellView2"
         app:layout_constraintHorizontal_bias="0.535"
         app:layout_constraintStart_toStartOf="@+id/loadCellView2"
         app:layout_constraintTop_toTopOf="@+id/loadCellView2"
-        app:layout_constraintVertical_bias="0.458" />
+        app:layout_constraintVertical_bias="0.453" />
+
+    <TextView
+        android:id="@+id/loadPad0"
+        android:layout_width="68dp"
+        android:layout_height="46dp"
+        android:background="#FFDBDB"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/loadCellView"
+        app:layout_constraintEnd_toEndOf="@+id/loadCellView"
+        app:layout_constraintHorizontal_bias="0.102"
+        app:layout_constraintStart_toStartOf="@+id/loadCellView"
+        app:layout_constraintTop_toTopOf="@+id/loadCellView"
+        app:layout_constraintVertical_bias="0.048" />
+
+    <com.example.rewirebluetoothforcesensor.LoadCellView
+        android:id="@+id/loadCellView"
+        android:layout_width="185dp"
+        android:layout_height="420dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.492" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
