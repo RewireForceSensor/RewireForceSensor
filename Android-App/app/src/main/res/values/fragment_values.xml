@@ -2,7 +2,7 @@
 <resources>
     <dimen
         name="fragment_height"
-        >450dp</dimen>
+        >480dp</dimen>
     <dimen
         name="load_cell_height"
         >433dp</dimen>

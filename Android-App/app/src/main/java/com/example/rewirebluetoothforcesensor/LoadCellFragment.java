@@ -21,7 +21,7 @@ public class LoadCellFragment extends DataViewFragment{
     public int RightNoWeightTimeCount = 0;
     public int RightNoWeightValue = 0;
 
-    double[][] movingAvgArr = new double[4][8];
+    double[][] movingAvgArr = new double[4][10];
 
     double leftTotal;
     double rightTotal;
@@ -66,7 +66,7 @@ public class LoadCellFragment extends DataViewFragment{
 
         padLtotal = rootView.findViewById(R.id.leftLoadTotal);
         padRtotal = rootView.findViewById(R.id.rightLoadTotal);
-        //progbar = rootView.findViewById(R.id.progressBar);
+        progbar = rootView.findViewById(R.id.progressBarLoad);
 
         sensorDataArr = new double[8];
         totalCycles = 0;
@@ -102,13 +102,13 @@ public class LoadCellFragment extends DataViewFragment{
         leftTotal = sensorDataArr[0] + sensorDataArr[1] + sensorDataArr[2] + sensorDataArr[3];
         rightTotal = sensorDataArr[4] + sensorDataArr[5] + sensorDataArr[6] + sensorDataArr[7];
 
-//        if(leftTotal == 0 && rightTotal == 0){
-//            progbar.setProgress(50);
-//        }
-//        else{
-//            progbarVal = (int) Math.round(100 * (leftTotal / (leftTotal + rightTotal)));
-//            progbar.setProgress(progbarVal);
-//        }
+        if(leftTotal == 0 && rightTotal == 0){
+            progbar.setProgress(50);
+        }
+        else{
+            progbarVal = (int) Math.round(100 * (leftTotal / (leftTotal + rightTotal)));
+            progbar.setProgress(progbarVal);
+        }
 
         padLtotal.setText((String.format("%.2f", leftTotal)));
         padRtotal.setText((String.format("%.2f", rightTotal)));
