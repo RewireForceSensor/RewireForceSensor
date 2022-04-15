@@ -139,10 +139,10 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/loadCellView"
         app:layout_constraintEnd_toEndOf="@+id/loadCellView"
-        app:layout_constraintHorizontal_bias="0.538"
+        app:layout_constraintHorizontal_bias=".5"
         app:layout_constraintStart_toStartOf="@+id/loadCellView"
         app:layout_constraintTop_toTopOf="@+id/loadCellView"
-        app:layout_constraintVertical_bias="0.454" />
+        app:layout_constraintVertical_bias=".5" />
 
     <TextView
         android:id="@+id/rightLoadTotal"
@@ -153,10 +153,10 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/loadCellView2"
         app:layout_constraintEnd_toEndOf="@+id/loadCellView2"
-        app:layout_constraintHorizontal_bias="0.535"
+        app:layout_constraintHorizontal_bias=".5"
         app:layout_constraintStart_toStartOf="@+id/loadCellView2"
         app:layout_constraintTop_toTopOf="@+id/loadCellView2"
-        app:layout_constraintVertical_bias="0.453" />
+        app:layout_constraintVertical_bias=".5" />
 
     <TextView
         android:id="@+id/loadPad0"
@@ -182,5 +182,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.492" />
+
+    <ImageView
+        android:id="@+id/copLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/loadCellView"
+        app:layout_constraintEnd_toEndOf="@+id/loadCellView"
+        app:layout_constraintStart_toStartOf="@+id/loadCellView"
+        app:layout_constraintTop_toTopOf="@+id/loadCellView"
+        app:srcCompat="@android:drawable/presence_invisible" />
+
+    <ImageView
+        android:id="@+id/copRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/loadCellView2"
+        app:layout_constraintEnd_toEndOf="@+id/loadCellView2"
+        app:layout_constraintStart_toStartOf="@+id/loadCellView2"
+        app:layout_constraintTop_toTopOf="@+id/loadCellView2"
+        app:srcCompat="@android:drawable/presence_invisible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

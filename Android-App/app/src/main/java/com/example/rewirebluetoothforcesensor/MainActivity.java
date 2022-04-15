@@ -369,7 +369,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         }
 
-                        sensorDataArr = new double[8];
+                        sensorDataArr = new double[10];
 
                         for(int i=0; i<sensorDataArr.length; i++){
                             //Log.e("VALUE", splitArr[i]);
@@ -381,7 +381,9 @@ public class MainActivity extends AppCompatActivity {
                                 skipRead = true;
                                 break;
                             }
+                        }
 
+                        for(int i=0; i<8; i++){
                             if(calibrationStage == CalibrationStage.OFFSET){
                                 // Add to average offset
                                 offsets[i] *= (totalCycles-offsetCycleStart-1);

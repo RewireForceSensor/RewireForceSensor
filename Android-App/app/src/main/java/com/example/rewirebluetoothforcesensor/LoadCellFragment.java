@@ -1,9 +1,11 @@
 package com.example.rewirebluetoothforcesensor;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -14,6 +16,10 @@ import androidx.dynamicanimation.animation.SpringAnimation;
 public class LoadCellFragment extends DataViewFragment{
     TextView[] pads;
     double[] sensorDataArr;
+    ImageView leftCop;
+    ImageView rightCop;
+    LoadCellView viewL;
+    LoadCellView viewR;
     int totalCycles;
 
     public int LeftNoWeightTimeCount = 0;
@@ -22,9 +28,17 @@ public class LoadCellFragment extends DataViewFragment{
     public int RightNoWeightValue = 0;
 
     double[][] movingAvgArr = new double[4][10];
+    double[] xdist = {-1, 1, -1, 1, -1, 1, -1, 1};    // As percentages of width (1.3/1.3)
+    double[] ydist = {1, 1, -1, -1, 1, 1, -1, -1};    // As percentages of height (2.85/2.85)
 
     double leftTotal;
     double rightTotal;
+
+    float copXLeft = 0;
+    float copYLeft = 0;
+    float copXRight = 0;
+    float copYRight = 0;
+
     int progbarVal;
 
     TextView padLtotal;
@@ -68,6 +82,12 @@ public class LoadCellFragment extends DataViewFragment{
         padRtotal = rootView.findViewById(R.id.rightLoadTotal);
         progbar = rootView.findViewById(R.id.progressBarLoad);
 
+        leftCop = rootView.findViewById(R.id.copLeft);
+        rightCop = rootView.findViewById(R.id.copRight);
+
+        viewL = rootView.findViewById(R.id.loadCellView);
+        viewR = rootView.findViewById(R.id.loadCellView2);
+
         sensorDataArr = new double[8];
         totalCycles = 0;
 
@@ -75,7 +95,6 @@ public class LoadCellFragment extends DataViewFragment{
         rightTotal = 0;
 
         progbarVal = 0;
-
     }
 
 
@@ -87,10 +106,26 @@ public class LoadCellFragment extends DataViewFragment{
     public void update(){
         for(int i=0; i<8; i++){
             pads[i].setText("" + sensorDataArr[i]);
+            if(i < 4) {
+                copXLeft += sensorDataArr[i] * xdist[i];
+                copYLeft += sensorDataArr[i] * ydist[i];
+            }
+            else{
+                copXRight += sensorDataArr[i] * xdist[i];
+                copYRight += sensorDataArr[i] * ydist[i];
+            }
+
         }
 
-        //this is the spot where the 3 point moving average goes
 
+
+        copXLeft = (float) (Math.signum(copXLeft) * Math.min(Math.abs(copXLeft), 1.0));
+        copYLeft = (float) (Math.signum(copYLeft) * Math.min(Math.abs(copYLeft), 1.0));
+
+        copXRight = (float) (Math.signum(copXRight) * Math.min(Math.abs(copXRight), 1.0));
+        copYRight = (float) (Math.signum(copYRight) * Math.min(Math.abs(copYRight), 1.0));
+
+        //this is the spot where the 3 point moving average goes
         for(int i=0; i<movingAvgArr.length; i++){
             //time to call upon the aid of my trusty friend, calculatron
             movingAvgArr[i][2] = sensorDataArr[i]; //set new value to third spot in array
@@ -102,6 +137,16 @@ public class LoadCellFragment extends DataViewFragment{
         leftTotal = sensorDataArr[0] + sensorDataArr[1] + sensorDataArr[2] + sensorDataArr[3];
         rightTotal = sensorDataArr[4] + sensorDataArr[5] + sensorDataArr[6] + sensorDataArr[7];
 
+        if(leftTotal != 0) {
+            copXLeft /= leftTotal;
+            copYLeft /= leftTotal;
+        }
+
+        if(rightTotal != 0) {
+            copXRight /= rightTotal;
+            copYRight /= rightTotal;
+        }
+
         if(leftTotal == 0 && rightTotal == 0){
             progbar.setProgress(50);
         }
@@ -112,6 +157,28 @@ public class LoadCellFragment extends DataViewFragment{
 
         padLtotal.setText((String.format("%.2f", leftTotal)));
         padRtotal.setText((String.format("%.2f", rightTotal)));
+
+        // Clamp to within bounds of footplate on screen
+        float absoluteXL = Math.max(viewL.getX()+viewL.getWidth(), Math.min(copXLeft*viewL.getWidth()+viewL.getX()+viewL.getWidth()/2, viewL.getX()));
+        float absoluteYL = -Math.max(viewL.getY()+viewL.getHeight(), Math.min(copYLeft*viewL.getHeight()+viewL.getY()+viewL.getHeight()/2, viewL.getY()));
+        float absoluteXR = Math.max(viewR.getX()+viewR.getWidth(), Math.min(copXLeft*viewR.getWidth()+viewR.getX()+viewR.getWidth()/2, viewR.getX()));
+        float absoluteYR = -Math.max(viewR.getY()+viewR.getHeight(), Math.min(copYRight*viewR.getHeight()+viewR.getY()+viewR.getHeight()/2, viewR.getY()));
+
+        leftCop.animate().x(absoluteXL)
+                .y(absoluteYL)
+                .setDuration(0)
+                .start();
+        rightCop.animate().x(absoluteXR)
+                .y(absoluteYR)
+                .setDuration(0)
+                .start();
+
+        Log.i("XY", copXRight + ", " + copYRight);
+
+        copXLeft = 0;
+        copYLeft = 0;
+        copXRight = 0;
+        copYRight = 0;
     }
 
     public double[] calculatron(double[] values)
