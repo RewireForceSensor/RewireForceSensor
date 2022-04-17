@@ -117,8 +117,6 @@ public class LoadCellFragment extends DataViewFragment{
 
         }
 
-
-
         copXLeft = (float) (Math.signum(copXLeft) * Math.min(Math.abs(copXLeft), 1.0));
         copYLeft = (float) (Math.signum(copYLeft) * Math.min(Math.abs(copYLeft), 1.0));
 
@@ -159,21 +157,31 @@ public class LoadCellFragment extends DataViewFragment{
         padRtotal.setText((String.format("%.2f", rightTotal)));
 
         // Clamp to within bounds of footplate on screen
-        float absoluteXL = Math.max(viewL.getX()+viewL.getWidth(), Math.min(copXLeft*viewL.getWidth()+viewL.getX()+viewL.getWidth()/2, viewL.getX()));
-        float absoluteYL = -Math.max(viewL.getY()+viewL.getHeight(), Math.min(copYLeft*viewL.getHeight()+viewL.getY()+viewL.getHeight()/2, viewL.getY()));
-        float absoluteXR = Math.max(viewR.getX()+viewR.getWidth(), Math.min(copXLeft*viewR.getWidth()+viewR.getX()+viewR.getWidth()/2, viewR.getX()));
-        float absoluteYR = -Math.max(viewR.getY()+viewR.getHeight(), Math.min(copYRight*viewR.getHeight()+viewR.getY()+viewR.getHeight()/2, viewR.getY()));
+        float XL = copXLeft*viewL.getWidth()+viewL.getX()+viewL.getWidth()/2;
+        float YL = (-copYLeft)*viewL.getHeight()+viewL.getY()+viewL.getHeight()/2;
+        float XR = copXRight*viewR.getWidth()+viewR.getX()+viewR.getWidth()/2;
+        float YR = (-copYRight)*viewR.getHeight()+viewR.getY()+viewR.getHeight()/2;
 
-        leftCop.animate().x(absoluteXL)
-                .y(absoluteYL)
-                .setDuration(0)
+        XL = Math.max(XL, viewL.getX());
+        YL = Math.max(YL, viewL.getY());
+        XR = Math.max(XR, viewR.getX());
+        YR = Math.max(YR, viewR.getY());
+
+        XL = Math.min(XL, viewL.getX() + viewL.getWidth());
+        YL = Math.min(YL, viewL.getY() + viewL.getHeight());
+        XR = Math.min(XR, viewR.getX() + viewR.getWidth());
+        YR = Math.min(YR, viewR.getY() + viewR.getHeight());
+
+        leftCop.animate().x(XL)
+                .y(YL)
+                .setDuration(290)
                 .start();
-        rightCop.animate().x(absoluteXR)
-                .y(absoluteYR)
-                .setDuration(0)
+        rightCop.animate().x(XR)
+                .y(YR)
+                .setDuration(290)
                 .start();
 
-        Log.i("XY", copXRight + ", " + copYRight);
+        Log.i("XY", XR + ", " + YR);
 
         copXLeft = 0;
         copYLeft = 0;
