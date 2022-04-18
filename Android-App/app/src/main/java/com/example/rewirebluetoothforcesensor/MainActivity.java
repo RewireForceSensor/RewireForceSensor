@@ -403,7 +403,8 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             sensorDataArr[i] /= factors[i];
-                            sensorDataArr[i] = Math.floor(sensorDataArr[i] * 100)/100;
+                            sensorDataArr[i] = Math.max(0, Math.floor(sensorDataArr[i] * 100)/100);
+
                         }
 
                         Log.i("factors", Arrays.toString(factors));
