@@ -162,15 +162,15 @@ public class LoadCellFragment extends DataViewFragment{
         float XR = copXRight*viewR.getWidth()+viewR.getX()+viewR.getWidth()/2;
         float YR = (-copYRight)*viewR.getHeight()+viewR.getY()+viewR.getHeight()/2;
 
-        XL = Math.max(XL, viewL.getX());
-        YL = Math.max(YL, viewL.getY());
-        XR = Math.max(XR, viewR.getX());
-        YR = Math.max(YR, viewR.getY());
+        XL = Math.max(XL, viewL.getX()+viewL.strokeWidth);
+        YL = Math.max(YL, viewL.getY()+viewL.strokeWidth);
+        XR = Math.max(XR, viewR.getX()+viewR.strokeWidth);
+        YR = Math.max(YR, viewR.getY()+viewR.strokeWidth);
 
-        XL = Math.min(XL, viewL.getX() + viewL.getWidth());
-        YL = Math.min(YL, viewL.getY() + viewL.getHeight());
-        XR = Math.min(XR, viewR.getX() + viewR.getWidth());
-        YR = Math.min(YR, viewR.getY() + viewR.getHeight());
+        XL = Math.min(XL, viewL.getX() + viewL.getWidth() - viewL.strokeWidth);
+        YL = Math.min(YL, viewL.getY() + viewL.getHeight() - viewL.strokeWidth);
+        XR = Math.min(XR, viewR.getX() + viewR.getWidth() - viewR.strokeWidth);
+        YR = Math.min(YR, viewR.getY() + viewR.getHeight() - viewR.strokeWidth);
 
         leftCop.animate().x(XL)
                 .y(YL)

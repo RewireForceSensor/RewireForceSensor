@@ -383,6 +383,12 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
 
+                        if(skipRead){
+                            break;
+                        }
+
+                        Log.i("raw", Arrays.toString(sensorDataArr));
+
                         for(int i=0; i<8; i++){
                             if(calibrationStage == CalibrationStage.OFFSET){
                                 // Add to average offset
@@ -408,10 +414,6 @@ public class MainActivity extends AppCompatActivity {
                         }
 
                         Log.i("factors", Arrays.toString(factors));
-
-                        if(skipRead){
-                            break;
-                        }
 
                         //update total cycle count
                         totalCycles++;

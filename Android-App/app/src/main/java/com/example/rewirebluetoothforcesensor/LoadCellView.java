@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 public class LoadCellView extends View {
 
     Paint paint = new Paint();
+    int strokeWidth = 15;
 
     public LoadCellView(Context context, AttributeSet attrs) {
         //super(context);
@@ -24,13 +25,14 @@ public class LoadCellView extends View {
     @Override
     public void onDraw(Canvas canvas) {
         RectF r = new RectF(0, 0, getWidth(), getHeight());
+        paint.setStrokeWidth(strokeWidth);
+
         paint.setColor(Color.TRANSPARENT);
         paint.setStyle(Paint.Style.FILL);
         canvas.drawRoundRect(r, 25, 25, paint);
 
         paint.setColor(Color.BLACK);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(15);
         canvas.drawRoundRect(r, 75, 75, paint);
 
 //        paint.setColor(Color.RED);
