@@ -1,7 +1,8 @@
 # RewireForceSensor
 A project for the Rewire Robotics Laboratory at UT Austin. Contains Android Studio code for our custom app as well as Arduino code for both iterations of the footplate and the PCB design for the Load Cell version of the footplate.
 
-BUILT BY TIMOTHY POLLARD GRAYSON, CORBIN CAPO, ISHAN DESHPANDE
+Built with Dr. James Sulzer by undergraduate students Timothy Pollard-Grayson, Corbin Capo, and Ishan Deshpande
+Special thanks to Trey Crisco
 
 # Project Description
 Footplate designed for a patient in a medical stander, in order to monitor foot and pressure information. Uses bluetooth to communicate to an app where a physical
