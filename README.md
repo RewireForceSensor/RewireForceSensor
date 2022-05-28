@@ -2,6 +2,7 @@
 A project for the Rewire Robotics Laboratory at UT Austin. Contains Android Studio code for our custom app as well as Arduino code for both iterations of the footplate and the PCB design for the Load Cell version of the footplate.
 
 Built with Dr. James Sulzer by undergraduate students Timothy Pollard-Grayson, Corbin Capo, and Ishan Deshpande
+
 Special thanks to Trey Crisco
 
 # Project Description
