@@ -8,5 +8,7 @@ therapist can actively and passively keep track of the patient's progress.
 
 # Relevant Links
 [App Releases](https://github.com/RewireForceSensor/RewireForceSensor/releases)
+
 [Atlantic Article](https://www.theatlantic.com/magazine/archive/2021/11/engineers-daughter-tbi-rehab/620172/)
+
 [UT Engineering Article](https://cockrell.utexas.edu/news/archive/9435-a-personal-experience-galvanizes-rehab-tech-researchers)
